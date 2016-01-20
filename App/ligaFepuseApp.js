@@ -1,4 +1,4 @@
-﻿var ligaFepuseApp = angular.module('ligaFepuseApp', ['ngResource', 'ui.router', 'ngCookies', 'ngSanitize', 'ngAnimate',
+﻿var ligaFepuseApp = angular.module('ligaFepuseApp', [ 'ngMaterial', 'ngResource', 'ui.router', 'ngCookies', 'ngSanitize', 'ngAnimate',
  'ngAria', 'ct.ui.router.extras', 'angular-loading-bar', 'ui.bootstrap'])
     .config(function ($stateProvider, $urlRouterProvider, $httpProvider, $stickyStateProvider, cfpLoadingBarProvider) {
         //'ngResource', 'ngMdIcons', 'ui.router', 'ngCookies', 'ngTable',
