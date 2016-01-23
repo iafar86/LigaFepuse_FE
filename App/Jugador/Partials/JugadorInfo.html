@@ -1,0 +1,68 @@
+﻿<div class="container">
+
+    <div layout="row" class="md-inline-form">
+        <md-card layout="row" layout-align="center" flex="30">
+            <md-card-content layout="column" layout-align="center center" layout-fill>
+                <div class="md-media-xl card-media rounded">
+                    <!--iafar:Aqui se puede poner una imagen-->
+                    <ng-md-icon icon="person_add" style="fill: #abcdef" size="200"></ng-md-icon>
+                </div>
+
+                <md-input-container layout-fill>
+                    <label>Apodo</label>
+                    <input ng-model="jugador.Apodo">
+                </md-input-container>
+            </md-card-content>
+        </md-card>
+
+        <md-card flex="60">
+            <md-card-content layout="column">
+                <div layout="row">
+                    <md-input-container flex="35">
+                        <label>Matricula</label>
+                        <input ng-model="jugador.Matricula">
+                    </md-input-container>
+                    <md-select placeholder="Seleccione el Equipo" ng-model="jugador.EquipoId" aria-label="Seleccion Equipo" style="min-width: 200px;">
+                        <md-option ng-repeat="profesion in profesiones" value="{{profesion.Nombre}}">
+                            {{profesion.Nombre}}
+                        </md-option>
+                    </md-select>
+                </div>
+                <div layout="row">
+                    <md-input-container flex="25">
+                        <label>DNI</label>
+                        <input ng-model="jugador.Dni">
+                    </md-input-container>
+                    <md-input-container flex="35">
+                        <label>Nombre</label>
+                        <input ng-model="jugador.Nombre">
+                    </md-input-container>
+                    <md-input-container flex="35">
+                        <label>Apellido</label>
+                        <input ng-model="jugador.Apellido">
+                    </md-input-container>
+                </div>
+                <div layout="row">
+                    <md-switch class="md-primary" ng-model="jugador.Federado" ng-true-value="'Si'" ng-false-value="'No'" aria-label="Ficha" layout-align="start">
+                        Federado: {{ jugador.Federado }}
+                    </md-switch>
+                    <md-switch class="md-accent" ng-model="jugador.FichaMedica" ng-true-value="'Si'" ng-false-value="'No'" aria-label="Ficha" layout-align="start">
+                        Ficha Medica: {{ jugador.FichaMedica }}
+                    </md-switch>
+                    <md-select placeholder="Seleccione Profesion" ng-model="jugador.profesion" aria-label="Seleccion Equipo" style="min-width: 200px;" layout-align="start">
+                        <md-option ng-repeat="profesion in profesiones" value="{{profesion.Nombre}}">
+                            {{profesion.Nombre}}
+                        </md-option>
+                    </md-select>
+
+                </div>
+                <md-card-actions layout="row" layout-align="end center" class="bg-primary">
+                    <md-button class="md-raised">Aceptar</md-button>
+                    <md-button class="md-raised md-shadow-animated">Cancelar</md-button>
+                </md-card-actions>
+            </md-card-content>
+        </md-card>
+    </div>
+</div>
+
+
