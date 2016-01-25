@@ -2,62 +2,43 @@
     <h4 class="page-head-line">Torneo</h4>   
 
     <div flex>        
-        <md-list ng-repeat="torneo in torneos">
+        <md-list ng-repeat="torneo in torneos" >
+            
             <md-list-item>
                 <div layout="column" flex="50">
-                    <md-card>
-                        <md-card-content>
-                            <h3>{{torneo.Nombre}}</h3>
-                            <h4>Temporada {{torneo.AnioInicio}}/{{torneo.AnioFin}}</h4>
-                        </md-card-content>
-                        <md-card-actions layout="row" layout-align="end center">
-                            <md-button md-no-ink class="md-primary">Ver</md-button>
-                            <md-button class="md-warn" ng-click="confirmar(torneo)">Eliminar</md-button>
-                        </md-card-actions>
-                    </md-card>
+                    <md-content class="md-padding" layout-xs="column" layout="row">
+                        <div flex-xs flex-gt-xs="50" layout="column">
+                            <md-card style="min-width: 400px; max-height: 600px" >
+                                <img ng-src="{{imagen}}" class="md-card-image" alt="Washed Out" style="max-width: 170px; max-height: 200px">
+                                <md-card-title-media>
+                                    <div class="md-media-sm card-media" ng-src="{{imagen}}"></div>
+                                </md-card-title-media>
+                                    <md-card-content>
+                                        <h3>{{torneo.Nombre}}</h3>
+                                        <h4>Temporada {{torneo.AnioInicio}}/{{torneo.AnioFin}}</h4>
+                                    </md-card-content>                               
+                                <md-card-actions layout="row" layout-align="end center">
+                                    <md-button md-no-ink class="md-primary">Ver</md-button>
+                                    <md-button class="md-warn" ng-click="confirmar(torneo)">Eliminar</md-button>
+                                </md-card-actions>
+                            </md-card>
+                        </div>
+                        
+                    </md-content>
+                    
                 </div>
             </md-list-item>
         </md-list>
     </div>
 
-    <div flex="50" layout="row" layout-align="center center" ng-hide="variable">
-        <md-button class="md-raised" style="background-color: #D32F2F" ng-click="variable = true">
-            <span class="glyphicons glyphicons-plus">
-            </span>
-            Nuevo torneo
+    <div flex="50" layout="row" layout-align="end end" ng-hide="variable">
+        <md-button class="md-raised" label="Nuevo Torneo" icon="mdi-content-add" style="background-color: #D32F2F" ng-click=" nuevoTorneo()">
+            Nuevo Torneo
         </md-button>
     </div>
     
-    <div flex="70" >
-        <div layout="column" ng-show="variable">
-            <div flex>
-                <md-input-container>
-                    <label>Nombre del Torneo</label>
-                    <input type="text" class="form-control" ng-model="torneo.Nombre" required />
-                </md-input-container>
-            </div>
-            <div layout="row" flex>
-                <div flex="50">
-                    <md-input-container>
-                        <label>Año de Inicio</label>
-                        <input type="number" class="form-control" ng-model="torneo.AnioInicio" required />
-
-                    </md-input-container>
-                </div>
-                <div flex="50">
-                    <md-input-container>
-                        <label>Año de Fin</label>
-                        <input type="number" class="form-control" ng-model="torneo.AnioFin" required />
-                    </md-input-container>
-                </div>
-
-            </div>
-            <div layout="row" flex layout-align="end end">
-                <md-button class="md-raised" style="background-color: #4CAF50" ng-click="torneoAdd()">Crear</md-button>
-            </div>
-        </div>
-
-    </div>
-
-    {{torneoInfo}}
+        <!--class="md-raised" style="background-color: #D32F2F"-->
+        
+    
+    
 </div>

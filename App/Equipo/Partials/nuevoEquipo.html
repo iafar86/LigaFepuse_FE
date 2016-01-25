@@ -21,26 +21,29 @@
                                 <h3>{{equipo.Nombre}}</h3>
                                 <!--<h4>Al dia: {{equipo.alDia}}</h4>-->
                             </div>
-                            <md-checkbox class="md-secondary" ng-model="topping.wanted"></md-checkbox>
+                            <md-checkbox class="md-secondary" aria-label="checkbox" ng-change="addCheck(equipo)" ng-model="equipo.isChecked"></md-checkbox>
                         </md-list-item>
                             
                     </md-list>
                     <md-actions layout="row" layout-align="end end">
-                        <md-button ng-click="agregarNuevo(equipo)">Agregar Nuevo</md-button>
-                        <md-button ng-click="agregar()">Agregar</md-button>
+                        <md-button ng-click="variable = true">Agregar Nuevo</md-button>
+                        <md-button ng-click="addEquipos(equiposAdd)">Agregar</md-button>
                         <md-button ng-click="cancel()">Cancelar</md-button>
                     </md-actions>
                 </md-content>   
             <md-divider></md-divider>
 
-            <md-input-container>
-                <label>Nuevo equipo</label>
-                <input type="text" ng-model="equipoNuevo"/>
-            </md-input-container>
-            <md-actions layout="row" layout-align="end end">
-                <md-button ng-click="addEquipo(equipo)">Agregar</md-button>
-                <md-button ng-click="cancel()">Cancelar</md-button>
-            </md-actions>         
+            <div ng-show="variable">
+                <md-input-container>
+                    <label>Nuevo equipo</label>
+                    <input type="text" ng-model="equipo.Nombre" />
+                </md-input-container>
+                <md-actions layout="row" layout-align="end end">
+                    <md-button ng-click="addEquipo(equipo)">Agregar</md-button>
+                    <md-button ng-click="variable = false">Cancelar</md-button>
+                </md-actions> 
+            </div>
+                    
         </div>
         
     </md-dialog-content>

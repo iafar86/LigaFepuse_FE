@@ -2,30 +2,43 @@
     var urlApi = "http://localhost:50174"; //desarrollo
     var equipoDataFactory = {};
 
-    var _getEquiposLiga = function () { // trae todos los equipos de la liga
-        var deferred = $q.defer();
+    //var _getEquiposLiga = function () { // trae todos los equipos de la liga
+    //    var deferred = $q.defer();
+    //    return $http.get(urlApi + '/api/Equipoes', {
+    //        params: {
+    //            prmIdLiga: 1
+    //        }
+    //    }).then(
+    //    function (response) {
+    //        console.log(response);            
+    //        return response;
+            
+    //    },
+    //    function (response) {
+
+    //        deferred.reject(response.data);
+    //    });
+    //   return deferred.promise;
+        
+    //};
+
+    var _getEquiposLiga = function () { //trae todos los Torneos
+        //var prmIdLiga = authSvc.authentication.ligaId;
         return $http.get(urlApi + '/api/Equipoes', {
             params: {
-                prmIdLiga: 1
+                prmIdLiga: 2,// cambiar para liga 1
             }
-        }).then(
-        function (response) {
+        }).then(function (response) {
             console.log(response.data);
-            deferred.resolve(response.data);
-            
-        },
-        function (response) {
-
-            deferred.reject(response.data);
+            return response.data;
         });
-       return deferred.promise;
-        
+
     };
 
     var _getEquipos = function () { //trae todos los equipos de un torneo
         return $http.get(urlApi + '/api/Equipoes', {
             params: {
-                prmIdLiga: 1,
+                prmIdLiga: 2,// cambiar para liga 1
                 prmIdTorneo: prmTorneo
             }
         }).then(

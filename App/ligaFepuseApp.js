@@ -1,5 +1,5 @@
-﻿var ligaFepuseApp = angular.module('ligaFepuseApp', ['ngMaterial', 'ngMdIcons', 'ngResource', 'ui.router', 'ngCookies', 'ngSanitize', 'ngAnimate',
- 'ngAria', 'ct.ui.router.extras', 'angular-loading-bar', 'daypilot', 'LocalStorageModule', 'angular-jwt', 'ui.bootstrap', 'ngTable'])
+﻿var ligaFepuseApp = angular.module('ligaFepuseApp', ['ngMaterial', 'ng-mfb','ngMdIcons', 'ngResource', 'ui.router', 'ngCookies', 'ngTable', 'ngSanitize', 'ngAnimate',
+ 'ngAria', 'ct.ui.router.extras', 'angular-loading-bar', 'daypilot', 'LocalStorageModule', 'angular-jwt', 'ui.bootstrap'])
     .config(function ($stateProvider, $urlRouterProvider, $httpProvider, $stickyStateProvider, cfpLoadingBarProvider) {
         //'ngResource', 'ngMdIcons', 'ui.router', 'ngCookies', 'ngTable',
         //  'ngSanitize', 'ngAnimate', 'ngAria', 'ct.ui.router.extras', 'angular-loading-bar', 'daypilot', 'LocalStorageModule', 'angular-jwt', 'ngMaterial',
@@ -24,19 +24,6 @@
             url: '/Dashboard',
             templateUrl: 'App/Dashboard/Dashboard.html'
         })
-        
-
-            //#region estados de vistas
-            .state('app.dashboard.jugadorAdd', {
-                url: '/JugadorNuevo',
-                templateUrl: 'App/Jugador/Partials/jugadorInfo.html',
-                controller: 'jugadorCtrl'
-            })
-            //#endregion
-
-
-
-//#region estados temporales de template
 
         .state('app.dashboard.home', {
             url: '/Home',
@@ -90,6 +77,5 @@
          })
 
 
-        //#endregion
 
     })

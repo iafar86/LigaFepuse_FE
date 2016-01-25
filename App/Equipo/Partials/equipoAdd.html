@@ -3,7 +3,7 @@
     <div flex="70">
         <h2>Seleccione un Torneo</h2>
         
-        <md-select placeholder="Seleccionar Torneo" ng-model="torneoSelect" md-on-close="obtenerEquipos()">
+        <md-select placeholder="Seleccionar Torneo" ng-model="torneoSelect" md-on-close="obtenerEquipos()">            
             <md-option ng-value="torneo" ng-repeat="torneo in torneos">{{torneo.Nombre}}</md-option>
         </md-select>
 
@@ -13,7 +13,7 @@
         <md-card class="md-whiteframe-11dp">
             <md-card-content>
                 <md-toolbar>
-                    <div class="md-toolbar-tools">
+                    <div class="md-toolbar-tools" style="background-color:#388E3C">
                         <h2>
                             <span>Listado de Equipos</span>
                         </h2>
@@ -24,9 +24,10 @@
                         <img class="md-avatar" />
                         <div class="md-list-item-text">
                             <h3>{{equipo.Nombre}}</h3>
-                            <!--<h4>Al dia: {{obtenerEquipo.alDia}}</h4>-->
+                            <h4>al dia: {{obtenerEquipo.AlDia}}</h4>
+                            
                         </div>
-
+                        
                     </md-list-item>
                     <md-list-actions layout="row" layout-align="end center">
                         <md-button>Ver</md-button>
@@ -34,10 +35,9 @@
 
                     </md-list-actions>
                 </md-list>
-                <md-divider></md-divider>
+                
                 <md-card-actions layout="row" layout-align="end center">
-                    <md-button ng-click="nuevoEquipo(ev)">Agregar Equipo</md-button>
-
+                    <md-button ng-click="obtenerEquiposLiga()">Agregar Equipo</md-button>
                 </md-card-actions>
             </md-card-content>
         </md-card>

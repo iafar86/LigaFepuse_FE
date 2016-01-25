@@ -1,14 +1,17 @@
 ﻿ligaFepuseApp.controller('equipoCtrl', function ($scope, $stateParams, $state, $filter, $mdDialog, $mdMedia,
     ngTableParams, equipoDataFactory, torneoDataFactory, torneoList)
 {
-    $scope.torneos = torneoList;
-    $scope.listadoEquipos = [];
+    $scope.torneos = torneoList;// trae todos los torneos de la liga
+    $scope.listadoEquipos = [];// guarda los equipos de un torneo
+
+    $scope.equiposLiga = [];// guarda todos los torneos de la liga
+
     //$scope.equipos = equipoList;
     //$scope.torneoInfo = torneoInfo;
     
     
+    
     $scope.obtenerEquipos = function () {
-        alert("adentro");
         torneoDataFactory.getTorneo($scope.torneoSelect.Id).then(function (response) {
             $scope.listadoEquipos = response;
         },
@@ -18,21 +21,21 @@
                 alert("Error: " + $scope.error.Message);
             }
         });
-    }
-
-    $scope.equipoListado = [];
-
-    $scope.addEquipo = function () {
-        equipoTemp = {
-            IdTemp: $scope.equipo.Id,
-            equipoNombreTemp: $scope.equipo.Nombre,
-            //alDia: $scope.equipo.alDia
+    }    
+    
+    $scope.obtenerEquiposLiga = function () {
+        equipoDataFactory.getEquiposLiga().then(
+        function (response) {
+            $scope.equiposLiga = response;
+            $scope.nuevoEquipo();
+        },
+        function (err) {
+            $scope.error = err;
+            alert("Error: " + $scope.error.Message);
         }
-        $scope.equipoListado.push(equipoTemp);
-        $scope.equipo.Nombre = '';
-        $scope.hide();
-        alert("Llega")
-    }
+        )
+
+    };
 
     //region dialog
     $scope.nuevoEquipo = function (ev) {
@@ -44,43 +47,14 @@
             targetEvent: ev,
             clickOutsideToClose: true,
             fullscreen: useFullScreen,
-            equiposLiga: 
-                equipoDataFactory.getEquiposLiga().then(
-                    function (response) {
-                        console.log(response);
-                        //console.log(response.data);
-                        return response;
-                    },
-                    function (err) {
-                        if (err) {
-                            $scope.error = err;
-                            alert("Error: " + $scope.error.Message);
-                        }
-                    }),
-            resolve: {
-                //equipoDataFactory: 'equipoDataFactory',
-                //equiposLiga: function (equipoDataFactory) {
-                //    equipoDataFactory.getEquiposLiga().then(
-                //        function (response) {
-                //            console.log(response);
-                //            //console.log(response.data);
-                //            return response;
-                //        },
-                //        function (err) {
-                //            if (err) {
-                //                $scope.error = err;
-                //                alert("Error: " + $scope.error.Message);
-                //            }
-                //        });
-                //}
-                
-                
-            }
+            equiposLiga: $scope.equiposLiga,
+            torneo: $scope.torneoSelect,
+            listadoEquipos: $scope.listadoEquipos
+            
+            //torneoDataFactory: 'torneoDataFactory'
         })
-        .then(function (equipo) {
-            $scope.equipoListado.push(equipo);
-            //$scope.hide();
-            //alert("Llega")
+        .then(function (listadoEquipos) {
+            $scope.listadoEquipos = listadoEquipos;
         });
         $scope.$watch(function () {
             return $mdMedia('xs') || $mdMedia('sm');
@@ -93,16 +67,69 @@
 
     //$scope.torneos = ['primera','segunda'];
 })
-function DialogController($scope, $mdDialog, equiposLiga) {
+function DialogController($scope, $mdDialog, equiposLiga, torneo, torneoDataFactory, listadoEquipos, equipoDataFactory) {
 
-    $scope.equipoListadoPrueba = [];
-    //$scope.equiposLiga = [];
+    $scope.equipoListadoPrueba = [];// guarda los equipos seleccionados
     $scope.equiposLiga = equiposLiga;
+    $scope.equiposAdd = [];
+    $scope.equiposAdd = listadoEquipos.Equipos;
 
-    $scope.addEquipo = function (equipo)
+    $scope.addCheck = function (equipo) {
+        if (equipo.isChecked) {
+            $scope.equiposAdd.push(equipo);
+        } else {
+            var index = $scope.equiposAdd.indexOf(equipo);
+            $scope.equiposAdd.splice(index, 1);
+        }
+        
+    }
+
+    $scope.addEquipos = function (equiposAdd)
     {
-        $scope.equipoListadoPrueba.push(equipo);
-        $scope.hide(equipo);
+        //$scope.equiposAdd.push(equipoListadoPrueba);
+        var torneoAdd = {
+            Id: torneo.Id,
+            Nombre: torneo.Nombre,
+            AñoInicio: torneo.AñoInicio,
+            AñoFin: torneo.AñoFin,
+            LigaId: torneo.LigaId,
+            Liga: null,
+            Fechas: null,
+            Arbitros: null,
+            EquiposJugadorTorneos: null,
+            Equipos: equiposAdd
+
+        }
+
+            torneoDataFactory.putTorneo(torneo.Id, torneoAdd).then(function (response) {
+                alert("Se agregaron los equipos correctamente");
+                
+                $scope.equipoListadoPrueba = [];
+                $scope.obtenerEquipos = function () {
+                    torneoDataFactory.getTorneo(torneo.Id).then(function (response) {
+                        $scope.listadoEquipos = response;
+                    },
+                    function (err) {
+                        if (err) {
+                            $scope.error = err;
+                            alert("Error: " + $scope.error.Message);
+                        }
+                    });
+                }
+                $mdDialog.hide(listadoEquipos);
+            },
+            function (err) {
+                if (err) {
+                    $scope.error = err;
+                    alert("Error al agregar equipos: " + $scope.error.Message);
+                }
+            })
+        //$scope.hide(equipoListadoPrueba);
+    }
+
+    $scope.addEquipo = function (equipo) {
+        equipo.AlDia = true;
+        equipoDataFactory.postEquipo(equipo);
     }
 
     $scope.hide = function () {

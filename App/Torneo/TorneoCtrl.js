@@ -1,6 +1,8 @@
-﻿ligaFepuseApp.controller('torneoCtrl', function ($scope, $stateParams, $state, $filter, $mdDialog, ngTableParams, torneoDataFactory, torneoList)
+﻿ligaFepuseApp.controller('torneoCtrl', function ($scope, $stateParams, $state, $filter, $mdDialog, $mdMedia, ngTableParams, torneoDataFactory, torneoList)
 {
     $scope.torneos = torneoList;
+
+    $scope.imagen = 'img/fepuse.jpg'
 
     $scope.torneoListado = [];
     $scope.torneoAdd = function () {
@@ -30,5 +32,64 @@
             torneoDel();
         }
     }
-    
+
+    //region Dialog
+    $scope.nuevoTorneo = function (ev) {
+        var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
+        $mdDialog.show({
+            controller: DialogControllerTorneo,
+            templateUrl: 'App/torneo/Partials/nuevoTorneo.html',
+            parent: angular.element(document.body),
+            targetEvent: ev,
+            clickOutsideToClose: true,
+            fullscreen: useFullScreen,
+            
+        })
+        .then(function (torneos) {
+            $scope.torneos = torneos;
+        });
+        $scope.$watch(function () {
+            return $mdMedia('xs') || $mdMedia('sm');
+        }, function (wantsFullScreen) {
+            $scope.customFullscreen = (wantsFullScreen === true);
+        });
+    };
+    //endRegion
 })
+function DialogControllerTorneo($scope, $mdDialog, torneoDataFactory) {
+
+    $scope.addTorneo = function (torneo) {
+        //$scope.equipoListadoPrueba.push(equipo);
+        //torneo.TorneoId = $scope.torneo.Id;
+        var torneoAdd = {
+            LigaId: 2,
+            Nombre: torneo.Nombre,
+            AñoInicio: torneo.AnioInicio,
+            AñoFin: torneo.AnioFin
+        }
+        
+        torneoDataFactory.postTorneo(torneoAdd).then(function (response) {
+            alert("Nuevo torneo guardado");
+            
+            torneos = torneoDataFactory.getTorneos();
+            $mdDialog.hide(torneos);
+        },
+        function (err) {
+            if (err) {
+                $scope.error = err;
+                alert("Error al Guardar el torneo: " + $scope.error.Message);
+            }
+        });
+    }
+
+    $scope.hide = function () {
+        $mdDialog.hide();
+    };
+    $scope.cancel = function () {
+        $mdDialog.cancel();
+    };
+
+    //$scope.agregar = function (equipo) {
+    //    $mdDialog.hide(equipo);
+    //};
+}
