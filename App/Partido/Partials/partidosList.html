@@ -1,0 +1,47 @@
+﻿<div class="col-sm-9">
+    <div class="panel panel-card clearfix">
+        <div class="p-h b-b b-light">
+            <ul class="nav nav-lines nav-md b-info">
+                <li class="active"><a href>Fixture De La Fecha: {{listPartidos.NumFecha}}</a></li>
+            </ul>
+        </div>
+        <div class="p-h-lg m-b-lg">
+            <div ng-repeat="partido in listPartidos.InfoPartidos">
+                <div>
+                    <div>
+                        <div layout="row">
+                            <md-input-container layout="row" flex="50">
+                                <div flex ="90">
+                                    <label>Equipo Local</label>
+                                    <input class="form-control md-input" ng-model="partido.nombreEquipoLocal" ng-disabled="true">                                     
+                                </div>
+                                <div flex="10">
+                                    <label>Goles</label>
+                                    <span class="form-control md-input">{{partido.GolesLocal}}</span>
+                                </div>
+                            </md-input-container>
+                            <md-input-container layout="row" layout-align="center end" flex="50">
+                                <div flex="90">
+                                    <label>Equipo Visitante</label>
+                                    <input class="form-control md-input" ng-model="partido.nombreEquipoVisitante" ng-disabled="true">                                    
+                                </div>
+                                <div flex="10">
+                                    <label>Goles</label>
+                                    <span class="form-control md-input">{{partido.GolesVisitante}}</span>
+                                </div>
+                            </md-input-container>
+                        </div>                        
+                    </div>
+                    <div class="m-b-xs">
+                        <span class="text-muted block text-xs">
+                            Sede : {{partido.Sede}} &nbsp;&nbsp;&nbsp; Dia: {{partido.DiaYHora | date:"dd/MM/yyyy 'Horario:' h:mma"}} 
+                        </span>    
+                        <span class="text-muted block text-xs">
+                            Arbitro : {{partido.nombreArbitro}}
+                        </span>                      
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
