@@ -5,15 +5,10 @@
     $scope.listadoEquipos = [];// guarda los equipos de un torneo
 
     $scope.equiposLiga = [];// guarda todos los torneos de la liga
-
-    //$scope.equipos = equipoList;
-    //$scope.torneoInfo = torneoInfo;
-    
-    
     
     $scope.obtenerEquipos = function () {
         torneoDataFactory.getTorneo($scope.torneoSelect.Id).then(function (response) {
-            $scope.listadoEquipos = response;
+            $scope.listadoEquipos = response.Equipos;
         },
         function (err) {
             if (err) {
@@ -27,6 +22,31 @@
         equipoDataFactory.getEquiposLiga().then(
         function (response) {
             $scope.equiposLiga = response;
+           
+            
+            //for (equipoLiga in $scope.equiposLiga)
+            //{
+            //    for (equipo in $scope.listadoEquipos) {
+
+            //        var index = $scope.equiposLiga.indexOf(equipo);
+            //        $scope.equiposLiga.splice(equipoLiga, 1);
+            //        //if(equipoLiga.Nombre == equipo.Nombre)
+            //        //{
+                        
+            //        //    alert("entra al if" + equipoLiga);
+            //        //}
+            //        //alert("entra");
+            //        //index = 0;
+            //        //index = $scope.equiposLiga.indexOf($scope.listadoEquipos[equipo]);
+            //        //alert("obtiene el index" + index)
+            //        //if (index >= 0) {
+            //        //    alert("entra 2");
+            //        //    $scope.equiposLiga.splice(index, 1);
+            //        //}
+            //    }
+            //}
+                
+            
             $scope.nuevoEquipo();
         },
         function (err) {
@@ -45,7 +65,7 @@
             templateUrl: 'App/Equipo/Partials/nuevoEquipo.html',
             parent: angular.element(document.body),
             targetEvent: ev,
-            clickOutsideToClose: true,
+            clickOutsideToClose: false,
             fullscreen: useFullScreen,
             equiposLiga: $scope.equiposLiga,
             torneo: $scope.torneoSelect,
@@ -53,8 +73,8 @@
             
             //torneoDataFactory: 'torneoDataFactory'
         })
-        .then(function (listadoEquipos) {
-            $scope.listadoEquipos = listadoEquipos;
+        .then(function (equiposTorneo) {
+            $scope.listadoEquipos = equiposTorneo;
         });
         $scope.$watch(function () {
             return $mdMedia('xs') || $mdMedia('sm');
@@ -69,23 +89,23 @@
 })
 function DialogController($scope, $mdDialog, equiposLiga, torneo, torneoDataFactory, listadoEquipos, equipoDataFactory) {
 
-    $scope.equipoListadoPrueba = [];// guarda los equipos seleccionados
     $scope.equiposLiga = equiposLiga;
     $scope.equiposAdd = [];
-    $scope.equiposAdd = listadoEquipos.Equipos;
+    $scope.equiposTorneo = listadoEquipos;
 
     $scope.addCheck = function (equipo) {
         if (equipo.isChecked) {
-            $scope.equiposAdd.push(equipo);
+            $scope.equiposTorneo.push(equipo);
         } else {
-            var index = $scope.equiposAdd.indexOf(equipo);
-            $scope.equiposAdd.splice(index, 1);
+            var index = $scope.equiposTorneo.indexOf(equipo);
+            $scope.equiposTorneo.splice(index, 1);
         }
         
     }
 
-    $scope.addEquipos = function (equiposAdd)
+    $scope.addEquipos = function (equiposTorneo)
     {
+        
         //$scope.equiposAdd.push(equipoListadoPrueba);
         var torneoAdd = {
             Id: torneo.Id,
@@ -97,34 +117,37 @@ function DialogController($scope, $mdDialog, equiposLiga, torneo, torneoDataFact
             Fechas: null,
             Arbitros: null,
             EquiposJugadorTorneos: null,
-            Equipos: equiposAdd
+            Equipos: equiposTorneo
+        };
 
-        }
+        torneoDataFactory.putTorneo(torneo.Id, torneoAdd).then(function (response) {
+            alert("Se agregaron los equipos correctamente");
 
-            torneoDataFactory.putTorneo(torneo.Id, torneoAdd).then(function (response) {
-                alert("Se agregaron los equipos correctamente");
-                
-                $scope.equipoListadoPrueba = [];
-                $scope.obtenerEquipos = function () {
-                    torneoDataFactory.getTorneo(torneo.Id).then(function (response) {
-                        $scope.listadoEquipos = response;
-                    },
-                    function (err) {
-                        if (err) {
-                            $scope.error = err;
-                            alert("Error: " + $scope.error.Message);
-                        }
-                    });
-                }
-                $mdDialog.hide(listadoEquipos);
-            },
-            function (err) {
-                if (err) {
-                    $scope.error = err;
-                    alert("Error al agregar equipos: " + $scope.error.Message);
-                }
-            })
-        //$scope.hide(equipoListadoPrueba);
+
+            $mdDialog.hide(equiposTorneo);
+            //$scope.equipoListadoPrueba = [];
+
+            //torneoDataFactory.getTorneo(torneo.Id).then(function (response) {
+            //    $scope.listadoEquipos = response.Equipos;
+            //    alert("Entra" + listadoEquipos);
+            //},
+            //function (err) {
+            //    if (err) {
+            //        $scope.error = err;
+            //        alert("Error: " + $scope.error.Message);
+            //    }
+            //});
+
+
+
+        },
+        function (err) {
+            if (err) {
+                $scope.error = err;
+                alert("Error al agregar equipos: " + $scope.error.Message);
+            }
+        })
+
     }
 
     $scope.addEquipo = function (equipo) {
@@ -135,11 +158,14 @@ function DialogController($scope, $mdDialog, equiposLiga, torneo, torneoDataFact
     $scope.hide = function () {
         $mdDialog.hide();
     };
+
     $scope.cancel = function () {
+        $scope = $scope.$new(true);
         $mdDialog.cancel();
     };
 
     //$scope.agregar = function (equipo) {
+
     //    $mdDialog.hide(equipo);
     //};
 }
