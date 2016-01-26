@@ -1,6 +1,8 @@
-﻿ligaFepuseApp.controller('torneoCtrl', function ($scope, $stateParams, $state, $filter, $mdDialog, $mdMedia, ngTableParams, torneoDataFactory, torneoList)
+﻿ligaFepuseApp.controller('torneoCtrl', function ($scope, $stateParams, $state, $filter, $mdDialog, $mdMedia, ngTableParams, torneoDataFactory, torneoList, infoTorneo, fechaDataFactory)
 {
     $scope.torneos = torneoList;
+
+    $scope.torneo = infoTorneo;
 
     $scope.imagen = 'img/fepuse.jpg'
 
@@ -54,7 +56,55 @@
             $scope.customFullscreen = (wantsFullScreen === true);
         });
     };
-    //endRegion
+    //endRegion  
+
+    //#region fpaz: Altas de Fechas y Partidos
+    //#region fpaz: funcion para dar de alta una fecha
+    $scope.addFecha = function (ev) {
+        $mdDialog.show({
+            controller: 'fechaCtrl',
+            templateUrl: 'App/Fecha/Partials/fechaAdd.html',
+            parent: angular.element(document.body),
+            targetEvent: ev,
+            clickOutsideToClose: true,
+            resolve: {
+                listPartidos: function () {
+                    return { value: [] };
+                }
+            }
+        })
+            .then(function () {
+                //$scope.listTiposHab[$scope.selectedIndex].Habitaciones.push(habitacion);
+            }, function () {
+                //alert('Error Al Guardar La Nueva Habitacion');
+
+            });
+    };
+    //#endregion
+
+    //#region fpaz: funcion para dar de alta un partido para la fecha seleccionada
+    $scope.addPartido = function (ev) {
+        $mdDialog.show({
+            controller: 'partidoCtrl',
+            templateUrl: 'App/Partido/Partials/partidoAdd.html',
+            parent: angular.element(document.body),
+            targetEvent: ev,
+            clickOutsideToClose: true,
+            //resolve: {
+            //    listPartidos: function () {
+            //        return { value: [] };
+            //    }
+            //}
+        })
+            .then(function () {
+                //$scope.listTiposHab[$scope.selectedIndex].Habitaciones.push(habitacion);
+            }, function () {
+                //alert('Error Al Guardar La Nueva Habitacion');
+
+            });
+    };
+    //#endregion
+    //#endregion
 })
 function DialogControllerTorneo($scope, $mdDialog, torneoDataFactory) {
 
@@ -91,5 +141,5 @@ function DialogControllerTorneo($scope, $mdDialog, torneoDataFactory) {
 
     //$scope.agregar = function (equipo) {
     //    $mdDialog.hide(equipo);
-    //};
+    //};    
 }

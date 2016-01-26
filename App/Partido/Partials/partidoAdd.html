@@ -1,0 +1,58 @@
+﻿<md-dialog aria-label="Agregar puesto a la oferta" ng-cloak flex="100">
+    <div>
+        <form>
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <h2>Agregar Habitacion</h2>
+                    <span flex></span>
+                    <md-button class="md-icon-button" ng-click="cancel()">
+                        <md-icon class="fa fa-times"></md-icon>
+                    </md-button>
+                </div>
+            </md-toolbar>
+
+            <md-dialog-content style="min-width:800px;max-height:1810px; ">
+                <div class="md-dialog-content">
+                    <div layout="row">
+                        <div flex="50">
+                            <div class="md-form-group">
+                                <input class="md-input" disabled ng-model="tipoHab.Nombre">
+                                <label>Tipo de Habitacion</label>
+                            </div>
+                            <!--<md-input-container>
+                                <label>Tipo de Habitacion</label>
+                                {{tipoHab.Nombre}}
+                            </md-input-container>-->
+                        </div>
+
+                        <div flex="30">
+                            <md-input-container>
+                                <label>Numero de Habitacion</label>
+                                <input type="number" ng-model="infoHab.NroHab" class="mdi-editor-border-color form-control md-input" />
+                            </md-input-container>
+                        </div>
+                    </div>
+
+                    <div layout="row">
+                        <div flex="50">
+                            <md-input-container>
+                                <label>Descripcion Adicional (Opcional)</label>
+                                <textarea ng-model="infoHab.Descripcion" columns="1" md-maxlength="150"></textarea>
+                            </md-input-container>
+                        </div>
+                    </div>
+                </div>
+            </md-dialog-content>
+        </form>
+    </div>
+    <div class="md-actions" layout="row">
+        <span flex></span>
+        <md-button ng-click="habitacionAdd(infoHab)">
+            Agregar Habitacion
+        </md-button>
+        <md-button ng-click="cancel()" class="md-primary">
+            Cancelar
+        </md-button>
+    </div>
+</md-dialog>
+
