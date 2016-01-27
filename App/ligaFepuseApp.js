@@ -1,5 +1,5 @@
 ﻿
-var ligaFepuseApp = angular.module('ligaFepuseApp', ['ngMaterial', 'ng-mfb','ngMdIcons', 'ngResource', 'ui.router', 'ngCookies', 'ngTable', 'ngSanitize', 'ngAnimate',
+var ligaFepuseApp = angular.module('ligaFepuseApp', ['ngMaterial', 'ng-mfb', 'ngMdIcons', 'ngResource', 'ui.router', 'ngCookies', 'ngTable', 'ngSanitize', 'ngAnimate',
  'ngAria', 'ct.ui.router.extras', 'angular-loading-bar', 'daypilot', 'LocalStorageModule', 'angular-jwt', 'ui.bootstrap'])
     .config(function ($stateProvider, $urlRouterProvider, $httpProvider, $stickyStateProvider, cfpLoadingBarProvider) {
         //'ngResource', 'ngMdIcons', 'ui.router', 'ngCookies', 'ngTable',
@@ -8,15 +8,15 @@ var ligaFepuseApp = angular.module('ligaFepuseApp', ['ngMaterial', 'ng-mfb','ngM
 
         cfpLoadingBarProvider.includeSpinner = true;
         cfpLoadingBarProvider.includeBar = true;
-        
+
 
         $urlRouterProvider.otherwise("/App/Home");
 
         $stateProvider
 
         //#region App
-        .state('app', {            
-            abstract: true,	
+        .state('app', {
+            abstract: true,
             url: '/App',
             views: {
                 '': {
@@ -44,6 +44,15 @@ var ligaFepuseApp = angular.module('ligaFepuseApp', ['ngMaterial', 'ng-mfb','ngM
         })
 
          //#endregion
+
+        //#region seguridad
+
+            .state('app.dashboard.login', {
+                url: '/Login',
+                templateUrl: 'App/Template/login.html'
+            })
+
+        //#endregion
 
         //#region Torneos
             .state('torneo', {
@@ -74,7 +83,7 @@ var ligaFepuseApp = angular.module('ligaFepuseApp', ['ngMaterial', 'ng-mfb','ngM
         })
              .state('torneo.info', {
                  url: '/Torneo/:torneoId',
-                 templateUrl: 'App/Torneo/Partials/torneoInfo.html',                 
+                 templateUrl: 'App/Torneo/Partials/torneoInfo.html',
                  controller: 'torneoCtrl',
                  resolve: {
                      torneoDataFactory: 'torneoDataFactory',
@@ -99,7 +108,7 @@ var ligaFepuseApp = angular.module('ligaFepuseApp', ['ngMaterial', 'ng-mfb','ngM
                                 var fechaId = $stateParams.fechaId;
                                 return fechaDataFactory.getFecha(fechaId);
                                 //return fechaDataFactory.get({ id: fechaId });
-                            }                                                        
+                            }
                         }
                     }
                 }
@@ -107,10 +116,31 @@ var ligaFepuseApp = angular.module('ligaFepuseApp', ['ngMaterial', 'ng-mfb','ngM
 
             //#endregion
 
-         .state('app.dashboard.login', {
-             url: '/Login',
-             templateUrl: 'App/Template/login.html'
-         })
+        //#region Fechas
+
+             .state('fecha', {
+                 abstract: true,
+                 url: '',
+                 views: {
+                     '': {
+                         templateUrl: 'App/Template/layout.html'
+                     },
+                     'content': {
+                         templateUrl: 'App/Dashboard/Dashboard.html'
+                     }
+                 }
+             })
+
+             .state('fecha.fechasAdd', {
+                 url: '/FechasAdd',
+                 templateUrl: 'App/Fecha/Partials/fechaAdd.html'
+                 //controller: 'fechaCtrl'
+                 //resolve: {
+
+                 //    }
+             })
+         //#endregion
+
 
         //#region Equipos
             .state('equipo', {
@@ -145,6 +175,30 @@ var ligaFepuseApp = angular.module('ligaFepuseApp', ['ngMaterial', 'ng-mfb','ngM
          })
         //#endregion
 
+        //#region Jugadores
+            .state('jugador', {
+                abstract: true,
+                url: '',
+                views: {
+                    '': {
+                        templateUrl: 'App/Template/layout.html'
+                    },
+                    'content': {
+                        templateUrl: 'App/Dashboard/Dashboard.html'
+                    }
+                }
+            })
 
+
+            .state('jugador.jugadorAdd', {
+                url: '/JugadorNuevo',
+                templateUrl: 'App/Jugador/Partials/jugadorInfo.html',
+                controller: 'jugadorCtrl',
+                resolve: {
+
+                }
+            })
+
+        //#endregion
 
     })
