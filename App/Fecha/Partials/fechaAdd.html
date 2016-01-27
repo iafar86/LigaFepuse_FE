@@ -1,58 +1,152 @@
-﻿<md-dialog aria-label="Agregar Fecha Al Torneo" ng-cloak flex="100">
-    <div>
-        <form>
-            <md-toolbar>
-                <div class="md-toolbar-tools">
-                    <h2>Agregar Fecha</h2>
-                    <span flex></span>
-                    <md-button class="md-icon-button" ng-click="cancel()">
-                        <md-icon class="fa fa-times"></md-icon>
-                    </md-button>
-                </div>
-            </md-toolbar>
+﻿<md-dialog aria-label="Agregar Fecha Al Torneo" flex="100" ng-cloak>
+    <form>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Agregar Fecha</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon class="fa fa-times"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
 
-            <md-dialog-content style="min-width:800px;max-height:1810px; ">
-                <div class="md-dialog-content">
-                    <div layout="row">
-                        <div flex="50">
-                            <div class="md-form-group">
-                                <input class="md-input" disabled ng-model="tipoHab.Nombre">
-                                <label>Tipo de Habitacion</label>
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <div layout="row">
+                    <div flex="50">
+                        <!--#region fpaz: Carga de Datos de la Fecha-->
+                        <div layout="row">
+                            <div flex="50">
+                                <md-input-container>
+                                    <label>Torneo</label>
+                                    <input class="md-input" disabled ng-model="torneo.Nombre">
+                                </md-input-container>
                             </div>
-                            <!--<md-input-container>
-                                <label>Tipo de Habitacion</label>
-                                {{tipoHab.Nombre}}
-                            </md-input-container>-->
+                            <div flex="30">
+                                <md-input-container>
+                                    <label>Numero de Fecha</label>
+                                    <input type="number" ng-model="fecha.NumFecha" class="mdi-editor-border-color form-control md-input" />
+                                </md-input-container>
+                            </div>
+                        </div>
+                        <!--#endregion-->
+                        <!--#region fpaz: Armado de Partido-->
+                        <div layout="row">
+                            <div flex="50">
+                                <md-input-container style="margin-right: 10px;">
+                                    <md-select placeholder="Seleccionar Equipo Local" ng-model="partido.EquipoLocal">
+                                        <md-option ng-value="equipo" ng-repeat="equipo in listEquipos">{{ equipo.Nombre }}</md-option>
+                                    </md-select>
+                                </md-input-container>
+                            </div>
+                            <div flex="50">
+                                <md-input-container>
+                                    <md-select placeholder="Seleccionar Equipo Visitante" ng-model="partido.EquipoVisitante">
+                                        <md-option ng-value="equipo" ng-repeat="equipo in listEquipos">{{ equipo.Nombre }}</md-option>
+                                    </md-select>
+                                </md-input-container>
+                            </div>
+                        </div>
+                        <div layout="row">
+                            <div flex="50">
+                                <md-input-container>
+                                    <label>Sede del Partido</label>
+                                    <input class="md-input" ng-model="partido.Sede">
+                                </md-input-container>
+                            </div>
+                            <div flex="50">
+                                <md-input-container>
+                                    <label>Fecha y Hora del Partido</label>
+                                    <input type="datetime-local" ng-model="partido.DiaYHora"
+                                           placeholder="dd/MM/yyyyTHH:mm:ss"/>
+                                </md-input-container>
+                            </div>
                         </div>
 
-                        <div flex="30">
-                            <md-input-container>
-                                <label>Numero de Habitacion</label>
-                                <input type="number" ng-model="infoHab.NroHab" class="mdi-editor-border-color form-control md-input" />
-                            </md-input-container>
+                        <div layout="row">
+                            <div flex="50">
+                                <md-input-container style="margin-right: 10px;">
+                                    <md-select placeholder="Seleccionar Arbitro del Partido" ng-model="partido.Arbitro">
+                                        <md-option ng-value="arbitro" ng-repeat="arbitro in listArbitros">{{ arbitro.Nombre + ' ' + arbitro.Apellido }}</md-option>
+                                    </md-select>
+                                </md-input-container>
+                            </div>
+                            <div flex="25">
+                                <md-input-container layout="row" flex="grow">
+                                    <div flex>
+                                        <md-button class="md-raised md-primary btn-fw m-b-sm" ng-click="agregarPartido(partido)">Agregar Partido</md-button>
+                                    </div>
+                                </md-input-container>
+                            </div>
+                            <div flex="25">
+                                <md-input-container layout="row" flex="grow">
+                                    <div flex>
+                                        <md-button class="md-raised md-warn btn-fw m-b-sm md-button md-default-theme" ng-click="cancelarPartido()">Cancelar</md-button>
+                                    </div>
+                                </md-input-container>
+                            </div>
                         </div>
+                        <!--#endregion-->
                     </div>
-
-                    <div layout="row">
-                        <div flex="50">
-                            <md-input-container>
-                                <label>Descripcion Adicional (Opcional)</label>
-                                <textarea ng-model="infoHab.Descripcion" columns="1" md-maxlength="150"></textarea>
-                            </md-input-container>
+                    <div flex="50">
+                        <!--#region fpaz: listado partidos cargados de la fecha-->
+                        <div class="col-sm-12">
+                            <div class="panel panel-card">                                
+                                <div class="card-body">
+                                    <div layout="row" layout-align="center center" flex="grow">
+                                        <div flex>
+                                            <table ng-table="tableParams" class="table ng-table-responsive">
+                                                <tr ng-repeat="partido in partidosCargados">
+                                                    <td data-title="'Listado de Partidos'">
+                                                        <div>
+                                                            <div>
+                                                                <div layout="row">
+                                                                    <md-input-container layout="row" flex="50">
+                                                                        <div flex="90">
+                                                                            <label>Equipo Local</label>
+                                                                            <input class="form-control md-input" ng-model="partido.EquipoLocal.Nombre" ng-disabled="true">
+                                                                        </div>
+                                                                    </md-input-container>
+                                                                    <md-input-container layout="row" layout-align="center end" flex="50">
+                                                                        <div flex="90">
+                                                                            <label>Equipo Visitante</label>
+                                                                            <input class="form-control md-input" ng-model="partido.EquipoVisitante.Nombre" ng-disabled="true">
+                                                                        </div>
+                                                                    </md-input-container>
+                                                                </div>
+                                                            </div>
+                                                            <div class="m-b-xs">
+                                                                <span class="text-muted block text-xs">
+                                                                    Sede : {{partido.Sede}} &nbsp;&nbsp;&nbsp; Dia: {{partido.DiaYHora | date:"dd/MM/yyyy 'Horario:' h:mma"}}
+                                                                </span>
+                                                                <span class="text-muted block text-xs">
+                                                                    Arbitro : {{partido.Arbitro.Nombre}}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+                        <!--#endregion-->
                     </div>
                 </div>
-            </md-dialog-content>
-        </form>
-    </div>
-    <div class="md-actions" layout="row">
+            </div>
+
+        </md-dialog-content>
+    </form>
+    <md-dialog-actions layout="row">
         <span flex></span>
-        <md-button ng-click="habitacionAdd(infoHab)">
-            Agregar Habitacion
+        <md-button ng-click="fechaAdd()">
+            Agregar Fecha
         </md-button>
         <md-button ng-click="cancel()" class="md-primary">
             Cancelar
         </md-button>
-    </div>
+    </md-dialog-actions>
 </md-dialog>
 

@@ -14,12 +14,42 @@
 
                 </md-card-content>
                 <md-card-actions layout="row" layout-align="end center">
+    <div flex>        
+        <md-list ng-repeat="torneo in torneos" >
+            
+            <md-list-item>
+                <div layout="column" flex="50">
+                    <md-content class="md-padding" layout-xs="column" layout="row">
+                        <div flex-xs flex-gt-xs="50" layout="column">
+                            <md-card style="min-width: 400px; max-height: 600px" >
+                                <img ng-src="{{imagen}}" class="md-card-image" alt="Washed Out" style="max-width: 170px; max-height: 200px">
+                                <md-card-title-media>
+                                    <div class="md-media-sm card-media" ng-src="{{imagen}}"></div>
+                                </md-card-title-media>
+                                    <md-card-content>
+                                        <h3>{{torneo.Nombre}}</h3>
+                                        <h4>Temporada {{torneo.AnioInicio}}/{{torneo.AnioFin}}</h4>
+                                    </md-card-content>                               
+                                <md-card-actions layout="row" layout-align="end center">
                     <md-button md-no-ink class="md-primary" ui-sref="torneo.info({torneoId: torneo.Id})">Ver</md-button>
+                                    <md-button md-no-ink class="md-primary" ng-click="verDetalle(torneo.Id)">Ver</md-button>
                     <md-button class="md-warn" ng-click="confirmar(torneo)">Eliminar</md-button>
                 </md-card-actions>
             </md-card>
         </div>
     </md-content>
+
+                                    <md-button class="md-warn" ng-click="confirmar(torneo)">Eliminar</md-button>
+                                </md-card-actions>
+                            </md-card>
+                        </div>
+                        
+                    </md-content>
+                    
+                </div>
+            </md-list-item>
+        </md-list>
+    </div>
 
     <div flex="50" layout="row" layout-align="end end" ng-hide="variable">
         <nav mfb-menu position="br" effect="zoomin" active-icon="mdi-content-clear" class="md-fab" label="Nuevo Torneo" resting-icon="mdi-content-add" toggling-method="hover" ng-click=" nuevoTorneo()">

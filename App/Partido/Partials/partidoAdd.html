@@ -1,58 +1,83 @@
-﻿<md-dialog aria-label="Agregar puesto a la oferta" ng-cloak flex="100">
-    <div>
-        <form>
-            <md-toolbar>
-                <div class="md-toolbar-tools">
-                    <h2>Agregar Habitacion</h2>
-                    <span flex></span>
-                    <md-button class="md-icon-button" ng-click="cancel()">
-                        <md-icon class="fa fa-times"></md-icon>
-                    </md-button>
-                </div>
-            </md-toolbar>
+﻿<md-dialog aria-label="Agregar Partidos a la Fecha " flex="100" ng-cloak ng-init="init()">
+    <form>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Agregar Partido</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon class="fa fa-times"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
 
-            <md-dialog-content style="min-width:800px;max-height:1810px; ">
-                <div class="md-dialog-content">
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <div layout="row">
+                    <div flex="grow">
+                        <!--#region fpaz: Informacion de la Fecha-->
+                        <div layout="row">
+                            <div flex="grow" /> 
+                            <h4 class="page-head-line">{{torneo.Nombre + '   -  '  + 'Fecha:  ' + fecha.NumFecha}} </h4>
+                        </div>
+                    </div>
+                    <!--#endregion-->
+                    <!--#region fpaz: Armado de Partido-->
                     <div layout="row">
                         <div flex="50">
-                            <div class="md-form-group">
-                                <input class="md-input" disabled ng-model="tipoHab.Nombre">
-                                <label>Tipo de Habitacion</label>
-                            </div>
-                            <!--<md-input-container>
-                                <label>Tipo de Habitacion</label>
-                                {{tipoHab.Nombre}}
-                            </md-input-container>-->
+                            <md-input-container style="margin-right: 10px;">
+                                <md-select placeholder="Seleccionar Equipo Local" ng-model="partido.EquipoLocal">
+                                    <md-option ng-value="equipo" ng-repeat="equipo in listEquipos">{{ equipo.Nombre }}</md-option>
+                                </md-select>
+                            </md-input-container>
                         </div>
-
-                        <div flex="30">
+                        <div flex="50">
                             <md-input-container>
-                                <label>Numero de Habitacion</label>
-                                <input type="number" ng-model="infoHab.NroHab" class="mdi-editor-border-color form-control md-input" />
+                                <md-select placeholder="Seleccionar Equipo Visitante" ng-model="partido.EquipoVisitante">
+                                    <md-option ng-value="equipo" ng-repeat="equipo in listEquipos">{{ equipo.Nombre }}</md-option>
+                                </md-select>
+                            </md-input-container>
+                        </div>
+                    </div>
+                    <div layout="row">
+                        <div flex="50">
+                            <md-input-container>
+                                <label>Sede del Partido</label>
+                                <input class="md-input" ng-model="partido.Sede">
+                            </md-input-container>
+                        </div>
+                        <div flex="50">
+                            <md-input-container>
+                                <label>Fecha y Hora del Partido</label>
+                                <input type="datetime-local" ng-model="partido.DiaYHora"
+                                       placeholder="dd/MM/yyyyTHH:mm:ss" />
                             </md-input-container>
                         </div>
                     </div>
 
                     <div layout="row">
                         <div flex="50">
-                            <md-input-container>
-                                <label>Descripcion Adicional (Opcional)</label>
-                                <textarea ng-model="infoHab.Descripcion" columns="1" md-maxlength="150"></textarea>
+                            <md-input-container style="margin-right: 10px;">
+                                <md-select placeholder="Seleccionar Arbitro del Partido" ng-model="partido.Arbitro">
+                                    <md-option ng-value="arbitro" ng-repeat="arbitro in listArbitros">{{ arbitro.Nombre + ' ' + arbitro.Apellido }}</md-option>
+                                </md-select>
                             </md-input-container>
                         </div>
                     </div>
+                    <!--#endregion-->
                 </div>
-            </md-dialog-content>
-        </form>
-    </div>
-    <div class="md-actions" layout="row">
+            </div>
+            </div>
+
+        </md-dialog-content>
+    </form>
+    <md-dialog-actions layout="row">
         <span flex></span>
-        <md-button ng-click="habitacionAdd(infoHab)">
-            Agregar Habitacion
+        <md-button ng-click="partidoAdd(partido)">
+            Agregar Partido
         </md-button>
         <md-button ng-click="cancel()" class="md-primary">
             Cancelar
         </md-button>
-    </div>
+    </md-dialog-actions>
 </md-dialog>
 
