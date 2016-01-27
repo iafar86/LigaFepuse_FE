@@ -71,7 +71,7 @@
         })
     };
 
-    var _putEquipo = function (prmId, data) {
+    var _putEquipo = function (prmId, data) { // modifica un torneo
         var deferred = $q.defer();
 
         $http.put(urlApi + '/api/Equipoes' + prmId, data).then(
@@ -85,11 +85,25 @@
         return deferred.promise;
     };
 
+    var _delEquipo = function (prmId) {
+        var deferred = $q.defer();
+
+        $http.delete(url + 'api/Equipoes' + prmId).then(
+            function (response) {
+                deferred.resolve(response);
+            },
+            function (response) {
+                deferred.reject(response.data);
+            });
+        return deferred.promise;
+    }
+
     equipoDataFactory.getEquipos = _getEquipos;
     equipoDataFactory.getEquipo = _getEquipo;
     equipoDataFactory.getEquiposLiga = _getEquiposLiga;
     equipoDataFactory.postEquipo = _postEquipo;
     equipoDataFactory.putEquipo = _putEquipo;
+    equipoDataFactory.delEquipo = _delEquipo;
 
     return equipoDataFactory;
 

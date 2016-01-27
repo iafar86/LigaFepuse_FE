@@ -22,30 +22,24 @@
         equipoDataFactory.getEquiposLiga().then(
         function (response) {
             $scope.equiposLiga = response;
-           
-            
-            //for (equipoLiga in $scope.equiposLiga)
-            //{
-            //    for (equipo in $scope.listadoEquipos) {
-
-            //        var index = $scope.equiposLiga.indexOf(equipo);
-            //        $scope.equiposLiga.splice(equipoLiga, 1);
-            //        //if(equipoLiga.Nombre == equipo.Nombre)
-            //        //{
-                        
-            //        //    alert("entra al if" + equipoLiga);
-            //        //}
-            //        //alert("entra");
-            //        //index = 0;
-            //        //index = $scope.equiposLiga.indexOf($scope.listadoEquipos[equipo]);
-            //        //alert("obtiene el index" + index)
-            //        //if (index >= 0) {
-            //        //    alert("entra 2");
-            //        //    $scope.equiposLiga.splice(index, 1);
-            //        //}
-            //    }
-            //}
+            //var noExiste = false;
+            //for (var i = 0; i < $scope.equiposLiga.length; i++) {
                 
+            //    for (var j = 0; j < $scope.listadoEquipos.length; j++) {
+            //        if ($scope.equiposLiga[i].Nombre == $scope.listadoEquipos[j].Nombre) {
+            //            ;
+            //            noExiste = true;
+            //        }
+            //    }
+            //    if (noExiste) {
+            //        alert("Ya esta en el arreglo")
+            //        var index = $scope.equiposLiga.indexOf(i);
+            //        $scope.equiposLiga.splice(index, 1);
+            //    }
+
+            //}
+
+            
             
             $scope.nuevoEquipo();
         },
@@ -85,7 +79,43 @@
    
     //#end Region
 
-    //$scope.torneos = ['primera','segunda'];
+    //Region baja de equipo en Torneo
+    $scope.delEquipoTorneo = function (equipo) {
+        var index = $scope.listadoEquipos.indexOf(equipo);
+        $scope.listadoEquipos.splice(index, 1);
+        var torneoAdd = {
+            Id: $scope.torneoSelect.Id,
+            Nombre: $scope.torneoSelect.Nombre,
+            AñoInicio: $scope.torneoSelect.AñoInicio,
+            AñoFin: $scope.torneoSelect.AñoFin,
+            LigaId: $scope.torneoSelect.LigaId,
+            Liga: null,
+            Fechas: null,
+            Arbitros: null,
+            EquiposJugadorTorneos: null,
+            Equipos: $scope.listadoEquipos
+        };
+        torneoDataFactory.putTorneo($scope.torneoSelect.Id, torneoAdd).then(function (response) {
+            //alert("Equipo correctamente eliminado");
+            torneoDataFactory.getTorneo($scope.torneoSelect.Id).then(function (response) {
+                $scope.equiposListado = response.Equipos;
+            },
+            function (err) {
+                if (err) {
+                    $scope.error = err;
+                    alert("Error: " + $scope.error.Message);
+                }
+            });
+        },
+        function (err) {
+            if (err) {
+                $scope.error = err;
+                alert("Error al agregar equipos: " + $scope.error.Message);
+            }
+        });
+    }
+    //#endRegion
+
 })
 function DialogController($scope, $mdDialog, equiposLiga, torneo, torneoDataFactory, listadoEquipos, equipoDataFactory) {
 
@@ -119,7 +149,7 @@ function DialogController($scope, $mdDialog, equiposLiga, torneo, torneoDataFact
             EquiposJugadorTorneos: null,
             Equipos: equiposTorneo
         };
-
+        //Agrego los equipos al torneo
         torneoDataFactory.putTorneo(torneo.Id, torneoAdd).then(function (response) {
             alert("Se agregaron los equipos correctamente");
 
@@ -150,10 +180,56 @@ function DialogController($scope, $mdDialog, equiposLiga, torneo, torneoDataFact
 
     }
 
+    //alta de equipo sin torneo
     $scope.addEquipo = function (equipo) {
+        equipo.LigaId = 2;
         equipo.AlDia = true;
-        equipoDataFactory.postEquipo(equipo);
+        equipoDataFactory.postEquipo(equipo).then(function (response) {
+            alert("Equipo agregado correctamente");
+            equipoDataFactory.getEquiposLiga().then(function (response) {
+                $scope.equiposLiga = response;
+            },
+            function (err) {
+                if (err) {
+                    $scope.error = err;
+                    alert("Error" + $scope.error.Message);
+                }
+            });
+        },
+        function (err) {
+            if (err) {
+                $scope.error = err;
+                alert("Error: " + $scope.error.Message);
+            }
+        });
+        $scope.equipo = null;
+        $scope.variable = false;
     }
+    //#endRegion
+
+    //Region Baja de equipo de la liga
+    $scope.delEquipoLiga = function (equipo) {
+        equipoDataFactory.delEquipo(equipo.Id).then(function () {
+            alert("equipo eliminado");
+            equipoDataFactory.getEquiposLiga().then(function (response) {
+                $scope.equiposLiga = response
+            },
+            function (err) {
+                if (err) {
+                    $scope.error = err;
+                    alert("Erorr al borrar: " + $scope.error.Message);
+                }
+            });
+        },
+        function (err) {
+            if (err) {
+                $scope.error = err;
+                alert("Erorr al borrar: " + $scope.error.Message);
+            }
+        });
+    }
+    //#endRegion
+
 
     $scope.hide = function () {
         $mdDialog.hide();
@@ -163,9 +239,4 @@ function DialogController($scope, $mdDialog, equiposLiga, torneo, torneoDataFact
         $scope = $scope.$new(true);
         $mdDialog.cancel();
     };
-
-    //$scope.agregar = function (equipo) {
-
-    //    $mdDialog.hide(equipo);
-    //};
 }

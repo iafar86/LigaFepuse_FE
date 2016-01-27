@@ -14,7 +14,7 @@
 
                 </md-card-content>
                 <md-card-actions layout="row" layout-align="end center">
-                                    <md-button md-no-ink class="md-primary" ui-sref="torneo.info({torneoId: torneo.Id})">Ver</md-button>
+                    <md-button md-no-ink class="md-primary" ui-sref="torneo.info({torneoId: torneo.Id})">Ver</md-button>
                     <md-button class="md-warn" ng-click="confirmar(torneo)">Eliminar</md-button>
                 </md-card-actions>
             </md-card>
@@ -22,9 +22,9 @@
     </md-content>
 
     <div flex="50" layout="row" layout-align="end end" ng-hide="variable">
-        <md-button class="md-raised" label="Nuevo Torneo" icon="mdi-content-add" style="background-color: #D32F2F" ng-click=" nuevoTorneo()">
-            Nuevo Torneo
-        </md-button>
+        <nav mfb-menu position="br" effect="zoomin" active-icon="mdi-content-clear" class="md-fab" label="Nuevo Torneo" resting-icon="mdi-content-add" toggling-method="hover" ng-click=" nuevoTorneo()">
+            <!--style="background-color: #D32F2F"-->
+        </nav>
     </div>
     
         <!--class="md-raised" style="background-color: #D32F2F"-->
