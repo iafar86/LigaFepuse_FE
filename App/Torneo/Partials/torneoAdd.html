@@ -18,7 +18,8 @@
                                         <h4>Temporada {{torneo.AnioInicio}}/{{torneo.AnioFin}}</h4>
                                     </md-card-content>                               
                                 <md-card-actions layout="row" layout-align="end center">
-                                    <md-button md-no-ink class="md-primary" ui-sref="torneo.info({torneoId: torneo.Id})">Ver</md-button>
+                                    <!--<md-button md-no-ink class="md-primary" ui-sref="torneo.info({torneoId: torneo.Id})">Ver</md-button>-->
+                                    <md-button md-no-ink class="md-primary" ng-click="verDetalle(torneo.Id)">Ver</md-button>
                                     <md-button class="md-warn" ng-click="confirmar(torneo)">Eliminar</md-button>
                                 </md-card-actions>
                             </md-card>

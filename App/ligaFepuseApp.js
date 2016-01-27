@@ -99,7 +99,16 @@ var ligaFepuseApp = angular.module('ligaFepuseApp', ['ngMaterial', 'ng-mfb','ngM
                                 var fechaId = $stateParams.fechaId;
                                 return fechaDataFactory.getFecha(fechaId);
                                 //return fechaDataFactory.get({ id: fechaId });
-                            }                                                        
+                            },
+                            listEquipos: function () {
+                                return { value: [] };
+                            },
+                            listArbitros: function () {
+                                return { value: [] };
+                            },
+                            infoTorneo: function () {
+                                return { value: [] };
+                            }
                         }
                     }
                 }
