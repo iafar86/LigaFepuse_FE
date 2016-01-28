@@ -175,24 +175,53 @@
                  torneoList: function (torneoDataFactory) {
                      return torneoDataFactory.getTorneos();
                  },
+                 equiposLiga: function () {
+                     return { value: [] };
+                 }
 
                  //torneoInfo: function (torneoDataFactory) {
                  //    return torneoDataFactory.getTorneo(infoTorneo.Id);
                  //}                
              }
          })
+            .state('equipo.laLiga', {
+                url: '/LaLiga',
+                templateUrl: 'App/Equipo/Partials/equiposLiga.html',
+                controller: 'equipoCtrl',
+                resolve: {
+                    equipoDataFactory: 'equipoDataFactory',
 
-        .state('equipo.equiposLiga', {
-            url: '/EquiposLiga',
-            templateUrl: 'App/Equipo/Partials/equiposLiga.html',
-            controller: 'equipoCtrl',
-            resolve: {
-                equipoDataFactory: 'equipoDataFactory',
-                equiposLiga: function(){
-                    return equipoDataFactory.getEquiposLiga();
-                },
-            }
-        })
+                    torneoDataFactory: 'torneoDataFactory',
+
+                    torneoList: function (torneoDataFactory) {
+                        return torneoDataFactory.getTorneos();
+                    },
+                    equiposLiga: function (equipoDataFactory) {
+                        return equipoDataFactory.getEquiposLiga();
+                    }
+
+                    //torneoInfo: function (torneoDataFactory) {
+                    //    return torneoDataFactory.getTorneo(infoTorneo.Id);
+                    //}                
+                }
+            })
+
+            .state('equipo.listadoLiga', {
+                url: '/EquiposLiga',
+                templateUrl: 'App/Equipo/Partials/prueba.html',
+                controller: 'equipoCtrl',
+                resolve: {
+                    equipoDataFactory: 'equipoDataFactory',
+                    torneoDataFactory: 'torneoDataFactory',
+
+                    torneoList: function () {
+                        return {value: []}
+                    },
+                    equiposLiga: function () {
+                        return equipoDataFactory.getEquiposLiga();
+                    }
+                }
+            })
         //#endregion
 
         //#region Jugadores
