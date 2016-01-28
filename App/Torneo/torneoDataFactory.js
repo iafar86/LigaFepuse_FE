@@ -6,7 +6,7 @@
         //var prmIdLiga = authSvc.authentication.ligaId;
         return $http.get(urlApi + 'api/Torneos',  {
             params: {
-                prmIdLiga: 2, //cambiar por 1
+                prmIdLiga: 1, //cambiar por 1
             }
         }).then(function (response) {
             return response.data;
@@ -19,7 +19,7 @@
         var deferred = $q.defer();
         $http.get(urlApi + 'api/Torneos', {
             params: {
-                prmIdLiga: 2, //cambiar por 1
+                prmIdLiga: 1, //cambiar por 1
                 prmIdTorneo: prmTorneo
             }
         }).then(

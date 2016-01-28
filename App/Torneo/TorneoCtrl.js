@@ -60,14 +60,14 @@
 
     //fpaz: funcion para ir al detalle del torneo y mostrar el fixture de la primera fecha si es que tiene alguna fecha cargada, sino muestra la vista para administracion del torneo
     $scope.verDetalle = function (torneoId) {
-        fechaDataFactory.getPrimeraFecha(torneoId).then(function (response) {
-            console.log("Trajo el id de la primera fecha: " + response);
+        fechaDataFactory.getPrimeraFecha(torneoId).then(function (response) {            
             $state.go('torneo.info.fecha', { torneoId: torneoId, fechaId: response });
         },
          function (err) {
-             if (err) {
-                 $scope.error = err;
-                 alert("Error: " + $scope.error.Message);
+             console.log(err)
+             if (err) {                 
+                 alert("Error: " + err.Message);
+                 $state.go('torneo.info', { torneoId: torneoId });
              }
          });
     }
@@ -86,7 +86,7 @@
                     return { value: [] };
                 },
                 listEquipos: function () {
-                    return $scope.torneo.Equipos;
+                    return $scope.torneo.EquipoTorneos;
                 },                
                 infoTorneo: function () {
                     return $scope.torneo;
@@ -122,7 +122,7 @@
                         return { value: [] };
                     },
                     listEquipos: function () {
-                        return $scope.torneo.Equipos;
+                        return $scope.torneo.EquipoTorneos;
                     },
                     infoTorneo: function () {
                         return $scope.torneo;

@@ -13,13 +13,15 @@
     };
 
     var _getPrimeraFecha = function (prmIdTorneo) { //trae la info de la fecha y los partidos de la fecha para mostrarlos en el fixture            
-        return $http.get(urlApi + 'api/Fechas/', { params: {prmIdTorneo:prmIdTorneo}} ).then(
-            function (response) {
-                return response.data
+        var deferred = $q.defer();
+        $http.get(urlApi + 'api/Fechas/', { params: {prmIdTorneo:prmIdTorneo}} ).then(
+            function (response) {                
+                deferred.resolve(response.data);
             },
-            function (response) {
-                return response.data;
+            function (err, status) {                
+                deferred.reject(err.data);
             });
+        return deferred.promise;
     };
 
     var _postFecha = function (data) { //alta de una Fecha

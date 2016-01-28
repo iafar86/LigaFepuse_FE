@@ -35,14 +35,14 @@
                             <div flex="50">
                                 <md-input-container style="margin-right: 10px;">
                                     <md-select placeholder="Seleccionar Equipo Local" ng-model="partido.EquipoLocal">
-                                        <md-option ng-value="equipo" ng-repeat="equipo in listEquipos">{{ equipo.Nombre }}</md-option>
+                                        <md-option ng-value="equipo.Equipo" ng-repeat="equipo in listEquipos">{{ equipo.Equipo.Nombre }}</md-option>
                                     </md-select>
                                 </md-input-container>
                             </div>
                             <div flex="50">
                                 <md-input-container>
                                     <md-select placeholder="Seleccionar Equipo Visitante" ng-model="partido.EquipoVisitante">
-                                        <md-option ng-value="equipo" ng-repeat="equipo in listEquipos">{{ equipo.Nombre }}</md-option>
+                                        <md-option ng-value="equipo.Equipo" ng-repeat="equipo in listEquipos">{{ equipo.Equipo.Nombre }}</md-option>
                                     </md-select>
                                 </md-input-container>
                             </div>
