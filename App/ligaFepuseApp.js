@@ -156,11 +156,11 @@
             url: '/EquiposLiga',
             templateUrl: 'App/Equipo/Partials/equiposLiga.html',
             controller: 'equipoCtrl',
-            resolve{
+            resolve: {
                 equipoDataFactory: 'equipoDataFactory',
                 equiposLiga: function(){
                     return equipoDataFactory.getEquiposLiga();
-                }
+                },
             }
         })
         //#endregion
