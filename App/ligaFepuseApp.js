@@ -1,5 +1,4 @@
-﻿
-var ligaFepuseApp = angular.module('ligaFepuseApp', ['ngMaterial', 'ng-mfb', 'ngMdIcons', 'ngResource', 'ui.router', 'ngCookies', 'ngTable', 'ngSanitize', 'ngAnimate',
+﻿var ligaFepuseApp = angular.module('ligaFepuseApp', ['ngMaterial', 'ng-mfb', 'ngMdIcons', 'ngResource', 'ui.router', 'ngCookies', 'ngTable', 'ngSanitize', 'ngAnimate',
  'ngAria', 'ct.ui.router.extras', 'angular-loading-bar', 'daypilot', 'LocalStorageModule', 'angular-jwt', 'ui.bootstrap'])
     .config(function ($stateProvider, $urlRouterProvider, $httpProvider, $stickyStateProvider, cfpLoadingBarProvider) {
         //'ngResource', 'ngMdIcons', 'ui.router', 'ngCookies', 'ngTable',
@@ -108,6 +107,15 @@ var ligaFepuseApp = angular.module('ligaFepuseApp', ['ngMaterial', 'ng-mfb', 'ng
                                 var fechaId = $stateParams.fechaId;
                                 return fechaDataFactory.getFecha(fechaId);
                                 //return fechaDataFactory.get({ id: fechaId });
+                            },
+                            listEquipos: function () {
+                                return { value: [] };
+                            },
+                            listArbitros: function () {
+                                return { value: [] };
+                            },
+                            infoTorneo: function () {
+                                return { value: [] };
                             }
                         }
                     }
@@ -173,6 +181,18 @@ var ligaFepuseApp = angular.module('ligaFepuseApp', ['ngMaterial', 'ng-mfb', 'ng
                  //}                
              }
          })
+
+        .state('equipo.equiposLiga', {
+            url: '/EquiposLiga',
+            templateUrl: 'App/Equipo/Partials/equiposLiga.html',
+            controller: 'equipoCtrl',
+            resolve{
+                equipoDataFactory: 'equipoDataFactory',
+                equiposLiga: function(){
+                    return equipoDataFactory.getEquiposLiga();
+                }
+            }
+        })
         //#endregion
 
         //#region Jugadores

@@ -3,13 +3,13 @@
     <div flex="70">
         <h2>Seleccione un Torneo</h2>
         
-        <md-select placeholder="Seleccionar Torneo" ng-model="torneoSelect" md-on-close="obtenerEquipos()">            
+        <md-select placeholder="Seleccionar Torneo" ng-model="torneoSelect" md-on-close="obtenerEquipos(); variable=true">            
             <md-option ng-value="torneo" ng-repeat="torneo in torneos">{{torneo.Nombre}}</md-option>
         </md-select>
 
     </div>
     
-    <div flex="70" >
+    <div flex="70" ng-show="variable">
         <md-card class="md-whiteframe-11dp">
             <md-card-content>
                 <md-toolbar>
@@ -19,25 +19,25 @@
                         </h2>
                     </div>
                 </md-toolbar>
-                <md-list ng-repeat="equipo in listadoEquipos.Equipos">
+                <md-list ng-repeat="equipo in listadoEquipos">
                     <md-list-item class="md-3-line" layout="row">
                         <img class="md-avatar" />
                         <div class="md-list-item-text">
                             <h3>{{equipo.Nombre}}</h3>
-                            <h4>al dia: {{obtenerEquipo.AlDia}}</h4>
+                            <h4>al dia: {{equipo.AlDia}}</h4>
                             
                         </div>
                         
                     </md-list-item>
                     <md-list-actions layout="row" layout-align="end center">
                         <md-button>Ver</md-button>
-                        <md-button>Eliminar</md-button>
+                        <md-button ng-click="delEquipoTorneo(equipo)">Eliminar</md-button>
 
                     </md-list-actions>
                 </md-list>
-                
+                <md-divider></md-divider>
                 <md-card-actions layout="row" layout-align="end center">
-                    <md-button ng-click="obtenerEquiposLiga()">Agregar Equipo</md-button>
+                    <md-button class="md-raised md-primary" ng-click="obtenerEquiposLiga()">Agregar Equipo</md-button>
                 </md-card-actions>
             </md-card-content>
         </md-card>

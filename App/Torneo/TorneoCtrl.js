@@ -1,4 +1,4 @@
-﻿ligaFepuseApp.controller('torneoCtrl', function ($scope, $stateParams, $state, $filter, $mdDialog, $mdMedia, ngTableParams, torneoDataFactory, torneoList, infoTorneo, fechaDataFactory)
+﻿ligaFepuseApp.controller('torneoCtrl', function ($scope, $stateParams, $state, $filter, $mdDialog, $mdMedia, ngTableParams, torneoDataFactory, torneoList, infoTorneo, fechaDataFactory, equipoDataFactory, arbitroDataFactory)
 {
     $scope.torneos = torneoList;
 
@@ -58,19 +58,42 @@
     };
     //endRegion  
 
+    //fpaz: funcion para ir al detalle del torneo y mostrar el fixture de la primera fecha si es que tiene alguna fecha cargada, sino muestra la vista para administracion del torneo
+    $scope.verDetalle = function (torneoId) {
+        fechaDataFactory.getPrimeraFecha(torneoId).then(function (response) {
+            console.log("Trajo el id de la primera fecha: " + response);
+            $state.go('torneo.info.fecha', { torneoId: torneoId, fechaId: response });
+        },
+         function (err) {
+             if (err) {
+                 $scope.error = err;
+                 alert("Error: " + $scope.error.Message);
+             }
+         });
+    }
     //#region fpaz: Altas de Fechas y Partidos
     //#region fpaz: funcion para dar de alta una fecha
-    $scope.addFecha = function (ev) {
+    $scope.addFecha = function (ev) {        
         $mdDialog.show({
             controller: 'fechaCtrl',
             templateUrl: 'App/Fecha/Partials/fechaAdd.html',
             parent: angular.element(document.body),
             targetEvent: ev,
             clickOutsideToClose: true,
+            fullscreen: true,
             resolve: {
                 listPartidos: function () {
                     return { value: [] };
-                }
+                },
+                listEquipos: function () {
+                    return $scope.torneo.Equipos;
+                },                
+                infoTorneo: function () {
+                    return $scope.torneo;
+                },                
+                listArbitros: function (arbitroDataFactory) {
+                    return arbitroDataFactory.getArbitros();
+                }                
             }
         })
             .then(function () {
@@ -83,25 +106,40 @@
     //#endregion
 
     //#region fpaz: funcion para dar de alta un partido para la fecha seleccionada
-    $scope.addPartido = function (ev) {
-        $mdDialog.show({
-            controller: 'partidoCtrl',
-            templateUrl: 'App/Partido/Partials/partidoAdd.html',
-            parent: angular.element(document.body),
-            targetEvent: ev,
-            clickOutsideToClose: true,
-            //resolve: {
-            //    listPartidos: function () {
-            //        return { value: [] };
-            //    }
-            //}
-        })
-            .then(function () {
-                //$scope.listTiposHab[$scope.selectedIndex].Habitaciones.push(habitacion);
-            }, function () {
-                //alert('Error Al Guardar La Nueva Habitacion');
+    $scope.addPartido = function (ev) {        
+        if ($scope.torneo.Fechas.length < 1) {
+            alert("Primero Debe Agregar una Fecha");
+        } else {
+            $mdDialog.show({
+                controller: 'partidoCtrl',
+                templateUrl: 'App/Partido/Partials/partidoAdd.html',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose: true,
+                fullscreen: true,
+                resolve: {
+                    listPartidos: function () {
+                        return { value: [] };
+                    },
+                    listEquipos: function () {
+                        return $scope.torneo.Equipos;
+                    },
+                    infoTorneo: function () {
+                        return $scope.torneo;
+                    },
+                    listArbitros: function (arbitroDataFactory) {
+                        return arbitroDataFactory.getArbitros();
+                    }                    
+                }
+            })
+              .then(function () {
+                  //$scope.listTiposHab[$scope.selectedIndex].Habitaciones.push(habitacion);
+              }, function () {
+                  //alert('Error Al Guardar La Nueva Habitacion');
 
-            });
+              });
+        }
+        
     };
     //#endregion
     //#endregion
