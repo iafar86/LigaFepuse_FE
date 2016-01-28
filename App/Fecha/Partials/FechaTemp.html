@@ -1,0 +1,93 @@
+﻿
+<md-content class="md-padding" layout-xs="column" layout="column">
+
+    <div layout-align="column" class="md-title">
+        <h1>
+            <md-select placeholder="seleccione el torneo" ng-model="jugador.equipoid" aria-label="seleccion equipo" flex>
+                <md-option ng-repeat="profesion in profesiones" value="{{profesion.nombre}}">
+                    {{profesion.nombre}}
+                </md-option>
+            </md-select>
+        </h1>
+
+    </div>
+
+
+
+    <!--#region ng-repeat para fechas-->
+    <div layout-fill layout-align="center center" class="md-whiteframe-z1">
+
+        <md-card flex>
+            <md-card-header>
+                <md-card-header-text layout="column" style="height:60px; background-color:#283372" layout-align="center center">
+
+                    <!--<span class="md-title" style="color:aliceblue">Fecha</span>-->
+                    <md-datepicker ng-model="myDate" md-placeholder="Ingrese fecha"></md-datepicker>
+                </md-card-header-text>
+            </md-card-header>
+            <md-divider></md-divider>
+
+            <!--#region ng-repeat para partidos dentro de fecha-->
+
+            <md-card-content style="height:200px" layout="row" layout-align="center" flex>
+                <div layout="column" class="md-whiteframe-z2" layout-align="center center" flex="90">
+                    <div layout="row" layout-fill layout-align="center">
+                        <md-input-container flex="10" >
+                            <label>MM:SS</label>
+                            <input ng-model="partido.DiaYHora">
+                        </md-input-container>
+
+                        <md-select placeholder="Seleccione el Equipo 1" ng-model="jugador.EquipoId" aria-label="Seleccion Equipo" flex="40">
+                            <md-option ng-repeat="profesion in profesiones" value="{{profesion.Nombre}}">
+                                {{profesion.Nombre}}
+                            </md-option>
+
+                        </md-select>
+                        <span></span>
+
+                        <md-select placeholder="Seleccione el Equipo 2" ng-model="jugador.EquipoId" aria-label="Seleccion Equipo" flex="40">
+                            <md-option ng-repeat="profesion in profesiones" value="{{profesion.Nombre}}">
+                                {{profesion.Nombre}}
+                            </md-option>
+                        </md-select>
+                    </div>
+                    <div layout="row" layout-fill layout-align="center">
+                        <md-select placeholder="Seleccione el lugar o sede" ng-model="jugador.EquipoId" aria-label="Seleccion lugar o sede" flex="90" layout-fill>
+                            <md-option ng-repeat="profesion in profesiones" value="{{profesion.Nombre}}">
+                                {{profesion.Nombre}}
+                            </md-option>
+                        </md-select>
+                    </div>
+                </div>
+                <md-card-actions layout="column" flex="5">
+                    <md-button style="min-height: 100%; min-width:50px ; background-color:#7c0000;" flex class="md-raised">
+                        <i class="fa fa-trash-o text-2x" style="color:white"></i>
+                    </md-button>
+                </md-card-actions>
+
+
+
+            </md-card-content>
+
+            <!--#endregion-->
+
+
+            <md-card-footer layout="row" layout-align="center">
+                <md-button layout-fill style="min-height: 100%; min-width:50px ; background-color:#808080;">
+                    <span style="color:aliceblue">
+                        Agregar Partido
+                    </span>
+
+                </md-button>
+            </md-card-footer>
+        </md-card>
+
+
+
+    </div>
+
+    <!--#endregion-->
+
+
+
+</md-content>
