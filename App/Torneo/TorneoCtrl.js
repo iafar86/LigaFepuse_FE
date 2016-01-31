@@ -118,6 +118,9 @@
                 clickOutsideToClose: true,
                 fullscreen: true,
                 resolve: {
+                    infoPartido: function () {
+                        return { value: [] };
+                    },
                     listPartidos: function () {
                         return { value: [] };
                     },

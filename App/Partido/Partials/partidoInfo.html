@@ -1,10 +1,198 @@
-﻿<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title></title>
-</head>
-<body>
+﻿<div class="container">
+    <div class="row">
+        <div class="col-md-12">            
+            <h4 class="page-head-line">Detalles del Partido </h4>
+        </div>
+    </div>
+    <!--#region Datos Generales del Partido-->
+    <div class="row row-sm">
+        <div layout="row">
+            <div flex="31">
+                <div class="form-group has-error">
+                    <label class="control-label" for="torneo">Torneo</label>
+                    <br />
+                    <span id="torneo">{{partido.Fecha.Torneo.Nombre}}</span>
+                </div>
+            </div>            
+            <div flex="30">
+                <div class="form-group has-error">
+                    <label class="control-label" for="fecha">Fecha</label>
+                    <br />
+                    <span id="fecha">{{partido.Fecha.NumFecha}}</span>
+                </div>
+            </div>
+            <div flex="grow"></div>            
+        </div>
+        <div layout="row">
+            <div flex="30">
+                <div class="form-group has-error">
+                    <label class="control-label" for="sede">Sede del Partido</label>
+                    <br />
+                    <span id="sede" ng-show="!editValue">{{partido.Sede}}</span>    
+                    <md-input-container ng-show="editValue">
+                        <label>Sede del Partido</label>
+                        <input class="md-input" ng-model="partido.Sede">
+                    </md-input-container>                           
+                </div>                
+            </div>
+            <div flex="1"></div>
+            <div flex="30">
+                <div class="form-group has-error">
+                    <label class="control-label" for="fecha">Dia y Hora del Partido</label>
+                    <br />
+                    <span id="fecha">Dia: {{partido.DiaYHora | date:"dd/MM/yyyy 'Horario:' h:mma"}}</span>
+                    <md-input-container ng-show="editValue">
+                        <label>Nuevo Dia y Hora del Partido</label>
+                        <input type="datetime-local" ng-model="fechaHoraNueva"
+                               placeholder="dd/MM/yyyyTHH:mm:ss" />                        
+                    </md-input-container>
+                </div>                                
+            </div>
+            <div flex="1"></div>
+            <div flex="30">
+                <div class="form-group has-error">
+                    <label class="control-label" for="arbitro">Arbitro del Partido</label>
+                    <br />
+                    <span id="arbitro" ng-show="!editValue">{{partido.Arbitro.NombreApellido}}</span>                    
+                    <md-input-container ng-show="editValue">
+                        <md-select placeholder="Seleccionar Arbitro del Partido" ng-model="partido.Arbitro" ng-model-options="{trackBy: '$value.Id'}">
+                            <md-option ng-value="arbitro" ng-repeat="arbitro in listArbitros">{{ arbitro.NombreApellido }}</md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>                
+            </div>
+        </div>
+    </div>
+    <!--#endregion-->
+    <div class="row row-sm">
+        <!--#region Datos Equipo Local-->
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-heading">                    
+                    <div class="clear text-ellipsis hidden-sm">
+                        <div layout="row">
+                            <div flex="80">
+                                <h2 class="page-head-line">
+                                    <a href class="pull-left"><img src="http://www.promiedos.com.ar/images/s30/riverplate.png" class="img-responsive"></a>
+                                    &nbsp;&nbsp;
+                                    {{partido.EquipoLocal.Nombre}}
+                                </h2>
+                            </div>
+                            <div flex="20">
+                                <h2 class="page-head-line text-right">{{partido.GolesLocal}}</h2>
+                            </div>
+                        </div>
+                        
+                    </div>                                        
+                </div>                
+                <div class="card-body">
+                    <table ng-table="tableParams" class="table table-bordered table-hover table-condensed editable-table">                        
+                        <tr ng-repeat="jugador in partido.EquipoLocal.PartidosJugadores" ng-init="aux=false;golesOrig = jugador.Goles; taOrig = jugador.TarjetasAmarillas; trOrig=jugador.TarjetasRojas">
+                            <td data-title="'Jugador'">
+                                {{jugador.Jugador.NombreApellido}}
+                            </td>
+                            <td data-title="'Goles'">
+                                <span ng-show="!editValue">{{jugador.Goles}}</span>
+                                <md-input-container ng-show="editValue">
+                                    <input type="number" class="md-input" ng-model="jugador.Goles" min="0" ng-disabled="!aux">
+                                </md-input-container>
+                            </td>
+                            <td data-title="'Amarillas'">
+                                <span ng-show="!editValue">{{jugador.TarjetasAmarillas}}</span>
+                                <md-input-container ng-show="editValue">
+                                    <input type="number" class="md-input" ng-model="jugador.TarjetasAmarillas" min="0" max="2" ng-disabled="!aux">
+                                </md-input-container>
+                            </td>
+                            <td data-title="'Rojas'">
+                                <span ng-show="!editValue">{{jugador.TarjetasRojas}}</span>
+                                <md-input-container ng-show="editValue">
+                                    <input type="number" class="md-input" ng-model="jugador.TarjetasRojas" min="0" max="1" ng-disabled="!aux">
+                                </md-input-container>
+                            </td>
+                            <td ng-show="editValue">
+                                <button class="btn btn-default btn-sm" ng-click="aux = true" ng-show="!aux"><span class="glyphicon glyphicon-pencil"></span></button>
+                                <button class="btn btn-primary btn-sm" ng-click="aux = false;golesOrig = jugador.Goles; taOrig = jugador.TarjetasAmarillas; trOrig=jugador.TarjetasRojas; saveEditJugadorLocal(jugador)" ng-show="aux"><span class="glyphicon glyphicon-ok"></span></button>
+                                <button class="btn btn-danger btn-sm" ng-click="removeJugadorLocal(jugador)" ng-show="!aux"><span class="glyphicon glyphicon-trash"></span></button>
+                                <button class="btn btn-default btn-sm" ng-click="aux = false;jugador.Goles=golesOrig; jugador.TarjetasAmarillas = taOrig; jugador.TarjetasRojas=trOrig" ng-show="aux"><span class="glyphicon glyphicon-remove"></span></button>
+                            </td>
+                        </tr>
+                    </table>
+                    
+                </div>
+            </div>
+        </div>
+        <!--#endregion-->        
 
-</body>
-</html>
+        <!--#region Datos Equipo Visitante-->
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-heading">
+                    <div class="clear text-ellipsis hidden-sm">
+                        <div layout="row">
+                            <div flex="20">
+                                <h2 class="page-head-line text-left">{{partido.GolesVisitante}}</h2>
+                            </div>
+                            <div flex="80">
+                                <h2 class="page-head-line text-right">
+                                    {{partido.EquipoVisitante.Nombre}}
+                                    &nbsp;&nbsp;
+                                    <a href class="pull-right"><img src="http://www.promiedos.com.ar/images/s30/bocajuniors.png" class="img-responsive"></a>
+                                </h2>
+                            </div>                            
+                        </div>
+
+                    </div>
+                </div>                  
+                <div class="card-body">
+                    <table ng-table="tableParams" class="table table-bordered table-hover table-condensed editable-table">
+                        <tr ng-repeat="jugador in partido.EquipoVisitante.PartidosJugadores" ng-init="aux=false">
+                            <td data-title="'Jugador'">
+                                {{jugador.Jugador.NombreApellido}}
+                            </td>
+                            <td data-title="'Goles'">
+                                <span ng-show="!editValue">{{jugador.Goles}}</span>
+                                <md-input-container ng-show="editValue">
+                                    <input type="number" class="md-input" ng-model="jugador.Goles" min="0" ng-disabled="!aux">
+                                </md-input-container>
+                            </td>
+                            <td data-title="'Amarillas'">
+                                <span ng-show="!editValue">{{jugador.TarjetasAmarillas}}</span>
+                                <md-input-container ng-show="editValue">
+                                    <input type="number" class="md-input" ng-model="jugador.TarjetasAmarillas" min="0" max="2" ng-disabled="!aux">
+                                </md-input-container>
+                            </td>
+                            <td data-title="'Rojas'">
+                                <span ng-show="!editValue">{{jugador.TarjetasRojas}}</span>
+                                <md-input-container ng-show="editValue">
+                                    <input type="number" class="md-input" ng-model="jugador.TarjetasRojas" min="0" max="1" ng-disabled="!aux">
+                                </md-input-container>
+                            </td>
+                            <td ng-show="editValue">
+                                <button class="btn btn-default btn-sm" ng-click="aux = true" ng-show="!aux"><span class="glyphicon glyphicon-pencil"></span></button>
+                                <button class="btn btn-primary btn-sm" ng-click="aux = false;golesOrig = jugador.Goles; taOrig = jugador.TarjetasAmarillas; trOrig=jugador.TarjetasRojas; saveEditJugadorVisitante(jugador)" ng-show="aux"><span class="glyphicon glyphicon-ok"></span></button>
+                                <button class="btn btn-danger btn-sm" ng-click="removeJugadorVisitante(jugador)" ng-show="!aux"><span class="glyphicon glyphicon-trash"></span></button>
+                                <button class="btn btn-default btn-sm" ng-click="aux = false;jugador.Goles=golesOrig; jugador.TarjetasAmarillas = taOrig; jugador.TarjetasRojas=trOrig" ng-show="aux"><span class="glyphicon glyphicon-remove"></span></button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!--#endregion-->        
+</div>
+
+<!--#region fpaz: menu flotante-->
+<div layout="row" layout-align="star center">
+    <!--<div flex="60"><h2>Agrega puestos en la oferta</h2></div>
+    <div flex="30"><md-button class="md-fab " aria-label="PuestosAdd" ng-click="AbrirParaAgregar()"><i class="fa fa-plus"></i></md-button> </div>-->
+
+    <nav mfb-menu position="br" effect="zoomin" label="Herramientas"
+         active-icon="mdi-content-clear" resting-icon="mdi-content-add"
+         toggling-method="hover">
+        <button mfb-button icon="mdi-image-edit" label="Editar Partido" ng-click="edit()"></button>
+        <button mfb-button icon="mdi-content-save" label="Guardar Cambios" ng-click="saveUpdate()"></button>
+        <button mfb-button icon="mdi-action-delete" label="Cancelar Cambios" ng-click="cancelEdit()"></button>
+    </nav>
+</div>
+<!--#endregion-->
+

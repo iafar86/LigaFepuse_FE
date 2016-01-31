@@ -156,10 +156,52 @@
             url: '/EquiposLiga',
             templateUrl: 'App/Equipo/Partials/equiposLiga.html',
             controller: 'equipoCtrl',
-            resolve{
+            resolve:{
                 equipoDataFactory: 'equipoDataFactory',
                 equiposLiga: function(){
                     return equipoDataFactory.getEquiposLiga();
+                }
+            }
+        })
+        //#endregion
+
+        //#region Partidos
+        .state('partido', {
+            abstract: true,
+            url: '',
+            views: {
+                '': {
+                    templateUrl: 'App/Template/layout.html'
+                },
+                'content': {
+                    templateUrl: 'App/Dashboard/Dashboard.html'
+                }
+            }
+        })
+        .state('partido.info', {
+            url: '/Partido/:partidoId',
+            templateUrl: 'App/Partido/Partials/partidoInfo.html',
+            controller: 'partidoCtrl',
+            resolve: {
+                partidoDataFactory: 'partidoDataFactory',
+                //infoPartido: function () {
+                //    return { value: [] };
+                //},
+                infoPartido: function (partidoDataFactory, $stateParams) {
+                    var partidoId = $stateParams.partidoId;
+                    return partidoDataFactory.getPartido(partidoId);
+                },
+                listPartidos: function () {
+                    return { value: [] };
+                },
+                listEquipos: function () {
+                    return { value: [] };
+                },
+                infoTorneo: function () {
+                    return { value: [] };
+                },
+                listArbitros: function (arbitroDataFactory) {
+                    return arbitroDataFactory.getArbitros();
                 }
             }
         })
