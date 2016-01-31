@@ -1,0 +1,54 @@
+﻿<md-dialog layout="column" flex="100">
+    <md-dialog-content>
+        <md-content>
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+
+                    <input placeholder="Buscar" class="md-input" type="search" ng-model="search" />
+                    <span flex></span>
+                    <md-icon><i class="mdi-action-search "></i></md-icon>
+
+                </div>
+
+
+            </md-toolbar>
+        </md-content>
+
+        <div flex="70">
+            
+                <md-content>
+
+                    <md-list ng-repeat="equipo in equiposLiga | filter: search">
+                        <md-list-item class="md-3-line" layout="row">
+                            <img class="md-avatar" style="min-width: 100px; min-height: 100px" />
+                            <div class="md-list-item-text">
+                                <h3>{{equipo.Nombre}}</h3>
+                                <!--<h4>Al dia: {{equipo.alDia}}</h4>-->
+                            </div>
+                            <md-checkbox class="md-secondary" aria-label="checkbox" ng-change="addCheck(equipo)" ng-model="equipo.isChecked"></md-checkbox>
+                        </md-list-item>
+                            
+                    </md-list>
+                    <md-actions layout="row" layout-align="end end">
+                        <md-button ng-click="variable = true">Agregar Nuevo</md-button>
+                        <md-button ng-click="addEquipos(equiposTorneo)">Agregar</md-button>
+                        <md-button ng-click="cancelar()">Cancelar</md-button>
+                    </md-actions>
+                </md-content>   
+            <md-divider></md-divider>
+
+            <div ng-show="variable">
+                <md-input-container>
+                    <label>Nuevo equipo</label>
+                    <input type="text" ng-model="equipo.Nombre" />
+                </md-input-container>
+                <md-actions layout="column" layout-align="end end">
+                    <md-button ng-click="addEquipo(equipo)">Agregar</md-button>
+                    <md-button ng-click="variable = false">Cancelar</md-button>
+                </md-actions> 
+            </div>
+                    
+        </div>
+        
+    </md-dialog-content>
+</md-dialog>

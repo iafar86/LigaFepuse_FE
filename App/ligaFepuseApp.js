@@ -7,15 +7,15 @@
 
         cfpLoadingBarProvider.includeSpinner = true;
         cfpLoadingBarProvider.includeBar = true;
-        
+
 
         $urlRouterProvider.otherwise("/App/Home");
 
         $stateProvider
 
         //#region App
-        .state('app', {            
-            abstract: true,	
+        .state('app', {
+            abstract: true,
             url: '/App',
             views: {
                 '': {
@@ -43,6 +43,15 @@
         })
 
          //#endregion
+
+        //#region seguridad
+
+            .state('app.dashboard.login', {
+                url: '/Login',
+                templateUrl: 'App/Template/login.html'
+            })
+
+        //#endregion
 
         //#region Torneos
             .state('torneo', {
@@ -73,7 +82,7 @@
         })
              .state('torneo.info', {
                  url: '/Torneo/:torneoId',
-                 templateUrl: 'App/Torneo/Partials/torneoInfo.html',                 
+                 templateUrl: 'App/Torneo/Partials/torneoInfo.html',
                  controller: 'torneoCtrl',
                  resolve: {
                      torneoDataFactory: 'torneoDataFactory',
@@ -115,10 +124,31 @@
 
             //#endregion
 
-         .state('app.dashboard.login', {
-             url: '/Login',
-             templateUrl: 'App/Template/login.html'
-         })
+        //#region Fechas
+
+             .state('fecha', {
+                 abstract: true,
+                 url: '',
+                 views: {
+                     '': {
+                         templateUrl: 'App/Template/layout.html'
+                     },
+                     'content': {
+                         templateUrl: 'App/Dashboard/Dashboard.html'
+                     }
+                 }
+             })
+
+             .state('fecha.fechasAdd', {
+                 url: '/FechasAdd',
+                 templateUrl: 'App/Fecha/Partials/fechaAdd.html'
+                 //controller: 'fechaCtrl'
+                 //resolve: {
+
+                 //    }
+             })
+         //#endregion
+
 
         //#region Equipos
             .state('equipo', {
@@ -145,21 +175,50 @@
                  torneoList: function (torneoDataFactory) {
                      return torneoDataFactory.getTorneos();
                  },
+                 equiposLiga: function () {
+                     return { value: [] };
+                 }
 
                  //torneoInfo: function (torneoDataFactory) {
                  //    return torneoDataFactory.getTorneo(infoTorneo.Id);
                  //}                
              }
          })
+            .state('equipo.laLiga', {
+                url: '/LaLiga',
+                templateUrl: 'App/Equipo/Partials/equiposLiga.html',
+                controller: 'equipoCtrl',
+                resolve: {
+                    equipoDataFactory: 'equipoDataFactory',
 
-        .state('equipo.equiposLiga', {
-            url: '/EquiposLiga',
-            templateUrl: 'App/Equipo/Partials/equiposLiga.html',
-            controller: 'equipoCtrl',
-            resolve:{
-                equipoDataFactory: 'equipoDataFactory',
-                equiposLiga: function(){
-                    return equipoDataFactory.getEquiposLiga();
+                    torneoDataFactory: 'torneoDataFactory',
+
+                    torneoList: function (torneoDataFactory) {
+                        return torneoDataFactory.getTorneos();
+                    },
+                    equiposLiga: function (equipoDataFactory) {
+                        return equipoDataFactory.getEquiposLiga();
+                    }
+
+                    //torneoInfo: function (torneoDataFactory) {
+                    //    return torneoDataFactory.getTorneo(infoTorneo.Id);
+                    //}                
+                }
+            })
+
+            .state('equipo.listadoLiga', {
+                url: '/EquiposLiga',
+                templateUrl: 'App/Equipo/Partials/prueba.html',
+                controller: 'equipoCtrl',
+                resolve: {
+                    equipoDataFactory: 'equipoDataFactory',
+                    torneoDataFactory: 'torneoDataFactory',
+
+                    torneoList: function () {
+                        return {value: []}
+                    },
+                    equiposLiga: function () {
+                        return equipoDataFactory.getEquiposLiga();
                 }
             }
         })
@@ -202,11 +261,35 @@
                 },
                 listArbitros: function (arbitroDataFactory) {
                     return arbitroDataFactory.getArbitros();
+                    }
                 }
-            }
-        })
+            })
         //#endregion
 
+        //#region Jugadores
+            .state('jugador', {
+                abstract: true,
+                url: '',
+                views: {
+                    '': {
+                        templateUrl: 'App/Template/layout.html'
+                    },
+                    'content': {
+                        templateUrl: 'App/Dashboard/Dashboard.html'
+                    }
+                }
+            })
 
+
+            .state('jugador.jugadorAdd', {
+                url: '/JugadorNuevo',
+                templateUrl: 'App/Jugador/Partials/jugadorInfo.html',
+                controller: 'jugadorCtrl',
+                resolve: {
+
+                }
+            })
+
+        //#endregion
 
     })

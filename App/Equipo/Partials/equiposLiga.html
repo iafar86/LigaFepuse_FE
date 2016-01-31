@@ -1,25 +1,37 @@
-﻿<div layout="column" class="container">
+﻿<div layout="column" class="container " flex ="100">
     <h4 class="page-head-line">Equipos de la Liga</h4>
-    <md-content>
-        <md-toolbar>
-            <div class="md-toolbar-tools">
+    <div class="md-whiteframe-z2">
+        <md-content>
+            <md-toolbar>
+                <div class="md-toolbar-tools">
 
-                <input class="form-control" placeholder="Buscar" type="search" ng-model="search" />
-                <!--<span flex></span>-->
-                <!--<md-icon><i class="mdi-action-search "></i></md-icon>-->
+                    <input placeholder="Buscar equipos..." class="md-input" type="search" ng-model="search" />
+                    <span flex></span>
+                    <md-icon><i class="mdi-action-search "></i></md-icon>
 
-            </div>
-        </md-toolbar>
+                </div>
+
+
+            </md-toolbar>
+        </md-content>
         <md-list ng-repeat="equipo in equiposLiga | filter: search">
             <md-list-item class="md-3-line" layout="row">
-                <img class="md-avatar"  style="min-width: 100px"/>
+                <img class="md-avatar" style="min-width: 100px; min-height: 100px" />
                 <div class="md-list-item-text">
                     <h3>{{equipo.Nombre}}</h3>
                     <h4 ng-if="equipo.AlDia">Al dia: Si</h4>
                     <h4 ng-if="equipo.AlDia">Al dia: No</h4>
                 </div>
             </md-list-item>
-
+            <md-actions layout="row" layout-align="end center">
+                <md-button>Ver</md-button>
+                <md-button>Eliminar</md-button>
+            </md-actions>
+            <md-divider></md-divider>
         </md-list>
-    </md-content>
+    </div>
+
 </div>
+<nav mfb-menu position="br" effect="zoomin" active-icon="mdi-content-clear" class="md-fab" label="Nuevo Torneo" resting-icon="mdi-content-add" toggling-method="hover" ng-click=" nuevoEquipoLiga(ev)">
+    <!--style="background-color: #D32F2F"-->
+</nav>

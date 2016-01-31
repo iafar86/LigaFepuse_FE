@@ -1,4 +1,9 @@
-﻿<div class="container">
+﻿<style>
+    .selectdemoBasicUsage md-input-container {
+  margin-right: 10px; }
+
+</style>
+<div class="container">
 
     <div layout="row" class="md-inline-form">
         <md-card layout="row" layout-align="center" flex="30">
@@ -17,16 +22,70 @@
 
         <md-card flex="60">
             <md-card-content layout="column">
-                <div layout="row">
+                <!--<div layout="row">
                     <md-input-container flex="35">
                         <label>Matricula</label>
                         <input ng-model="jugador.Matricula">
-                    </md-input-container>
-                    <md-select placeholder="Seleccione el Equipo" ng-model="jugador.EquipoId" aria-label="Seleccion Equipo" style="min-width: 200px;">
-                        <md-option ng-repeat="profesion in profesiones" value="{{profesion.Nombre}}">
-                            {{profesion.Nombre}}
-                        </md-option>
-                    </md-select>
+                    </md-input-container>                   
+                        <md-select placeholder="Seleccione el Equipo" ng-model="jugador.EquipoId" aria-label="Seleccion Equipo">
+                            <md-option ng-repeat="profesion in profesiones" value="{{profesion.Nombre}}">
+                                {{profesion.Nombre}}
+                            </md-option>
+                        </md-select>
+                    
+                  
+                </div>-->
+
+                <div class="md-padding" ng-cloak>
+                    <div>
+                        <h1 class="md-title">Enter an address</h1>
+                        <div layout="row">
+                            
+
+                                    <md-input-container  >
+                                        <label>Street Name</label>
+                                        <input>
+                                    </md-input-container>
+
+                            <md-input-container >
+                                <label>City</label>
+                                <input>
+                            </md-input-container>                                        
+
+                            <md-input-container class="md-block">
+                                <!--<label>State</label>-->
+                                <md-select ng-model="ctrl.userState" aria-label="state" placeholder="States">
+                                    <md-option ng-repeat="state in ctrl.states" value="{{state.abbrev}}">
+                                        {{state.abbrev}}
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
+                                                           
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div layout="row" layout-align="start"> 
+                    <div flex="25">
+                        <md-input-container layout-margin>
+                            <label>Matricula</label>
+                            <input ng-model="jugador.Dni">
+                        </md-input-container>
+                    </div>
+                    <div flex="50">
+                        <md-select placeholder="Seleccione el Equipo 1" ng-model="jugador.EquipoId" aria-label="Seleccion Equipo">
+                            <md-option ng-repeat="profesion in profesiones" value="{{profesion.Nombre}}">
+                                {{profesion.Nombre}}
+                            </md-option>
+
+                        </md-select>
+                    </div>
+                        
+
+                    
                 </div>
                 <div layout="row">
                     <md-input-container flex="25">
