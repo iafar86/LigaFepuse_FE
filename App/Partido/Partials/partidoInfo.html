@@ -7,7 +7,7 @@
     <!--#region Datos Generales del Partido-->
     <div class="row row-sm">
         <div layout="row">
-            <div flex="31">
+            <div flex="60">
                 <div class="form-group has-error">
                     <label class="control-label" for="torneo">Torneo</label>
                     <br />
@@ -182,7 +182,7 @@
 </div>
 
 <!--#region fpaz: menu flotante-->
-<div layout="row" layout-align="star center">
+<div layout="row" layout-align="star center" ng-show="!partido.Finalizado">
     <!--<div flex="60"><h2>Agrega puestos en la oferta</h2></div>
     <div flex="30"><md-button class="md-fab " aria-label="PuestosAdd" ng-click="AbrirParaAgregar()"><i class="fa fa-plus"></i></md-button> </div>-->
 
@@ -192,6 +192,7 @@
         <button mfb-button icon="mdi-image-edit" label="Editar Partido" ng-click="edit()"></button>
         <button mfb-button icon="mdi-content-save" label="Guardar Cambios" ng-click="saveUpdate()"></button>
         <button mfb-button icon="mdi-action-delete" label="Cancelar Cambios" ng-click="cancelEdit()"></button>
+        <button mfb-button icon="mdi-action-get-app" label="Finalizar Partido" ng-click="finPartido()"></button>        
     </nav>
 </div>
 <!--#endregion-->

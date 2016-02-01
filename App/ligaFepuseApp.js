@@ -121,7 +121,23 @@
                     }
                 }
             })
-
+            .state('torneo.info.tablaPos', {
+                url: '/Tabla',
+                views: {
+                    'tabla': {
+                        templateUrl: 'App/Torneo/Partials/torneoTablaPosiciones.html',
+                        controller: 'equipoTorneoCtrl',
+                        resolve: {
+                            equipoTorneoDataFactory: 'equipoTorneoDataFactory',
+                            tablaPosiciones: function (equipoTorneoDataFactory, $stateParams) {
+                                var torneoId = $stateParams.torneoId;
+                                return equipoTorneoDataFactory.getTablaPosiciones(torneoId);
+                            }
+                        }
+                    }
+                }
+                
+            })
             //#endregion
 
         //#region Fechas

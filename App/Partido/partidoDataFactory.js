@@ -36,6 +36,7 @@
             },
 
             function (response) {
+                console.log("error en partidoDataFactory");
                 deferred.reject(response.data);
             });
         return deferred.promise;
