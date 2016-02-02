@@ -26,7 +26,7 @@
         //var prmIdLiga = authSvc.authentication.ligaId;
         return $http.get(urlApi + '/api/Equipoes', {
             params: {
-                prmIdLiga: 2,// cambiar para liga 1
+                prmIdLiga: 1,// cambiar para liga 1
             }
         }).then(function (response) {
             console.log(response.data);
@@ -38,7 +38,7 @@
     var _getEquipos = function () { //trae todos los equipos de un torneo
         return $http.get(urlApi + '/api/Equipoes', {
             params: {
-                prmIdLiga: 2,// cambiar para liga 1
+                prmIdLiga: 1,// cambiar para liga 1
                 prmIdTorneo: prmTorneo
             }
         }).then(

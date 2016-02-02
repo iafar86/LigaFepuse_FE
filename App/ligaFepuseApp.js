@@ -175,9 +175,12 @@
                  torneoList: function (torneoDataFactory) {
                      return torneoDataFactory.getTorneos();
                  },
-                 equiposLiga: function () {
-                     return { value: [] };
-                 }
+                 equiposLiga: function (equipoDataFactory) {
+                        return equipoDataFactory.getEquiposLiga();
+                    }
+                 //equiposLiga: function (equiposDataFactory) {
+                 //    return equiposDataFactory.getEquiposLiga();
+                 //}
 
                  //torneoInfo: function (torneoDataFactory) {
                  //    return torneoDataFactory.getTorneo(infoTorneo.Id);
@@ -197,7 +200,16 @@
                         return torneoDataFactory.getTorneos();
                     },
                     equiposLiga: function (equipoDataFactory) {
-                        return equipoDataFactory.getEquiposLiga();
+                        equipoDataFactory.getEquiposLiga().then(function (response) {
+                            equiposLiga = response;
+                        },
+                        function (err) {
+                            if (err) {
+                                $scope.error = err;
+                                alert("Error: " + $scope.error.Message);
+                            }
+                        });
+                        return equiposLiga
                     }
 
                     //torneoInfo: function (torneoDataFactory) {

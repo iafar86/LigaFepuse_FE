@@ -150,7 +150,7 @@ function DialogControllerTorneo($scope, $mdDialog, torneoDataFactory) {
         //$scope.equipoListadoPrueba.push(equipo);
         //torneo.TorneoId = $scope.torneo.Id;
         var torneoAdd = {
-            LigaId: 2,
+            LigaId: 1,
             Nombre: torneo.Nombre,
             AñoInicio: torneo.AnioInicio,
             AñoFin: torneo.AnioFin
