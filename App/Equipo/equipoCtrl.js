@@ -51,14 +51,15 @@
             torneo: $scope.torneoSelect,
             listadoEquiposTorneo: $scope.listadoEquiposTorneo
         })
-        .then(function (equiposTorneo,bandera) {
-            torneoDataFactory.getTorneo().then(function (response) {
-                $scope.listadoEquiposTorneo = response.EquiposTorneo;
+        .then(function (listadoEquiposTorneo) {
+            //$scope.obtenerEquipos();
+            torneoDataFactory.getTorneo($scope.torneoSelect.Id).then(function (response) {
+                $scope.listadoEquiposTorneo = response.EquipoTorneos;
             })
-            if (bandera == null) {
-                $scope.torneoSelect = bandera;
-                $scope.variable = bandera;
-            }
+            //if (bandera == null) {
+            //    $scope.torneoSelect = bandera;
+            //    $scope.variable = bandera;
+            //}
         });
         $scope.$watch(function () {
             return $mdMedia('xs') || $mdMedia('sm');
@@ -182,16 +183,16 @@ function DialogController($scope, $mdDialog, equiposLiga, torneo, torneoDataFact
     $scope.equiposLiga = equiposLiga;
     $scope.equiposAdd = [];
 
-    $scope.listadoEquiposTorneo = [];
+    $scope.listadoTem = [];
     $scope.listadoEquiposTorneo = listadoEquiposTorneo;
 
     //Region agrega equipos a una lista temporal para agregar al torneo
     $scope.addCheck = function (equipo) {
         if (equipo.isChecked) {
-            $scope.listadoEquiposTorneo.push(equipo);
+            $scope.listadoTem.push(equipo);
         } else {
-            var index = $scope.listadoEquiposTorneo.indexOf(equipo);
-            $scope.listadoEquiposTorneo.splice(index, 1);
+            var index = $scope.listadoTem.indexOf(equipo);
+            $scope.listadoTem.splice(index, 1);
         }        
     }
     //#endRegion
@@ -211,8 +212,14 @@ function DialogController($scope, $mdDialog, equiposLiga, torneo, torneoDataFact
     }
 
     //#Region alta de equipos en un torneo
-    $scope.addEquipos = function (listadoEquiposTorneo)
+    $scope.addEquipos = function (listadoTem)
     {
+        for (i=0; i< listadoTem.length; i++) {
+            equipoAgregado = {
+                EquipoId: listadoTem[i].Id
+            }
+            listadoEquiposTorneo.push(equipoAgregado);
+        }
         
         
         //$scope.equiposAdd.push(equipoListadoPrueba);
@@ -222,34 +229,14 @@ function DialogController($scope, $mdDialog, equiposLiga, torneo, torneoDataFact
             AñoInicio: torneo.AñoInicio,
             AñoFin: torneo.AñoFin,
             LigaId: torneo.LigaId,
-            Liga: null,
-            Fechas: null,
-            Arbitros: null,
-            EquiposJugadorTorneos: null,
             EquipoTorneos: listadoEquiposTorneo
         };
         //Agrego los equipos al torneo
         torneoDataFactory.putTorneo(torneo.Id, torneoAdd).then(function (response) {
             alert("Se agregaron los equipos correctamente");
-
-            
-            bandera = true;
-            $mdDialog.hide(bandera);
-            //$scope.equipoListadoPrueba = [];
-
-            //torneoDataFactory.getTorneo(torneo.Id).then(function (response) {
-            //    $scope.listadoEquipos = response.Equipos;
-            //    alert("Entra" + listadoEquipos);
-            //},
-            //function (err) {
-            //    if (err) {
-            //        $scope.error = err;
-            //        alert("Error: " + $scope.error.Message);
-            //    }
-            //});
-
-
-
+            $mdDialog.hide();
+            //bandera = true;
+            //$mdDialog.hide();
         },
         function (err) {
             if (err) {

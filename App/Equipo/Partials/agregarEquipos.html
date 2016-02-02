@@ -7,7 +7,10 @@
                     <input placeholder="Buscar" class="md-input" type="search" ng-model="search" />
                     <span flex></span>
                     <md-icon><i class="mdi-action-search "></i></md-icon>
-
+                    <span flex></span>
+                    <md-button class="md-icon-button" ng-click="cancel()">
+                        <md-icon class="fa fa-times"></md-icon>
+                    </md-button>
                 </div>
 
 
@@ -31,7 +34,7 @@
                     </md-list>
                     <md-actions layout="row" layout-align="end end">
                         <md-button ng-click="variable = true">Agregar Nuevo</md-button>
-                        <md-button ng-click="addEquipos(listadoEquiposTorneo)">Agregar</md-button>
+                        <md-button ng-click="addEquipos(listadoTem)">Agregar</md-button>
                         <md-button ng-click="cancelar()">Cancelar</md-button>
                     </md-actions>
                 </md-content>   
