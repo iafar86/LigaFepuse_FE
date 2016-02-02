@@ -5,7 +5,7 @@
     var _getArbitros = function () { //trae la info de la fecha y los partidos de la fecha para mostrarlos en el fixture            
         return $http.get(urlApi + 'api/Arbitroes', {
             params: {
-                prmIdLiga: 2, //cambiar por 1
+                prmIdLiga: 1, //cambiar por 1
             }
         }).then(
             function (response) {

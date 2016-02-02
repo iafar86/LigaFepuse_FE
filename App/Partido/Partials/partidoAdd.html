@@ -26,14 +26,14 @@
                         <div flex="50">
                             <md-input-container style="margin-right: 10px;">
                                 <md-select placeholder="Seleccionar Equipo Local" ng-model="partido.EquipoLocal">
-                                    <md-option ng-value="equipo" ng-repeat="equipo in listEquipos">{{ equipo.Nombre }}</md-option>
+                                    <md-option ng-value="equipo.Equipo" ng-repeat="equipo in listEquipos">{{ equipo.Equipo.Nombre }}</md-option>
                                 </md-select>
                             </md-input-container>
                         </div>
                         <div flex="50">
                             <md-input-container>
                                 <md-select placeholder="Seleccionar Equipo Visitante" ng-model="partido.EquipoVisitante">
-                                    <md-option ng-value="equipo" ng-repeat="equipo in listEquipos">{{ equipo.Nombre }}</md-option>
+                                    <md-option ng-value="equipo.Equipo" ng-repeat="equipo in listEquipos">{{ equipo.Equipo.Nombre }}</md-option>
                                 </md-select>
                             </md-input-container>
                         </div>
@@ -58,7 +58,7 @@
                         <div flex="50">
                             <md-input-container style="margin-right: 10px;">
                                 <md-select placeholder="Seleccionar Arbitro del Partido" ng-model="partido.Arbitro">
-                                    <md-option ng-value="arbitro" ng-repeat="arbitro in listArbitros">{{ arbitro.Nombre + ' ' + arbitro.Apellido }}</md-option>
+                                    <md-option ng-value="arbitro" ng-repeat="arbitro in listArbitros">{{ arbitro.NombreApellido }}</md-option>
                                 </md-select>
                             </md-input-container>
                         </div>
@@ -66,8 +66,6 @@
                     <!--#endregion-->
                 </div>
             </div>
-            </div>
-
         </md-dialog-content>
     </form>
     <md-dialog-actions layout="row">

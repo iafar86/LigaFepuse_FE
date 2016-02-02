@@ -1,4 +1,4 @@
-﻿var ligaFepuseApp = angular.module('ligaFepuseApp', ['ngMaterial', 'ng-mfb', 'ngMdIcons', 'ngResource', 'ui.router', 'ngCookies', 'ngTable', 'ngSanitize', 'ngAnimate',
+﻿var ligaFepuseApp = angular.module('ligaFepuseApp', ['ngMaterial', 'ng-mfb','ngMdIcons', 'ngResource', 'ui.router', 'ngCookies', 'ngTable', 'ngSanitize', 'ngAnimate',
  'ngAria', 'ct.ui.router.extras', 'angular-loading-bar', 'daypilot', 'LocalStorageModule', 'angular-jwt', 'ui.bootstrap'])
     .config(function ($stateProvider, $urlRouterProvider, $httpProvider, $stickyStateProvider, cfpLoadingBarProvider) {
         //'ngResource', 'ngMdIcons', 'ui.router', 'ngCookies', 'ngTable',
@@ -121,7 +121,23 @@
                     }
                 }
             })
-
+            .state('torneo.info.tablaPos', {
+                url: '/Tabla',
+                views: {
+                    'tabla': {
+                        templateUrl: 'App/Torneo/Partials/torneoTablaPosiciones.html',
+                        controller: 'equipoTorneoCtrl',
+                        resolve: {
+                            equipoTorneoDataFactory: 'equipoTorneoDataFactory',
+                            tablaPosiciones: function (equipoTorneoDataFactory, $stateParams) {
+                                var torneoId = $stateParams.torneoId;
+                                return equipoTorneoDataFactory.getTablaPosiciones(torneoId);
+                            }
+                        }
+                    }
+                }
+                
+            })
             //#endregion
 
         //#region Fechas
@@ -231,6 +247,48 @@
                     },
                     equiposLiga: function () {
                         return equipoDataFactory.getEquiposLiga();
+                }
+            }
+        })
+        //#endregion
+
+        //#region Partidos
+        .state('partido', {
+            abstract: true,
+            url: '',
+            views: {
+                '': {
+                    templateUrl: 'App/Template/layout.html'
+                },
+                'content': {
+                    templateUrl: 'App/Dashboard/Dashboard.html'
+                }
+            }
+        })
+        .state('partido.info', {
+            url: '/Partido/:partidoId',
+            templateUrl: 'App/Partido/Partials/partidoInfo.html',
+            controller: 'partidoCtrl',
+            resolve: {
+                partidoDataFactory: 'partidoDataFactory',
+                //infoPartido: function () {
+                //    return { value: [] };
+                //},
+                infoPartido: function (partidoDataFactory, $stateParams) {
+                    var partidoId = $stateParams.partidoId;
+                    return partidoDataFactory.getPartido(partidoId);
+                },
+                listPartidos: function () {
+                    return { value: [] };
+                },
+                listEquipos: function () {
+                    return { value: [] };
+                },
+                infoTorneo: function () {
+                    return { value: [] };
+                },
+                listArbitros: function (arbitroDataFactory) {
+                    return arbitroDataFactory.getArbitros();
                     }
                 }
             })
