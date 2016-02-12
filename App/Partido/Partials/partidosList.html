@@ -39,8 +39,12 @@
                         <span class="text-muted block text-xs">
                             Arbitro : {{partido.nombreArbitro}}
                         </span>
-                        <a ui-sref="partido.info({partidoId: partido.Id})">Ver Detalle</a>                         
+                        
                     </div>
+                    <md-actions layout="row" layout-align="end end">
+                        <a ui-sref="partido.info({partidoId: partido.Id})">Ver Detalle</a>                         
+                    </md-actions>
+                    <md-divider></md-divider>
                 </div>
             </div>
         </div>
