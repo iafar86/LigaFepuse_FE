@@ -1,0 +1,67 @@
+﻿<md-dialog flex="90" aria-label="Nuevo Arbitro">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>{{func}} Arbitro</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="closeDialog()">
+                <i class="fa fa-times"></i>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <!--<div class="container">-->
+        <div layout="row" class="md-inline-form" layout-fill layout-align="center center">
+            <md-card layout="row" flex="30">
+                <md-card-content layout="column" layout-align="center center" layout-fill>
+                    <div class="md-media-xl card-media rounded">
+                        <!--iafar:Aqui se puede poner una imagen-->
+                        <ng-md-icon icon="person_add" style="fill: #abcdef" size="200"></ng-md-icon>
+                    </div>
+                </md-card-content>
+            </md-card>
+
+            <md-card flex="60">
+                <md-card-content layout="column">
+                    <div layout="row" style="height:60px">
+                        <md-input-container flex="30">
+                            <label>DNI</label>
+                            <input ng-model="arbitro.Dni" ng-disabled='edit'>
+                        </md-input-container>
+                        <md-input-container flex>
+                            <label>Nombre y Apellido</label>
+                            <input ng-model="arbitro.NombreApellido" ng-disabled='edit'>
+                        </md-input-container>
+                    </div>
+                    <div layout="row" style="height:60px">
+                        <md-input-container flex="25">
+                            <label>Telefono</label>
+                            <input ng-model="arbitro.Telefono" ng-disabled='edit'>
+                        </md-input-container>
+                        <md-input-container flex="35">
+                            <label>Direccion</label>
+                            <input ng-model="arbitro.Direccion" ng-disabled='edit'>
+                        </md-input-container>
+                        <md-input-container flex>
+                            <label>E-Mail</label>
+                            <input ng-model="arbitro.Email" ng-disabled='edit'>
+                        </md-input-container>
+                    </div>
+                 
+
+
+                </md-card-content>
+            </md-card>
+        </div>
+        <!--</div>-->
+        <md-dialog-actions layout="row" class="bg-primary">
+            <span flex></span>
+            <md-button class="md-raised" ng-hide="edit" ng-click="guardarArbitro()">Guardar</md-button>
+            <md-button class="md-raised" ng-show="edit" ng-click="editArbitro()">Editar</md-button>
+            <md-button class="md-raised md-shadow-animated" style="margin-right:20px;" ng-click="closeDialog('cancel')">Cancelar</md-button>
+        </md-dialog-actions>
+    </md-dialog-content>
+
+</md-dialog>
+
+
+

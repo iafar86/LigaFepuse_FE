@@ -1,0 +1,111 @@
+﻿
+<div layout="column" layout-fill>
+    <!--#region tabs de vista-->
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h1>
+                {{Torneo.Nombre}}/{{Equipo.Nombre}}
+            </h1>
+
+            <span flex></span>
+        </div>
+
+    </md-toolbar>
+    <!--#endregion-->
+    <!--#region Panel de resultados-->
+    <md-content style="background-color:#eee" flex>
+        <md-card>
+            <br />
+            <div class="md-toolbar-tools" flex>
+                <span flex="5"></span>
+                <md-input-container flex>
+                    <label class="md-title">Buscar</label>
+                    <input ng-model="search">
+                </md-input-container>
+                <ng-md-icon icon="search"></ng-md-icon>
+            </div>
+            <br />
+            <md-list>
+                <md-list-item ng-repeat="a in arbitroList | filter:search" style="height:150px">
+                    <!--ng-repeat="jugador in arbitros | ofertaFilter:search"-->
+                    <md-button class="inline-block animate-show input-btn" layout="row" layout-margin flex ng-click="arbitroInfo(a)">
+                        <!--ng-click="prueba(oferta.Nombre)"-->
+                        <div layout="row" layout-fill>
+                            <div flex="15" layout-margin>
+                                <div class="md-whiteframe-z1" flex>
+                                    <ng-md-icon icon="person_add" style="fill: #0b0053" size="80" flex="10"></ng-md-icon>
+                                    <!--<img src="../../../img/jugador.png" sizes="80" flex="10" class="img-responsive" />-->
+                                    <h6>{{a.Apodo}}</h6>
+                                </div>
+
+                            </div>
+
+                            <div flex="85" layout="column">
+                                <div layout="row" layout-wrap>
+                                    <div flex="25">
+                                        <label>DNI:</label>
+                                        <input ng-model="a.Dni" class="md-input" disabled>
+                                    </div>
+                                    <span flex="10"></span>
+                                    <div flex>
+                                        <label>Nombre y Apellido:</label>
+                                        <input ng-model="a.NombreApellido" class="md-input" disabled>
+                                    </div>
+                                </div>
+
+                                <div layout="row">
+                                    <div flex="25">
+                                        <label>Telefono</label>
+                                        <input ng-model="a.Telefono" class="md-input" disabled>
+                                    </div>
+                                    <span flex="10"></span>
+                                    <div flex>
+                                        <label>Direccion</label>
+                                        <input ng-model="a.Direccion" class="md-input" disabled>
+                                    </div>
+                                    <span flex="10"></span>
+                                    <div flex>
+                                        <label>E-Mail</label>
+                                        <input ng-model="a.Email" class="md-input" disabled>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <br />
+                            <md-divider md-inset hide-sm ng-if="!$last"></md-divider>
+                            <md-divider hide-gt-sm ng-if="!$last"></md-divider>
+                        </div>
+                    </md-button>
+                    <br />
+                </md-list-item>
+                <div class="text-center text-accent animate-show" ng-show="(arbitros | filter:search).length == 0">
+                    <h4>No se encontraron arbitros en la Liga</h4>
+                    <br />
+                </div>
+
+                <md-divider></md-divider>
+
+                <md-list-item>
+                    <md-button class="md-primary">
+
+                        <span>More</span>
+                    </md-button>
+                </md-list-item>
+            </md-list>
+        </md-card>
+        <!--#region iafar: menu flotante-->
+        <div layout="row" layout-align="star center">
+            <nav mfb-menu position="br" effect="zoomin" label="Nuevo Arbitro"
+                 active-icon="mdi-content-add" resting-icon="mdi-content-add"
+                 toggling-method="hover" ng-click="arbitroAdd()">
+                <!--<button mfb-button icon="glyphicon glyphicon-calendar" label="Agregar Nueva Fecha" ng-click="addFecha()"></button>
+                <button mfb-button icon="fa fa-futbol-o" label="Agregar Nuevo Partido" ng-click="addPartido()"></button>
+                <button mfb-button icon="fa fa-users" label="Agregar Nuevo Equipo"></button>-->
+            </nav>
+        </div>
+        <!--#endregion-->
+    </md-content>
+    <!--#endregion-->
+</div>
+
+

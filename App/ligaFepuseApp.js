@@ -1,5 +1,5 @@
 ﻿var ligaFepuseApp = angular.module('ligaFepuseApp', ['ngMaterial', 'ng-mfb','ngMdIcons', 'ngResource', 'ui.router', 'ngCookies', 'ngTable', 'ngSanitize', 'ngAnimate',
- 'ngAria', 'ct.ui.router.extras', 'angular-loading-bar', 'daypilot', 'LocalStorageModule', 'angular-jwt', 'ui.bootstrap'])
+ 'ngAria', 'ct.ui.router.extras', 'angular-loading-bar', 'daypilot', 'LocalStorageModule', 'angular-jwt', 'ui.bootstrap', 'twitter.timeline'])
     .config(function ($stateProvider, $urlRouterProvider, $httpProvider, $stickyStateProvider, cfpLoadingBarProvider) {
         //'ngResource', 'ngMdIcons', 'ui.router', 'ngCookies', 'ngTable',
         //  'ngSanitize', 'ngAnimate', 'ngAria', 'ct.ui.router.extras', 'angular-loading-bar', 'daypilot', 'LocalStorageModule', 'angular-jwt', 'ngMaterial',
@@ -295,29 +295,96 @@
         //#endregion
 
         //#region Jugadores
-            .state('jugador', {
-                abstract: true,
-                url: '',
-                views: {
-                    '': {
-                        templateUrl: 'App/Template/layout.html'
-                    },
-                    'content': {
-                        templateUrl: 'App/Dashboard/Dashboard.html'
-                    }
-                }
+           .state('jugador', {
+               abstract: true,
+               url: '',
+               views: {
+                   '': {
+                       templateUrl: 'App/Template/layout.html'
+                   },
+                   'content': {
+                       templateUrl: 'App/Dashboard/Dashboard.html'
+                   }
+               }
+           })
+
+
+            .state('jugador.jugadorInfo', {
+                url: '/JugadorInfo/', 
+                templateUrl: 'App/Jugador/Partials/jugadorInfo.html',
+                controller: 'jugadorCtrl'
             })
 
-
-            .state('jugador.jugadorAdd', {
-                url: '/JugadorNuevo',
-                templateUrl: 'App/Jugador/Partials/jugadorInfo.html',
+            .state('jugador.jugadorList', {
+                url: '/ListaJugadores/:idTorneo?idEquipo', //:idTorneo?idEquipo
+                templateUrl: 'App/Jugador/Partials/jugadorEquipo.html',
                 controller: 'jugadorCtrl',
                 resolve: {
-
+                    torneoDataFactory: 'torneoDataFactory',
+                    equipoDataFactory: 'equipoDataFactory',
+                    jugadorDataFactory: 'jugadorDataFactory',
+                    torneoInfo: function (torneoDataFactory, $stateParams) {
+                        var torneoId = $stateParams.idTorneo;
+                        return torneoDataFactory.getTorneo(torneoId)
+                    },
+                    equipoInfo: function(equipoDataFactory, $stateParams) {
+                        var equipoId = $stateParams.idEquipo;
+                        return equipoDataFactory.getEquipo(equipoId)
+                    },
+                    jugadoresList: function (jugadorDataFactory,$stateParams) {
+                        var torneoId = $stateParams.idTorneo;
+                        var equipoId = $stateParams.idEquipo;
+                        return jugadorDataFactory.getJugadoresEquipoTorneo(torneoId, equipoId)
+                    }
+                    
+                },
+                params: {
+                    idTorneo: "miTorneo",
+                    idEquipo: "miEquipo"
                 }
             })
 
         //#endregion
+
+        //#region Arbitros
+        .state('arbitro', {
+            abstract: true,
+            url: '',
+            views: {
+                '': {
+                    templateUrl: 'App/Template/layout.html'
+                },
+                'content': {
+                    templateUrl: 'App/Dashboard/Dashboard.html'
+                }
+            }
+        })
+
+         .state('arbitro.arbitroInfo', {
+             url: '/arbitroInfo',
+             templateUrl: 'App/Arbitro/Partials/arbitroInfo.html',
+             controller: 'arbitroCtrl'
+         })
+
+
+        .state('arbitro.arbitroList', {
+            url: '/arbitroList/:idLiga', 
+            templateUrl: 'App/Arbitro/Partials/arbitroList.html',
+            controller: 'arbitroCtrl',
+            resolve: {               
+                arbitroDataFactory: 'arbitroDataFactory',
+                arbitroList: function (arbitroDataFactory) {
+                   return arbitroDataFactory.getArbitros();
+                }
+
+            },
+            params: {
+                idLiga: "miLiga"
+            }
+        })
+
+
+        //#endregion
+
 
     })
