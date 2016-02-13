@@ -7,14 +7,14 @@
                     <table ng-table="tableParams" class="table ng-table-responsive" show-filter="true">
                         <tr ng-repeat="equipo in equiposLiga" style="border-bottom: 1px solid rgba(202, 202, 202, 0)">
                             <!--<md-content>
-                <md-toolbar>
-                    <div class="md-toolbar-tools">
-                        <input placeholder="Buscar equipos..."  class="md-input" type="search" ng-model="search" />
-                        <span flex></span>
-                        <md-icon><i class="mdi-action-search "></i></md-icon>
-                    </div>
-                </md-toolbar>
-            </md-content>-->
+                    <md-toolbar>
+                        <div class="md-toolbar-tools">
+                            <input placeholder="Buscar equipos..."  class="md-input" type="search" ng-model="search" />
+                            <span flex></span>
+                            <md-icon><i class="mdi-action-search "></i></md-icon>
+                        </div>
+                    </md-toolbar>
+                </md-content>-->
                             <td filter="{ 'Nombre': 'text' }" style="border-top: 1px solid rgb(250,250,250)" data-title="'Buscar equipos'">
 
                                 <div class="md-3-line" layout="row">
@@ -35,12 +35,84 @@
                     </table>
                 </md-content>
             </md-tab>
-        </md-tabs>
-
-        <md-tabs md-dynamic-height md-border-bottom>
-            <md-tab label="Arbitros">
+            <md-tab label="Arbitros" >
                 <md-content class="md-padding">
+                    <div class="md-toolbar-tools" flex>
+                        <span flex="5"></span>
+                        <md-input-container flex>
+                            <label class="md-title">Buscar</label>
+                            <input ng-model="search">
+                        </md-input-container>
+                        <ng-md-icon icon="search"></ng-md-icon>
+                    </div>
+                    <br />
+                    <md-list>
+                        <md-list-item ng-repeat="a in arbitroList | filter:search" style="height:150px">
+                            <!--ng-repeat="jugador in arbitros | ofertaFilter:search"-->
+                            <md-button class="inline-block animate-show input-btn" layout="row" layout-margin flex ng-click="arbitroInfo(a)">
+                                <!--ng-click="prueba(oferta.Nombre)"-->
+                                <div layout="row" layout-fill>
+                                    <div flex="15" layout-margin>
+                                        <div class="md-whiteframe-z1" flex>
+                                            <ng-md-icon icon="person_add" style="fill: #0b0053" size="80" flex="10"></ng-md-icon>
+                                            <!--<img src="../../../img/jugador.png" sizes="80" flex="10" class="img-responsive" />-->
+                                            <h6>{{a.Apodo}}</h6>
+                                        </div>
 
+                                    </div>
+
+                                    <div flex="85" layout="column">
+                                        <div layout="row" layout-wrap>
+                                            <div flex="25">
+                                                <label>DNI:</label>
+                                                <input ng-model="a.Dni" class="md-input" disabled>
+                                            </div>
+                                            <span flex="10"></span>
+                                            <div flex>
+                                                <label>Nombre y Apellido:</label>
+                                                <input ng-model="a.NombreApellido" class="md-input" disabled>
+                                            </div>
+                                        </div>
+
+                                        <div layout="row">
+                                            <div flex="25">
+                                                <label>Telefono</label>
+                                                <input ng-model="a.Telefono" class="md-input" disabled>
+                                            </div>
+                                            <span flex="10"></span>
+                                            <div flex>
+                                                <label>Direccion</label>
+                                                <input ng-model="a.Direccion" class="md-input" disabled>
+                                            </div>
+                                            <span flex="10"></span>
+                                            <div flex>
+                                                <label>E-Mail</label>
+                                                <input ng-model="a.Email" class="md-input" disabled>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <br />
+                                    <md-divider md-inset hide-sm ng-if="!$last"></md-divider>
+                                    <md-divider hide-gt-sm ng-if="!$last"></md-divider>
+                                </div>
+                            </md-button>
+                            <br />
+                        </md-list-item>
+                        <div class="text-center text-accent animate-show" ng-show="(arbitros | filter:search).length == 0">
+                            <h4>No se encontraron arbitros en la Liga</h4>
+                            <br />
+                        </div>
+
+                        <md-divider></md-divider>
+
+                        <md-list-item>
+                            <md-button class="md-primary">
+
+                                <span>More</span>
+                            </md-button>
+                        </md-list-item>
+                    </md-list>
                 </md-content>
             </md-tab>
         </md-tabs>
@@ -53,7 +125,13 @@
 
       </div>
 </div>
-<nav mfb-menu position="br" effect="zoomin" active-icon="mdi-content-clear" class="md-fab" label="Nuevo Equipo" resting-icon="mdi-content-add" toggling-method="hover" ng-click="nuevoEquipoLiga(ev)">
+
+<nav mfb-menu position="br" effect="zoomin" label="Herramientas"
+     active-icon="mdi-content-clear" resting-icon="mdi-content-add"
+     toggling-method="hover">
+    <button mfb-button icon="fa fa-futbol-o" label="Agregar Equipo" ng-click="nuevoEquipoLiga(ev)"></button>
+    <button mfb-button icon="mdi-social-person-add" label="Agregar Arbitro" ng-click="arbitroAdd()"></button>
+
     <!--style="background-color: #D32F2F"-->
 </nav>
 

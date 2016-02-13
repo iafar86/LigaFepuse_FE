@@ -193,7 +193,11 @@
                  },
                  equiposLiga: function (equipoDataFactory) {
                         return equipoDataFactory.getEquiposLiga();
-                    }
+                 },
+
+                 arbitroList: function (arbitroDataFactory) {
+                     return arbitroDataFactory.getArbitros();
+                 }
                  //equiposLiga: function (equiposDataFactory) {
                  //    return equiposDataFactory.getEquiposLiga();
                  //}
@@ -207,11 +211,11 @@
                 url: '/LaLiga',
                 templateUrl: 'App/Equipo/Partials/equiposLiga.html',
                 controller: 'equipoCtrl',
+                //controller: 'arbitroCtrl',
                 resolve: {
-                    equipoDataFactory: 'equipoDataFactory',
-
                     torneoDataFactory: 'torneoDataFactory',
-
+                    equipoDataFactory: 'equipoDataFactory',
+                    arbitroDataFactory: 'arbitroDataFactory',
                     torneoList: function (torneoDataFactory) {
                         return torneoDataFactory.getTorneos();
                     },
@@ -226,13 +230,19 @@
                             }
                         });
                         return equiposLiga
-                    }
+                    },
 
+                    arbitroList: function (arbitroDataFactory) {
+                        return arbitroDataFactory.getArbitros();
+                    },
+
+                    //arbitroCtrl:'arbitroCtrl'
                     //torneoInfo: function (torneoDataFactory) {
                     //    return torneoDataFactory.getTorneo(infoTorneo.Id);
                     //}                
                 }
             })
+            
 
             .state('equipo.listadoLiga', {
                 url: '/EquiposLiga',
