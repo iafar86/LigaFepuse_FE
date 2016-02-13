@@ -1,36 +1,50 @@
 ﻿<div layout="column" class="container " flex ="100">
     <h4 class="page-head-line">Equipos de la Liga</h4>
     <div class="md-whiteframe-z2" style="max-width: 700px">
-        
-        <table ng-table="tableParams" class="table ng-table-responsive" show-filter="true">
-            <tr ng-repeat="equipo in equiposLiga" style="border-bottom: 1px solid rgba(202, 202, 202, 0)">
-                <!--<md-content>
-                    <md-toolbar>
-                        <div class="md-toolbar-tools">
-                            <input placeholder="Buscar equipos..."  class="md-input" type="search" ng-model="search" />
-                            <span flex></span>
-                            <md-icon><i class="mdi-action-search "></i></md-icon>
-                        </div>
-                    </md-toolbar>
-                </md-content>-->
-                <td filter="{ 'Nombre': 'text' }" style="border-top: 1px solid rgb(250,250,250)" data-title="'Buscar equipos'">
-
-                    <div class="md-3-line" layout="row">
-                        <img class="img-circle" src="http://www.ole.com.ar/bbtfile/5012_20150908naA9Cs.png" style="min-width: 100px; min-height: 100px" />
-                        <div class="md-list-item-text" style="padding-left: 12px">
-                            <h2 style="color:#F0677C; font-weight: 900">{{equipo.Nombre}}</h2>
-                            <h3 ng-show="equipo.AlDia = true">Al dia: Si</h3>
-                            <h3 ng-hide="equipo.AlDia = true">Al dia: No</h3>
-                        </div>
+        <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab label="Equipos">
+                <md-content class="md-padding">
+                    <table ng-table="tableParams" class="table ng-table-responsive" show-filter="true">
+                        <tr ng-repeat="equipo in equiposLiga" style="border-bottom: 1px solid rgba(202, 202, 202, 0)">
+                            <!--<md-content>
+                <md-toolbar>
+                    <div class="md-toolbar-tools">
+                        <input placeholder="Buscar equipos..."  class="md-input" type="search" ng-model="search" />
+                        <span flex></span>
+                        <md-icon><i class="mdi-action-search "></i></md-icon>
                     </div>
-                    <md-list-actions layout="row" layout-align="end center">
-                        <md-button>Ver</md-button>
-                        <md-button>Eliminar</md-button>
-                    </md-list-actions>
-                    <div ng-if="!$last" class="page-head-line" style="margin-bottom: 0px"></div>
-                </td>
-            </tr>
-        </table>
+                </md-toolbar>
+            </md-content>-->
+                            <td filter="{ 'Nombre': 'text' }" style="border-top: 1px solid rgb(250,250,250)" data-title="'Buscar equipos'">
+
+                                <div class="md-3-line" layout="row">
+                                    <img class="img-circle" src="http://www.ole.com.ar/bbtfile/5012_20150908naA9Cs.png" style="min-width: 100px; min-height: 100px" />
+                                    <div class="md-list-item-text" style="padding-left: 12px">
+                                        <h2 style="color:#F0677C; font-weight: 900">{{equipo.Nombre}}</h2>
+                                        <h3 ng-show="equipo.AlDia = true">Al dia: Si</h3>
+                                        <h3 ng-hide="equipo.AlDia = true">Al dia: No</h3>
+                                    </div>
+                                </div>
+                                <md-list-actions layout="row" layout-align="end center">
+                                    <md-button>Ver</md-button>
+                                    <md-button>Eliminar</md-button>
+                                </md-list-actions>
+                                <div ng-if="!$last" class="page-head-line" style="margin-bottom: 0px"></div>
+                            </td>
+                        </tr>
+                    </table>
+                </md-content>
+            </md-tab>
+        </md-tabs>
+
+        <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab label="Arbitros">
+                <md-content class="md-padding">
+
+                </md-content>
+            </md-tab>
+        </md-tabs>
+
         <!--<md-virtual-repeat-container id="vertical-container">
             <div md-virtual-repeat="item in items" class="repeated-item" flex>
                 {{item}}
