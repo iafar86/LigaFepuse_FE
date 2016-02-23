@@ -1,23 +1,163 @@
-﻿<script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + "://platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs); } }(document, "script", "twitter-wjs");</script>
-<div layout="row" flex>
-    <div class="p-h b-b b-light">
-        <ul class="nav nav-lines nav-md b-info">
-            <li class="active">LIGA FE.PU.SE</li>
-        </ul>
+﻿<div class="container">
+    <div layout="row">
+        <div flex>
+            <h4 class="page-head-line">Noticias</h4>
+
+        </div>
+
     </div>
-    <div flex="70">
-        <!--<div class="fb-page" data-href="https://www.facebook.com/unesiexactas/" data-tabs="timeline" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true">
-          <div class="fb-xfbml-parse-ignore">
-                    <blockquote cite="https://www.facebook.com/unesiexactas/">
-                      <a href="https://www.facebook.com/unesiexactas/">Unesi Exactas - UNSE</a>
-                    </blockquote>
-          </div>
-        </div>-->
+
+
+    <div layout="row">
+        <div layout="column" flex="75">
+            <br />
+            <md-toolbar class="md-table-toolbar md-default">
+                <div class="md-toolbar-tools">
+                    <md-input-container>
+                        <span>Torneo : </span>
+                    </md-input-container>
+
+                    <md-input-container flex>
+                        <md-select placeholder="Seleccione un torneo" ng-model="torneoSelect" md-on-close="tablaShow()">
+                            <md-option ng-repeat="torneo in torneos" value="{{torneo.Id}}">
+                                {{torneo.Nombre}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+
+                </div>
+            </md-toolbar>
+
+            <!--#region Tabla Posiciones -->
+            <md-table-container style="height:400px">
+                <table md-table>
+                    <thead md-head md-order="query.order" md-on-reorder="onReorder">
+                        <tr md-row>
+                            <th md-column md-numeric>N°</th>
+                            <th md-column md-numeric>Equipo</th>
+                            <th md-column md-numeric>PJ</th>
+                            <th md-column md-numeric>PG</th>
+                            <th md-column md-numeric>PE</th>
+                            <th md-column md-numeric>PP</th>
+                            <th md-column md-numeric>GF</th>
+                            <th md-column md-numeric>GC</th>
+                            <th md-column md-numeric>DG</th>
+                            <th md-column md-numeric>PTS</th>
+                        </tr>
+                    </thead>
+                    <tbody md-body>
+                        <tr md-row ng-repeat="equipo in tablaPos | limitTo: query.limit: (query.page - 1) * query.limit ">
+                            <td md-cell>{{$index+1}}</td>
+                            <td md-cell>{{equipo.Equipo.Nombre}}</td>
+                            <td md-cell>{{equipo.PartidosJugados}}</td>
+                            <td md-cell>{{equipo.PartidosGanados}}</td>
+                            <td md-cell>{{equipo.PartidosEmpatados}}</td>
+                            <td md-cell>{{equipo.PartidosPerdidos}}</td>
+                            <td md-cell>{{equipo.GolesAFavor}}</td>
+                            <td md-cell>{{equipo.GolesEnContra}}</td>
+                            <td md-cell>{{equipo.DiferenciaGoles}}</td>
+                            <td md-cell>{{equipo.Puntos}}</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </md-table-container>
+
+            <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{equiposCount}}" md-page-select></md-table-pagination>
+
+            <!--#endregion Fin Posiciones -->
+        </div>
+        <span flex="5"></span>
+        <div twitter-timeline flex class="md-whiteframe-6dp">
+            <!-- iafar:seccion facebook -->
+            <div class="fb-page " data-href="https://www.facebook.com/Fepuse-Futbol-393003964093005/?fref=ts" data-tabs="timeline" data-height="600" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"></div>
+        </div>
+
     </div>
-    <div flex="30">
-        <a class="twitter-timeline" href="https://twitter.com/eep1710/lists/futbol" data-widget-id="698250614321577984"> Tweets de https://twitter.com/eep1710/lists/futbol </a>
-        
+    <br />
+    <div layout="row">
+        <div flex="75" class="md-whiteframe-9dp">
+            <md-tabs md-selected="selectedIndex" style="min-height:506px">
+                <md-tab ng-repeat="fecha in FechasInfo" >
+                    <!--md-on-select="onTabSelected(tab)" md-on-deselect="announceDeselected(tab)"-->
+                    <md-tab-label>
+                        Fecha {{fecha.numFecha}}
+                        <!--<md-icon class="fa-binoculars">-->
+                    </md-tab-label>
+                    <md-tab-body>
+                        <!--#region Tabla Detalle Fecha -->
+                        <md-table-container style="height:400px">
+                            <table md-table>
+                                <thead md-head>
+                                    <tr md-row>
+                                        <th md-column md-numeric>Dia/Hr</th>
+                                        <th md-column md-numeric>Sede</th>
+                                        <th md-column md-numeric><span></span></th>
+                                        <th md-column md-numeric>Equipo Local</th>
+                                        <th md-column md-numeric></th>
+                                        <th md-column md-numeric></th>
+                                        <th md-column md-numeric>Equipo Visitante</th>
+                                        <th md-column md-numeric>Arbitro</th>
+                                    </tr>
+                                </thead>
+                                <tbody md-body layout-fill style="height:400px">
+                                    <tr md-row ng-repeat="partido in fecha.infoPartidos | limitTo: query.limit: (query.page - 1) * query.limit ">
+                                        <!--<td md-cell>{{$index+1}}</td>-->
+                                        <td md-cell>{{partido.diaYHora}}</td>
+                                        <td md-cell>{{partido.sede}}</td>
+                                        <td md-cell><span></span></td>
+                                        <td md-cell>{{partido.nombreEquipoLocal}}</td>
+                                        <td md-cell>{{partido.golesLocal}}</td>
+                                        <td md-cell>{{partido.golesVisitante}}</td>
+                                        <td md-cell>{{partido.nombreEquipoVisitante}}</td>
+                                        <td md-cell>{{partido.nombreArbitro}}</td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </md-table-container>
+
+                        <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{equiposCount}}" md-page-select></md-table-pagination>
+
+                        <!--#endregion Fin Posiciones -->
+                    </md-tab-body>
+                </md-tab>
+            </md-tabs>
+
+        </div>
+        <span flex="5"></span>
+        <div class="md-whiteframe-9dp" flex>
+            <!-- iafar: seccion twitter -->
+            <div>
+                <a class="twitter-timeline" href="https://twitter.com/search?q=%23futbol%20%23Argentino" data-widget-id="700364044755189760" layout-fill>Tweets sobre #futbol #Argentino</a>
+
+            </div>
+
+
+        </div>
+
+
+
+
+
+
     </div>
-    
 
 </div>
+
+
+
+<script>
+    !function (d, s, id) {
+        var js,
+            fjs = d.getElementsByTagName(s)[0],
+            p = /^http:/.test(d.location) ? 'http' : 'https';
+        if (!d.getElementById(id)) {
+            js = d.createElement(s);
+            js.id = id;
+            js.src = p + "://platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }
+    }(document, "script", "twitter-wjs");
+</script>
+

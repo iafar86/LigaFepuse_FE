@@ -101,8 +101,12 @@ function DialogJugadorController($scope, $mdDialog, jugadorShow, edit, func, equ
             //iafar: nuevo jugador
            
             //#region datos de modelo
-            $scope.jugador.Profesion = "Profesion Prueba"
-           
+            $scope.jugador.Profesion = "Profesion Prueba"           
+			$scope.jugador.EquiposJugadorTorneos = [{
+                EquipoId: equipoId,
+                TorneoId: torneoId
+            }];
+
             //#endregion
 
             jugadorDataFactory.postJugador($scope.jugador);//iafar: trabajar con un promise
@@ -117,10 +121,10 @@ function DialogJugadorController($scope, $mdDialog, jugadorShow, edit, func, equ
                 var ejtId = jugadorShow.EquiposJugadorTorneos[0].Id;
                 jugadorShow.EquiposJugadorTorneos[0].EquipoId = $scope.equipoId;
                 jugadorDataFactory.putEquipoJugadorTorneo(ejtId, jugadorShow.EquiposJugadorTorneos[0]);
-            }
+            }           
 
-            console.log("se modificaron datos basicos jugador")
-            jugadorDataFactory.putJugador($scope.jugador.Id, $scope.jugador)
+
+
 
         }
         $scope.closeDialog("ok");
