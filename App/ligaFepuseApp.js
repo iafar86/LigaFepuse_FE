@@ -1,9 +1,9 @@
 ﻿var ligaFepuseApp = angular.module('ligaFepuseApp', ['ngMaterial', 'ng-mfb','ngMdIcons', 'ngResource', 'ui.router', 'ngCookies', 'ngTable', 'ngSanitize', 'ngAnimate',
- 'ngAria', 'ct.ui.router.extras', 'angular-loading-bar', 'daypilot', 'LocalStorageModule', 'angular-jwt', 'ui.bootstrap', 'twitter.timeline'])
-    .config(function ($stateProvider, $urlRouterProvider, $httpProvider, $stickyStateProvider, cfpLoadingBarProvider) {
-        //'ngResource', 'ngMdIcons', 'ui.router', 'ngCookies', 'ngTable',
-        //  'ngSanitize', 'ngAnimate', 'ngAria', 'ct.ui.router.extras', 'angular-loading-bar', 'daypilot', 'LocalStorageModule', 'angular-jwt', 'ngMaterial',
-        //  'oc.lazyLoad', 'ng-mfb', 'ngAutocomplete', 'angular-input-stars'
+ 'ngAria', 'ct.ui.router.extras', 'angular-loading-bar', 'daypilot', 'LocalStorageModule', 'angular-jwt', 'ui.bootstrap', 'twitter.timeline',
+'ezfb', 'md.data.table'])
+    .config(function ($stateProvider, $urlRouterProvider, $httpProvider, $stickyStateProvider, cfpLoadingBarProvider, ezfbProvider) {
+
+
 
         cfpLoadingBarProvider.includeSpinner = true;
         cfpLoadingBarProvider.includeBar = true;
@@ -29,18 +29,28 @@
 
         .state('app.home', {
             url: '/Home',
-            templateUrl: 'App/Template/home.html'
+            templateUrl: 'App/Home/Partials/home.html',
+            controller: 'homeCtrl',
+            resolve: {
+                //equipoTorneoDataFactory: 'equipoTorneoDataFactory',
+                //torneoDataFactory: 'torneoDataFactory',
+                torneosList: function (torneoDataFactory) {
+                    return torneoDataFactory.getTorneos();
+                }
+              
+            }
         })
 
-        .state('app.ui', {
-            url: '/UI',
-            templateUrl: 'App/Template/ui.html'
-        })
 
-        .state('app.table', {
-            url: '/Table',
-            templateUrl: 'App/Template/table.html'
-        })
+
+
+
+
+
+
+
+
+        
 
          //#endregion
 
@@ -193,6 +203,7 @@
                  },
                  equiposLiga: function (equipoDataFactory) {
                         return equipoDataFactory.getEquiposLiga();
+
                  },
 
                  arbitroList: function (arbitroDataFactory) {
@@ -213,7 +224,10 @@
                 controller: 'equipoCtrl',
                 //controller: 'arbitroCtrl',
                 resolve: {
+
+
                     torneoDataFactory: 'torneoDataFactory',
+
                     equipoDataFactory: 'equipoDataFactory',
                     arbitroDataFactory: 'arbitroDataFactory',
                     torneoList: function (torneoDataFactory) {
@@ -230,6 +244,7 @@
                             }
                         });
                         return equiposLiga
+
                     },
 
                     arbitroList: function (arbitroDataFactory) {
@@ -397,4 +412,14 @@
         //#endregion
 
 
+
+		ezfbProvider.setInitParams({
+            // This is my FB app id for plunker demo app
+            appId: '983474251732776',
+            version    : 'v2.5'
+        })
+
+
     })
+
+

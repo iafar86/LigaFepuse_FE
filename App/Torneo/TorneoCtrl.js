@@ -1,4 +1,5 @@
-﻿ligaFepuseApp.controller('torneoCtrl', function ($scope, $stateParams, $state, $filter, $mdDialog, $mdMedia, ngTableParams, torneoDataFactory, torneoList, infoTorneo, fechaDataFactory, equipoDataFactory, arbitroDataFactory)
+﻿ligaFepuseApp.controller('torneoCtrl', function ($scope, $stateParams, $state, $filter, $mdDialog, $mdMedia, 
+ngTableParams, torneoDataFactory, torneoList, infoTorneo, fechaDataFactory, equipoDataFactory, arbitroDataFactory)
 {
     $scope.torneos = torneoList;
 
