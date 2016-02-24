@@ -21,13 +21,13 @@
                 </md-toolbar>
                 <md-list ng-repeat="equipo in listadoEquiposTorneo">
                     <md-list-item class="md-3-line" layout="row">
-                        <img class="md-avatar" />
+                        <img class="md-avatar" src="/img/fepuse.jpg" style="min-height:100px; min-width:100px" />
                         <div class="md-list-item-text">
                             <h3>{{equipo.Equipo.Nombre}}</h3>
                             <h4>al dia: {{equipo.AlDia}}</h4>
-                            
+
                         </div>
-                        
+
                     </md-list-item>
                     <md-list-actions layout="row" layout-align="end center">
                         <md-button ui-sref="jugador.jugadorList({idTorneo:equipo.TorneoId, idEquipo:equipo.Equipo.Id})">Ver</md-button>
@@ -36,15 +36,41 @@
                     </md-list-actions>
                     <md-divider></md-divider>
                 </md-list>
-               
+
                 <!--<md-card-actions layout="row" layout-align="end center">
-                    <md-button class="md-raised md-primary" ng-click="obtenerEquiposLiga()">Agregar Equipo</md-button>
-                </md-card-actions>-->
+                <md-button class="md-raised md-primary" ng-click="obtenerEquiposLiga()">Agregar Equipo</md-button>
+            </md-card-actions>-->
             </md-card-content>
             <nav mfb-menu position="br" effect="zoomin" active-icon="mdi-content-clear" class="md-fab" ng-show="variable" label="Agregar Equipos" resting-icon="mdi-content-add" toggling-method="hover" ng-click="obtenerEquiposLiga()">
                 <!--style="background-color: #D32F2F"-->
             </nav>
+            <button class="btn btn-primary" ng-click="printToCart('printear')"><i class=" fa fa-print"></i> Print</button>
+
         </md-card>
     </div>
 </div>
+
+<div id="printear" ng-hide="true">
+    <md-toolbar>
+        <div class="md-toolbar-tools" style="background-color:#388E3C">
+            <h2>
+                <span>Listado de Equipos</span>
+            </h2>
+        </div>
+    </md-toolbar>
+    <md-list ng-repeat="equipo in listadoEquiposTorneo">
+        <md-list-item class="md-3-line" layout="row" style="min-height:150px">
+            <img class="md-avatar" src="http://www.ole.com.ar/bbtfile/5012_20150908naA9Cs.png" style="min-height:100px; min-width:100px" />
+            <div class="md-list-item-text">
+                <h3>{{equipo.Equipo.Nombre}}</h3>
+                <h4>al dia: {{equipo.AlDia}}</h4>
+
+            </div>
+
+        </md-list-item>
+        <md-divider></md-divider>
+    </md-list>
+</div>
+
+
 
