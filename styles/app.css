@@ -2,6 +2,9 @@
 
 */
 
+
+
+
 [ui-view].ng-leave {
   display: none;
 }
@@ -16,6 +19,7 @@
   height: 100%;
   overflow: hidden;
 }
+
 
 .fade-in-right-big.ng-enter {
   -webkit-animation: fadeInRightBig 0.5s;
@@ -112,12 +116,12 @@ html {
 }
 
 body {
-  font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 14px;
-  -webkit-font-smoothing: antialiased;
-  line-height: 1.42857143;
-  color: rgba(0, 0, 0, 0.87);
-  background-color: transparent;
+    font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.42857143;
+    color: rgba(0, 0, 0, 0.87);
+    background-color: transparent;
 }
 
 *:focus {
