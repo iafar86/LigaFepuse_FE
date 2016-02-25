@@ -1,4 +1,4 @@
-﻿var ligaFepuseApp = angular.module('ligaFepuseApp', ['ngMaterial', 'ng-mfb','ngMdIcons', 'ngResource', 'ui.router', 'ngCookies', 'ngTable', 'ngSanitize', 'ngAnimate',
+﻿var ligaFepuseApp = angular.module('ligaFepuseApp', ['ngMaterial', 'ng-mfb', 'ngMdIcons', 'ngResource', 'ui.router', 'ngCookies', 'ngTable', 'ngSanitize', 'ngAnimate',
  'ngAria', 'ct.ui.router.extras', 'angular-loading-bar', 'daypilot', 'LocalStorageModule', 'angular-jwt', 'ui.bootstrap', 'twitter.timeline',
 'ezfb', 'md.data.table'])
     .config(function ($stateProvider, $urlRouterProvider, $httpProvider, $stickyStateProvider, cfpLoadingBarProvider, ezfbProvider) {
@@ -9,9 +9,41 @@
         cfpLoadingBarProvider.includeBar = true;
 
 
-        $urlRouterProvider.otherwise("/App/Home");
+        $urlRouterProvider.otherwise("/Inicio/Login");
 
         $stateProvider
+
+        //#region Seguridad
+        .state('seguridad', {
+            abstract: true,
+            url: '/Inicio',
+            views: {
+                '': {
+                    templateUrl: ''
+                },
+                'content': {
+                    templateUrl: ''
+                }
+            }
+        })
+        .state('seguridad.login', {
+            url: '/Login',
+            templateUrl: '/App/Seguridad/Partials/login.html',
+            controller: 'loginCtrl'
+        })
+
+        .state('seguridad.signup', {
+            url: '/Signup',
+            templateUrl: '/App/Seguridad/Partials/signup.html',
+            controller: 'signupCtrl'
+        })
+
+        .state('seguridad.confirm', {
+            url: '/Confirm',
+            templateUrl: '/App/Seguridad/Partials/confirmCuenta.html',
+            controller: 'loginCtrl'
+        })
+        //#endregion
 
         //#region App
         .state('app', {
@@ -37,7 +69,7 @@
                 torneosList: function (torneoDataFactory) {
                     return torneoDataFactory.getTorneos();
                 }
-              
+
             }
         })
 
@@ -50,18 +82,9 @@
 
 
 
-        
+
 
          //#endregion
-
-        //#region seguridad
-
-            .state('app.dashboard.login', {
-                url: '/Login',
-                templateUrl: 'App/Template/login.html'
-            })
-
-        //#endregion
 
         //#region Torneos
             .state('torneo', {
@@ -146,7 +169,7 @@
                         }
                     }
                 }
-                
+
             })
             //#endregion
 
@@ -202,7 +225,7 @@
                      return torneoDataFactory.getTorneos();
                  },
                  equiposLiga: function (equipoDataFactory) {
-                        return equipoDataFactory.getEquiposLiga();
+                     return equipoDataFactory.getEquiposLiga();
 
                  },
 
@@ -257,7 +280,7 @@
                     //}                
                 }
             })
-            
+
 
             .state('equipo.listadoLiga', {
                 url: '/EquiposLiga',
@@ -268,13 +291,13 @@
                     torneoDataFactory: 'torneoDataFactory',
 
                     torneoList: function () {
-                        return {value: []}
+                        return { value: [] }
                     },
                     equiposLiga: function () {
                         return equipoDataFactory.getEquiposLiga();
+                    }
                 }
-            }
-        })
+            })
         //#endregion
 
         //#region Partidos
@@ -314,9 +337,9 @@
                 },
                 listArbitros: function (arbitroDataFactory) {
                     return arbitroDataFactory.getArbitros();
-                    }
                 }
-            })
+            }
+        })
         //#endregion
 
         //#region Jugadores
@@ -335,7 +358,7 @@
 
 
             .state('jugador.jugadorInfo', {
-                url: '/JugadorInfo/', 
+                url: '/JugadorInfo/',
                 templateUrl: 'App/Jugador/Partials/jugadorInfo.html',
                 controller: 'jugadorCtrl'
             })
@@ -352,16 +375,16 @@
                         var torneoId = $stateParams.idTorneo;
                         return torneoDataFactory.getTorneo(torneoId)
                     },
-                    equipoInfo: function(equipoDataFactory, $stateParams) {
+                    equipoInfo: function (equipoDataFactory, $stateParams) {
                         var equipoId = $stateParams.idEquipo;
                         return equipoDataFactory.getEquipo(equipoId)
                     },
-                    jugadoresList: function (jugadorDataFactory,$stateParams) {
+                    jugadoresList: function (jugadorDataFactory, $stateParams) {
                         var torneoId = $stateParams.idTorneo;
                         var equipoId = $stateParams.idEquipo;
                         return jugadorDataFactory.getJugadoresEquipoTorneo(torneoId, equipoId)
                     }
-                    
+
                 },
                 params: {
                     idTorneo: "miTorneo",
@@ -393,13 +416,13 @@
 
 
         .state('arbitro.arbitroList', {
-            url: '/arbitroList/:idLiga', 
+            url: '/arbitroList/:idLiga',
             templateUrl: 'App/Arbitro/Partials/arbitroList.html',
             controller: 'arbitroCtrl',
-            resolve: {               
+            resolve: {
                 arbitroDataFactory: 'arbitroDataFactory',
                 arbitroList: function (arbitroDataFactory) {
-                   return arbitroDataFactory.getArbitros();
+                    return arbitroDataFactory.getArbitros();
                 }
 
             },
@@ -413,10 +436,10 @@
 
 
 
-		ezfbProvider.setInitParams({
+        ezfbProvider.setInitParams({
             // This is my FB app id for plunker demo app
             appId: '983474251732776',
-            version    : 'v2.5'
+            version: 'v2.5'
         })
 
 
