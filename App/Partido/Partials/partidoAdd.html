@@ -56,9 +56,26 @@
 
                     <div layout="row">
                         <div flex="50">
+                            <!--<md-autocomplete ng-disabled="false"
+                                             md-no-cache="true"
+                                             md-autofocus="false"
+                                             md-search-text-change="true"
+                                             md-selected-item-change="true"
+                                             md-menu-class="autocomplete-custom-template"
+                                             md-floating-label="Arbitro"
+                                             md-selected-item="partido.Arbitro"
+                                             md-search-text="searchText"
+                                             md-items="arbitro in listArbitros | filter: searchText"
+                                             md-item-text="item"
+                                             md-text-change="false"
+                                             ng-model="partido.Arbitro"
+                                             md-select-on-match="true"
+                                             md-min-length="0">
+                                <span>{{arbitro.NombreApellido}}</span>
+                            </md-autocomplete>-->  
                             <md-input-container style="margin-right: 10px;">
                                 <md-select placeholder="Seleccionar Arbitro del Partido" ng-model="partido.Arbitro">
-                                    <md-option ng-value="arbitro" ng-repeat="arbitro in listArbitros">{{ arbitro.NombreApellido }}</md-option>
+                                    <md-option ng-value='arbitro' ng-repeat="arbitro in listArbitros">{{ arbitro.NombreApellido }}</md-option>
                                 </md-select>
                             </md-input-container>
                         </div>

@@ -54,6 +54,17 @@
         }).then(function (response) {
             if (response=="ok") { //iafar: se guardo nuevo jugador?
                 alert('guardo un jugador, actualizar lista ' + response)
+                var torneoId = $stateParams.idTorneo;
+                var equipoId = $stateParams.idEquipo;
+                jugadorDataFactory.getJugadoresEquipoTorneo(torneoId, equipoId).then(function (response) {
+                    $scope.jugadoresList = response;
+                },
+                function (err) {
+                    if (err) {
+                        $scope.error = err;
+                        alert("Error: " + $scope.error.Message);
+                    }
+                });
             } else {
                 alert('Le dio a cancelar ' + response)
             }
