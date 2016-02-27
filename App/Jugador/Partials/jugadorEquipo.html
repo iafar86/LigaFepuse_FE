@@ -114,12 +114,14 @@
         </md-card>
         <!--#region iafar: menu flotante-->
         <div layout="row" layout-align="star center">
-            <nav mfb-menu position="br" effect="zoomin" label="Nuevo Jugador"
-                 active-icon="mdi-content-add" resting-icon="mdi-content-add"
-                 toggling-method="hover" ng-click="jugadorAdd()">
+            <nav mfb-menu position="br" effect="zoomin" label="Herramientas"
+                 active-icon="mdi-content-clear" resting-icon="mdi-content-add"
+                 toggling-method="hover">
+                <button mfb-button icon="mdi-social-person-add" label="Nuevo Jugador" ng-click="jugadorAdd()"></button>
+                <button mfb-button icon="fa fa-print" label="Imprimir Listado" ng-click="printToCart('printear')"></button>
                 <!--<button mfb-button icon="glyphicon glyphicon-calendar" label="Agregar Nueva Fecha" ng-click="addFecha()"></button>
-                <button mfb-button icon="fa fa-futbol-o" label="Agregar Nuevo Partido" ng-click="addPartido()"></button>
-                <button mfb-button icon="fa fa-users" label="Agregar Nuevo Equipo"></button>-->
+        <button mfb-button icon="fa fa-futbol-o" label="Agregar Nuevo Partido" ng-click="addPartido()"></button>
+        <button mfb-button icon="fa fa-users" label="Agregar Nuevo Equipo"></button>-->
             </nav>
         </div>
         <!--#endregion-->

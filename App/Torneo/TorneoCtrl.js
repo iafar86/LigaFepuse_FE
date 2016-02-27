@@ -184,4 +184,10 @@ function DialogControllerTorneo($scope, $mdDialog, torneoDataFactory) {
     //$scope.agregar = function (equipo) {
     //    $mdDialog.hide(equipo);
     //};    
+
+
+
+
+
+    
 }

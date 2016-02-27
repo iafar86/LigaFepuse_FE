@@ -1,4 +1,4 @@
-﻿<md-dialog aria-label="Agregar Fecha Al Torneo" flex="100" layout="column" ng-cloak>
+﻿<md-dialog aria-label="Agregar Fecha Al Torneo" flex="80" layout="column" ng-cloak>
     <form>
         <md-toolbar>
             <div class="md-toolbar-tools">
@@ -95,7 +95,43 @@
                                 <div class="card-body">
                                     <div layout="row" layout-align="center center" flex="grow">
                                         <div flex>
-                                            <table ng-table="tableParams" class="table ng-table-responsive">
+                                            <md-table-container>
+                                                <table md-table>
+                                                    <tbody md-body>
+                                                        <tr md-row ng-repeat="partido in partidosCargados">
+                                                            <td data-title="'Listado de Partidos'" md-cell>
+                                                                <div>
+                                                                    <div>
+                                                                        <div layout="row">
+                                                                            <md-input-container layout="row" flex="50">
+                                                                                <div flex="90">
+                                                                                    <label>Equipo Local</label>
+                                                                                    <input class="form-control md-input" ng-model="partido.EquipoLocal.Nombre" ng-disabled="true">
+                                                                                </div>
+                                                                            </md-input-container>
+                                                                            <md-input-container layout="row" layout-align="center end" flex="50">
+                                                                                <div flex="90">
+                                                                                    <label>Equipo Visitante</label>
+                                                                                    <input class="form-control md-input" ng-model="partido.EquipoVisitante.Nombre" ng-disabled="true">
+                                                                                </div>
+                                                                            </md-input-container>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="m-b-xs">
+                                                                        <span class="text-muted block text-xs">
+                                                                            Sede : {{partido.Sede}} &nbsp;&nbsp;&nbsp; Dia: {{partido.DiaYHora | date:"dd/MM/yyyy 'Horario:' h:mma"}}
+                                                                        </span>
+                                                                        <span class="text-muted block text-xs">
+                                                                            Arbitro : {{partido.Arbitro.Nombre}}
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </md-table-container>
+                                            <!--<table ng-table="tableParams" class="table ng-table-responsive">
                                                 <tr ng-repeat="partido in partidosCargados">
                                                     <td data-title="'Listado de Partidos'">
                                                         <div>
@@ -126,7 +162,7 @@
                                                         </div>
                                                     </td>
                                                 </tr>
-                                            </table>
+                                            </table>-->
                                         </div>
                                     </div>
                                 </div>

@@ -162,6 +162,17 @@
                         controller: 'equipoTorneoCtrl',
                         resolve: {
                             equipoTorneoDataFactory: 'equipoTorneoDataFactory',
+                            //kike
+                            torneoDataFactory: 'torneoDataFactory',
+                            equipoDataFactory: 'equipoDataFactory',
+                            listadoEquiposTorneo: function(torneoDataFactory, $stateParams){
+                                var torneoId= $stateParams.torneoId;
+                                return torneoDataFactory.getTorneo(torneoId);
+                            },
+                            //equiposLiga: function(equipoDataFactory){
+                            //    return equipoDataFactory.getEquiposLiga;
+                            //},
+                            //kike
                             tablaPosiciones: function (equipoTorneoDataFactory, $stateParams) {
                                 var torneoId = $stateParams.torneoId;
                                 return equipoTorneoDataFactory.getTablaPosiciones(torneoId);

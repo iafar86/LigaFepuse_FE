@@ -7,6 +7,14 @@
     $scope.equiposLiga = [];// guarda todos los torneos de la liga
     $scope.equiposLiga = equiposLiga; // revisar porque trae un arreglo adentro de otro kikexp
 
+
+    $scope.equiposCount = 0;
+    $scope.query = {
+        //order: 'name',
+        limit: 5,
+        page: 1
+    };
+
     //#Region Obtiene los equipos de un torneo
     $scope.obtenerEquipos = function () {
         torneoDataFactory.getTorneo($scope.torneoSelect.Id).then(function (response) {
@@ -143,34 +151,34 @@
 
 
     //#region Paginacion de la tabla dinamica de Dictamenes (se puede llenar con dictamenes Institucionales o Jurisdiccionales segun la opcion elegida)
-    var data = $scope.equiposLiga;
-    $scope.tableParams = new ngTableParams({
-        page: 1,            // show first page
-        count: 3,          // count per page        
-        filter: {
-            // filtros de la tabla, 
-            Nombre: '' //por numero de nrodictamen       
-            //codplanmejora: ''// por nombre de codplanmejora
-        }
-        //sorting: {
-        //    name: 'asc'
-        //}
-    }, {
-        total: data.length, // saco el Total de registros del listado de escuelas
-        getData: function ($defer, params) {
-            var filteredData = params.filter() ?
-                   $filter('filter')(data, params.filter()) :
-                   data;
+    //var data = $scope.equiposLiga;
+    //$scope.tableParams = new ngTableParams({
+    //    page: 1,            // show first page
+    //    count: 3,          // count per page        
+    //    filter: {
+    //        // filtros de la tabla, 
+    //        Nombre: '' //por numero de nrodictamen       
+    //        //codplanmejora: ''// por nombre de codplanmejora
+    //    }
+    //    //sorting: {
+    //    //    name: 'asc'
+    //    //}
+    //}, {
+    //    total: data.length, // saco el Total de registros del listado de escuelas
+    //    getData: function ($defer, params) {
+    //        var filteredData = params.filter() ?
+    //               $filter('filter')(data, params.filter()) :
+    //               data;
 
-            var orderedData = params.sorting() ?
-                   $filter('orderBy')(filteredData, params.orderBy()) :
-                   data;
+    //        var orderedData = params.sorting() ?
+    //               $filter('orderBy')(filteredData, params.orderBy()) :
+    //               data;
 
-            $scope.equiposLiga = orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count());
-            params.total(orderedData.length); // set total for recalc pagination
-            $defer.resolve($scope.equiposLiga);
-        }
-    });
+    //        $scope.equiposLiga = orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count());
+    //        params.total(orderedData.length); // set total for recalc pagination
+    //        $defer.resolve($scope.equiposLiga);
+    //    }
+    //});
     //#endregion
 
 
@@ -226,22 +234,7 @@
 
     //<-------END REGION---------->
 
-    //#region Imprimir listado
-    $scope.printToCart = function (printSectionId) {
-        
-        var innerContents = document.getElementById(printSectionId).innerHTML;
-        var popupWinindow = window.open('', '_blank', 'width=600,height=700,scrollbars=no,menubar=no,toolbar=no,location=no,status=no,titlebar=no');
-        popupWinindow.document.open();
-        popupWinindow.document.write('<html><head> <link rel="stylesheet" href="libs/assets/animate.css/animate.css" type="text/css" /><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"><link rel="stylesheet" href="libs/angular/angular-loading-bar/build/loading-bar.css" type="text/css" /><link rel="stylesheet" href="libs/angular/angular-material/angular-material.css" type="text/css" /><link rel="stylesheet" href="styles/material-design-icons.css" type="text/css" /><link rel="stylesheet" href="styles/app.min.css" type="text/css" /><link href="libs/angular/angular-material/angular-material.min.css" rel="stylesheet" /><script src="libs/angular/angular-material/angular-material.min.js"></script><script src="libs/angular/angular-material-icons/angular-material-icons.min.js"></script><link rel="stylesheet" type="text/css" href="style.css" /></head><body onload="window.print()">' + innerContents + '</html>');  
-        popupWinindow.document.close();
-    }
-
-    
-    //#endRegion
-
-
-
-
+   
 })
 
 

@@ -103,8 +103,11 @@
          active-icon="mdi-content-clear" resting-icon="mdi-content-add"
          toggling-method="hover">
         <button mfb-button icon="mdi-image-edit" label="Editar" ng-click="edit()"></button>
-        <button mfb-button icon="mdi-content-save" label="Guardar Cambios" ng-click="saveUpdate()"></button>
-        <button mfb-button icon="mdi-action-delete" label="Cancelar Cambios" ng-click="cancelEdit()"></button>        
+        <!--<button mfb-button icon="fa fa-shirtsinbulk" label="Agregar Equipos" ng-click="obtenerEquiposLiga()">            
+            
+        </button>-->
+        <button mfb-button icon="mdi-content-save" label="Guardar Cambios" ng-click="saveUpdate()" ng-show="editValue"></button>
+        <button mfb-button icon="mdi-action-delete" label="Cancelar Cambios" ng-click="cancelEdit()" ng-show="editValue"></button>        
     </nav>
 </div>
 <!--#endregion-->
