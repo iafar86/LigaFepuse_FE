@@ -40,7 +40,7 @@
                 <div class="form-group has-error">
                     <label class="control-label" for="fecha">Dia y Hora del Partido</label>
                     <br />
-                    <span id="fecha">Dia: {{partido.DiaYHora | date:"dd/MM/yyyy 'Horario:' h:mma"}}</span>
+                    <span id="fecha">Dia: {{partido.Dia | date:"dd/MM/yyyy 'Horario:' partido.Hora"}}</span>
                     <md-input-container ng-show="editValue">
                         <label>Nuevo Dia y Hora del Partido</label>
                         <input type="datetime-local" ng-model="fechaHoraNueva"

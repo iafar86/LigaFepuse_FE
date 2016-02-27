@@ -45,11 +45,18 @@
                                 <input class="md-input" ng-model="partido.Sede">
                             </md-input-container>
                         </div>
-                        <div flex="50">
+                        <div flex="30">
                             <md-input-container>
-                                <label>Fecha y Hora del Partido</label>
-                                <input type="datetime-local" ng-model="partido.DiaYHora"
-                                       placeholder="dd/MM/yyyyTHH:mm:ss" />
+                                <label>Fecha del Partido</label>
+                                <input type="datetime-local" ng-model="partido.Dia"
+                                       placeholder="dd/MM/yyyy" />
+                            </md-input-container>
+                        </div>
+                        <div flex="20">
+                            <md-input-container>
+                                <label>Hora</label>
+                                <input type="time" ng-model="partido.Hora"
+                                       placeholder="HH:MM" />
                             </md-input-container>
                         </div>
                     </div>

@@ -1,11 +1,11 @@
 ﻿ligaFepuseApp.controller('jugadorCtrl', function ($scope, $stateParams, $state, $filter, $mdDialog, $mdMedia,
-    torneoInfo, equipoInfo, torneoDataFactory, equipoDataFactory, jugadorDataFactory, jugadoresList) {
+    torneoInfo, equipoInfo, torneoDataFactory, equipoDataFactory, jugadorDataFactory, jugadoresList, profesionDataFactory) {
     
    
     $scope.torneoInfo = torneoInfo;
     $scope.equipoInfo = equipoInfo;
     $scope.jugadoresList = jugadoresList;
-              
+    
     $scope.jugador = [];
    // $scope.jugador.FichaMedica = "No";
     //$scope.jugador.Federado = "No";
@@ -49,7 +49,6 @@
                 equipoId: $scope.equipoInfo.Id,
                 torneoId: $scope.torneoInfo.Id,
                 equiposList: $scope.torneoInfo.EquipoTorneos
-
             } //paso de scope
         }).then(function (response) {
             if (response=="ok") { //iafar: se guardo nuevo jugador?
@@ -71,7 +70,7 @@
 
 
 function DialogJugadorController($scope, $mdDialog, jugadorShow, edit, func, equipoId,
-    torneoId, equiposList , equipoDataFactory, jugadorDataFactory, equipoTorneoDataFactory) {
+    torneoId, equiposList, equipoDataFactory, jugadorDataFactory, equipoTorneoDataFactory, profesionDataFactory) {
 
     //#region inicializacion de scope
     $scope.jugador = jugadorShow;
@@ -79,6 +78,7 @@ function DialogJugadorController($scope, $mdDialog, jugadorShow, edit, func, equ
     $scope.edit = edit; //iafar: indica si los campos estan habilitados para edicion o no
     $scope.func = func;//iafar: cadena que expresa que tipo de operacion hara el modal
     $scope.equipoId = equipoId;
+    $scope.profesionList = profesionDataFactory.query();
    
     //#endregion
 
@@ -101,11 +101,12 @@ function DialogJugadorController($scope, $mdDialog, jugadorShow, edit, func, equ
             //iafar: nuevo jugador
            
             //#region datos de modelo
-            $scope.jugador.Profesion = "Profesion Prueba"           
+            //$scope.jugador.Profesion = "Profesion Prueba"           
 			$scope.jugador.EquiposJugadorTorneos = [{
                 EquipoId: equipoId,
                 TorneoId: torneoId
-            }];
+			}];
+
 
             //#endregion
 
