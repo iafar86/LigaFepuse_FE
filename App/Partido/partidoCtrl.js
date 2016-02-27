@@ -27,7 +27,9 @@
         
         var p = {};
         p.FechaId = $stateParams.fechaId;
-        p.DiaYHora = prmPartido.DiaYHora;
+        //p.DiaYHora = prmPartido.DiaYHora;
+        p.Dia = prmPartido.Dia;
+        p.Hora = prmPartido.Hora;
         p.Sede = prmPartido.Sede;
         p.GolesLocal = 0;
         p.GolesVisitante = 0;

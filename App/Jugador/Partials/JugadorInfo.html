@@ -71,8 +71,8 @@
                         <md-switch class="md-primary" md-no-ink ng-model="jugador.FichaMedica" aria-label="Ficha" layout-align="start" ng-disabled='edit'>
                             Ficha Medica: {{ jugador.FichaMedica }}
                         </md-switch>
-                        <md-select placeholder="Seleccione Profesion" ng-model="jugador.profesion" aria-label="Seleccion Equipo" layout-align="start" flex ng-disabled='edit'>
-                            <md-option ng-repeat="profesion in profesiones" value="{{profesion.Nombre}}">
+                        <md-select placeholder="Seleccione Profesion" ng-model="jugador.ProfesionId" aria-label="Seleccion Equipo" layout-align="start" flex ng-disabled='edit'>
+                            <md-option ng-repeat="profesion in profesionList" value="{{profesion.Id}}">
                                 {{profesion.Nombre}}
                             </md-option>
                         </md-select>
