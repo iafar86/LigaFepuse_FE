@@ -1,116 +1,64 @@
 ﻿
 <div layout="column" layout-fill>
-    <!--#region tabs de vista-->
-    <md-toolbar>
-        <div class="md-toolbar-tools">
-            <h1>
-                {{Torneo.Nombre}}/{{Equipo.Nombre}}
-            </h1>
-
-            <span flex></span>
-        </div>
-
-    </md-toolbar>
-    <!--#endregion-->
+   
     <!--#region Panel de resultados-->
     <md-content style="background-color:#eee" flex>
         <md-card>
-            <br />
-            <div class="md-toolbar-tools" flex>
-                <span flex="5"></span>
-                <md-input-container flex>
-                    <label class="md-title">Buscar</label>
-                    <input ng-model="search">
-                </md-input-container>
-                <ng-md-icon icon="search"></ng-md-icon>
-            </div>
-            <br />
-            <md-list>
-                <md-list-item ng-repeat="j in jugadoresList | filter:search">
-                    <!--ng-repeat="jugador in jugadores | ofertaFilter:search"-->
-                    <md-button class="inline-block animate-show input-btn" layout="row" layout-margin flex ng-click="jugadorInfo(j)">
-                        <!--ng-click="prueba(oferta.Nombre)"-->
-                        <div layout="row">
-                            <div flex="15" layout-margin>
-                                <div class="md-whiteframe-z1" flex>
-                                    <ng-md-icon icon="person_add" style="fill: #0b0053" size="80" flex="10"></ng-md-icon>
-                                    <!--<img src="../../../img/jugador.png" sizes="80" flex="10" class="img-responsive" />-->
-                                    <h6>{{j.Apodo}}</h6>
-                                </div>
+           <md-card-title>
+                <md-toolbar class="md-table-toolbar md-default" ng-hide="selected.length || filter.show">
+                    <div class="md-toolbar-tools">
+                        <h2 class="md-title">Jugadores</h2>
+                        <div flex></div>
+                        <md-button class="md-icon-button" ng-click="filter.show = true">
+                            <ng-md-icon icon="search"></ng-md-icon>
+                        </md-button>
+                    </div>
+                </md-toolbar>
 
-                            </div>
+                <md-toolbar class="md-table-toolbar md-default" ng-show="filter.show">
+                    <div class="md-toolbar-tools">
+                        <md-icon>search</md-icon>
+                        <form flex name="filter.form">
+                            <input type="text" ng-model="query.filter"  placeholder="search">
+                        </form>
+                        <md-button class="md-icon-button" ng-click="filter.show = false">
+                            <ng-md-icon icon="clear"></ng-md-icon>
+                        </md-button>
+                    </div>
+                </md-toolbar>
+            </md-card-title>
+           <md-card-content>
+               <md-table-container>
+                   <table md-table md-row-select ng-model="selected" md-progress="promise">
+                       <thead md-head md-order="query.order" md-on-reorder="onReorder">
+                           <tr md-row>
+                               <th md-column md-order-by="nameToLower"><span>Matricula</span></th>
+                               <th md-column md-numeric md-order-by="calories.value"><span>Calories</span></th>
+                               <th md-column md-numeric>Fat (g)</th>
+                               <th md-column md-numeric>Carbs (g)</th>
+                               <th md-column md-numeric>Protein (g)</th>
+                               <th md-column md-numeric>Sodium (mg)</th>
+                               <th md-column md-numeric>Calcium (%)</th>
+                               <th md-column md-numeric>Iron (%)</th>
+                           </tr>
+                       </thead>
+                       <tbody md-body>
+                           <tr md-row md-select="dessert" md-select-id="{{dessert.name}}" md-auto-select ng-repeat="dessert in desserts.data">
+                               <td md-cell>{{dessert.name}}</td>
+                               <td md-cell>{{dessert.calories.value}}</td>
+                               <td md-cell>{{dessert.fat.value | number: 1}}</td>
+                               <td md-cell>{{dessert.carbs.value}}</td>
+                               <td md-cell>{{dessert.protein.value | number: 1}}</td>
+                               <td md-cell>{{dessert.sodium.value}}</td>
+                               <td md-cell>{{dessert.calcium.value}}{{dessert.calcium.unit}}</td>
+                               <td md-cell>{{dessert.iron.value}}{{dessert.iron.unit}}</td>
+                           </tr>
+                       </tbody>
+                   </table>
+               </md-table-container>
 
-                            <div flex="85" layout="column">
-                                <div layout="row" layout-wrap>
-                                    <div flex="25">
-                                        <label>Matricula: </label>
-
-                                        <input ng-model="j.Matricula" class="md-input" disabled>
-
-                                    </div>
-                                    <span flex="10"></span>
-                                    <div flex>
-                                        <label>Equipo Actual:</label>
-                                        <input ng-model="equipoInfo.Nombre" class="md-input" disabled>
-                                    </div>
-                                </div>
-
-                                <div layout="row">
-                                    <div flex="25">
-                                        <label>DNI:</label>
-                                        <input ng-model="j.Dni" class="md-input" disabled>
-                                    </div>
-                                    <span flex="10"></span>
-                                    <div flex>
-                                        <label>Nombre y Apellido:</label>
-                                        <input ng-model="j.NombreApellido" class="md-input" disabled>
-                                    </div>
-                                    <!--<span flex="10"></span>
-                                    <div flex>
-                                        <label>Apellido:</label>
-                                        <input ng-model="j.Apellido" class="md-input" disabled>
-                                    </div>-->
-                                </div>
-                                <div layout="row" layout-wrap>
-                                    <div flex="10">
-                                        <label>Federado:</label>
-                                        <input ng-model="j.Federado" class="md-input" disabled>
-
-                                    </div>
-                                    <span flex="10"></span>
-                                    <div flex="10">
-                                        <label>Ficha Medica:</label>
-                                        <input ng-model="j.FichaMedica" class="md-input" disabled>
-                                    </div>
-                                    <span flex="10"></span>
-                                    <div flex>
-                                        <label>Profesion:</label>
-                                        <input ng-model="j.Profesion" class="md-input" disabled>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <br />
-                            <md-divider md-inset hide-sm ng-if="!$last"></md-divider>
-                            <md-divider hide-gt-sm ng-if="!$last"></md-divider>
-                        </div>
-                    </md-button>
-                    <br />
-                </md-list-item>
-                <div class="text-center text-accent animate-show" ng-show="(jugadoresList.Jugador | filter:search).length == 0">
-                    <h4>No se encontraron jugadores en equipo</h4>
-                    <br />
-                </div>
-               
-                <md-divider></md-divider>
-
-                <md-list-item>
-                    <md-button class="md-primary">
-
-                        <span>More</span>
-                    </md-button>
-                </md-list-item>
-            </md-list>
+               <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{desserts.count}}" md-on-paginate="onPaginate" md-page-select></md-table-pagination>
+           </md-card-content>
         </md-card>
         <!--#region iafar: menu flotante-->
         <div layout="row" layout-align="star center">

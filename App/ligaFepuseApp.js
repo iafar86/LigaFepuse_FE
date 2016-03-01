@@ -218,17 +218,14 @@
              controller: 'equipoCtrl',
              resolve: {
                  equipoDataFactory: 'equipoDataFactory',
-
                  torneoDataFactory: 'torneoDataFactory',
-
+                 arbitroDataFactory: 'arbitroDataFactory',
                  torneoList: function (torneoDataFactory) {
                      return torneoDataFactory.getTorneos();
                  },
                  equiposLiga: function (equipoDataFactory) {
                      return equipoDataFactory.getEquiposLiga();
-
                  },
-
                  arbitroList: function (arbitroDataFactory) {
                      return arbitroDataFactory.getArbitros();
                  }

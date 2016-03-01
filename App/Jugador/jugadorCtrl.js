@@ -1,7 +1,19 @@
 ﻿ligaFepuseApp.controller('jugadorCtrl', function ($scope, $stateParams, $state, $filter, $mdDialog, $mdMedia,
     torneoInfo, equipoInfo, torneoDataFactory, equipoDataFactory, jugadorDataFactory, jugadoresList, profesionDataFactory) {
     
-   
+
+    //#region prueba tabla
+    $scope.filter = [{
+        show:false
+    }];
+
+    $scope.query = {
+        filter: '',
+        limit: '5',
+        page: 1
+    };
+    //#endregion
+
     $scope.torneoInfo = torneoInfo;
     $scope.equipoInfo = equipoInfo;
     $scope.jugadoresList = jugadoresList;
