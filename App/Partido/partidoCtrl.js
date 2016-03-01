@@ -30,7 +30,7 @@
         //p.DiaYHora = prmPartido.DiaYHora;
         p.Dia = prmPartido.Dia;
         p.Hora = prmPartido.Hora;
-        p.Sede = prmPartido.Sede;
+        p.SedeId = prmPartido.Sede.Id;
         p.GolesLocal = 0;
         p.GolesVisitante = 0;
         p.EquipoLocalId = prmPartido.EquipoLocal.Id;

@@ -38,7 +38,7 @@
             //p.DiaYHora = $scope.partidosCargados[x].DiaYHora;
             p.Dia = $scope.partidosCargados[x].Dia;
             p.Hora = $scope.partidosCargados[x].Hora;
-            p.Sede = $scope.partidosCargados[x].Sede.Id;
+            p.SedeId = $scope.partidosCargados[x].Sede.Id;
             p.GolesLocal = 0;
             p.GolesVisitante = 0;
             p.EquipoLocalId = $scope.partidosCargados[x].EquipoLocal.Id;
