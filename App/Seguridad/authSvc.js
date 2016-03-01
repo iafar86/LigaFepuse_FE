@@ -7,7 +7,7 @@
         isAuth: false,
         userName: "",
         roles: [],
-        empleadorId:""
+        ligaId:""
     };
 
     //#region registracion de usuario

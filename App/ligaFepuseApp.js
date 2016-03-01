@@ -125,7 +125,12 @@
                      infoTorneo: function (torneoDataFactory, $stateParams) {
                          var torneoId = $stateParams.torneoId;
                          return torneoDataFactory.getTorneo(torneoId);
+                     },
+
+                     listadoSedes: function (sedeDataFactory) {
+                         return sedeDataFactory.getSedes();
                      }
+
                  }
              })
             .state('torneo.info.fecha', {
@@ -136,6 +141,7 @@
                         controller: 'fechaCtrl',
                         resolve: {
                             fechaDataFactory: 'fechaDataFactory',
+                            sedeDataFactory: 'SedeDataFactory',
                             listPartidos: function (fechaDataFactory, $stateParams) {
                                 var fechaId = $stateParams.fechaId;
                                 return fechaDataFactory.getFecha(fechaId);
@@ -149,7 +155,10 @@
                             },
                             infoTorneo: function () {
                                 return { value: [] };
-                            }
+                            },
+                            listadoSedes: function (sedeDataFactory) {
+                                return sedeDataFactory.getSedes();
+                            }                                              
                         }
                     }
                 }
@@ -173,9 +182,13 @@
                             //    return equipoDataFactory.getEquiposLiga;
                             //},
                             //kike
+                            sedeDataFactory: 'sedeDataFactory',
                             tablaPosiciones: function (equipoTorneoDataFactory, $stateParams) {
                                 var torneoId = $stateParams.torneoId;
                                 return equipoTorneoDataFactory.getTablaPosiciones(torneoId);
+                            },
+                            listadoSedes: function (sedeDataFactory) {
+                                return sedeDataFactory.getSedes();
                             }
                         }
                     }
@@ -201,11 +214,14 @@
 
              .state('fecha.fechasAdd', {
                  url: '/FechasAdd',
-                 templateUrl: 'App/Fecha/Partials/fechaAdd.html'
-                 //controller: 'fechaCtrl'
-                 //resolve: {
-
-                 //    }
+                 templateUrl: 'App/Fecha/Partials/fechaAdd.html',
+                 controller: 'fechaCtrl',
+                 resolve: {
+                     sedeDataFactory: 'sedeDataFactory',
+                     listadoSedes: function (sedeDataFactory) {
+                         return sedeDataFactory.getSedes();
+                     }
+                     }
              })
          //#endregion
 

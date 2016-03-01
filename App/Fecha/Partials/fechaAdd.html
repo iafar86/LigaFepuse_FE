@@ -50,19 +50,23 @@
                         <div layout="row">
                             <div flex="50">
                                 <md-input-container>
-                                    <label>Sede del Partido</label>
-                                    <input class="md-input" ng-model="partido.Sede">
+                                    <md-input-container style="margin-right: 10px;">
+                                        <md-select placeholder="Seleccionar Sede" ng-model="partido.Sede">
+                                            <md-option ng-value="sede" ng-repeat="sede in listSedes">{{ sede.Nombre }}</md-option>
+                                        </md-select>
+                                    </md-input-container>
                                 </md-input-container>
                             </div>
                             <div flex="30">
                                 <md-input-container>
                                     <label>Fecha del Partido</label>
-                                    <input type="datetime-local" ng-model="partido.Dia"
+                                    <input type="date" ng-model="partido.Dia"
                                            placeholder="dd/MM/yyyy"/>
                                 </md-input-container>
                             </div>
+                           
                             <div flex="20">
-                                <md-input-container>
+                                <md-input-container style="margin-left: 40px">
                                     <label>Hora</label>
                                     <input type="time" ng-model="partido.Hora"
                                            placeholder="HH:MM" />
@@ -71,15 +75,15 @@
                         </div>
 
                         <div layout="row">
-                            <div flex="50">
+                            <div flex="35">
                                 <md-input-container style="margin-right: 10px;">
                                     <md-select placeholder="Seleccionar Arbitro del Partido" ng-model="partido.Arbitro">
                                         <md-option ng-value="arbitro" ng-repeat="arbitro in listArbitros">{{ arbitro.NombreApellido }}</md-option>
                                     </md-select>
                                 </md-input-container>
                             </div>
-                            <div flex="25">
-                                <md-input-container layout="row" flex="grow">
+                            <div flex="40">
+                                <md-input-container layout="row" flex="grow" style="margin-left: 42px">
                                     <div flex>
                                         <md-button class="md-raised md-primary btn-fw m-b-sm" ng-click="agregarPartido(partido)">Agregar Partido</md-button>
                                     </div>
@@ -126,10 +130,10 @@
                                                                     </div>
                                                                     <div class="m-b-xs">
                                                                         <span class="text-muted block text-xs">
-                                                                            Sede : {{partido.Sede}} &nbsp;&nbsp;&nbsp; Dia: {{partido.DiaYHora | date:"dd/MM/yyyy 'Horario:' h:mma"}}
+                                                                            Sede : {{partido.Sede.Nombre}} &nbsp;&nbsp;&nbsp; Dia: {{partido.DiaYHora | date:"dd/MM/yyyy 'Horario:' h:mma"}}
                                                                         </span>
                                                                         <span class="text-muted block text-xs">
-                                                                            Arbitro : {{partido.Arbitro.Nombre}}
+                                                                            Arbitro : {{partido.Arbitro.NombreApellido}}
                                                                         </span>
                                                                     </div>
                                                                 </div>
