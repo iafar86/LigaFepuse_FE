@@ -1,5 +1,5 @@
 ﻿ligaFepuseApp.controller('equipoCtrl', function ($scope, $stateParams, $state, $filter, $mdDialog, $mdMedia,
-    ngTableParams, equipoDataFactory, torneoDataFactory, torneoList, equiposLiga, arbitroList)
+    ngTableParams, torneoList, equiposLiga, arbitroList, equipoDataFactory, torneoDataFactory, arbitroDataFactory) //, equipoDataFactory, torneoDataFactory, arbitroDataFactory, torneoList, equiposLiga, arbitroList
 {
     $scope.torneos = torneoList;// trae todos los torneos de la liga
     $scope.listadoEquiposTorneo = [];// guarda los equipos de un torneo

@@ -7,7 +7,7 @@
         isAuth: false,
         userName: "",
         roles: [],
-        ligaId:""
+        LigaId:""
     };
 
     //#region registracion de usuario
@@ -36,17 +36,19 @@
 
         //$http.post('http://vlaboralapi.azurewebsites.net/' + 'oauth/token', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
 
+            var tokenPayload = jwtHelper.decodeToken(response.access_token); //fpaz: decodifico el token para obener los roles y los claims que se hayan definido
+            
+
             //fpaz: si se obtuvo el token de acceso correctamente, guardo el resultado en el localstorage del navegador junto con el nombre de usuario
-            localStorageService.set('authorizationData', { token: response.access_token, userName: loginData.userName });
+            localStorageService.set('authorizationData', { token: response.access_token, userName: loginData.userName, roles: tokenPayload.role, LigaId: tokenPayload.LigaId });
 
             //fpaz: seteo en el servicio las credenciales del usuario logueado, para que pueda acceder a esta info desde cualquier parte de la app usando la funcion authSvc.authentication
             // que devuelve todo el objeto con la info del usuario logueado
             _authentication.isAuth = true;
             _authentication.userName = loginData.userName;            
-            var tokenPayload = jwtHelper.decodeToken(response.access_token); //fpaz: decodifico el token para obener los roles y los claims que se hayan definido
             //#region iafar:revisar los datos devueltos en el token
             _authentication.roles = tokenPayload.role;
-            _authentication.usrId = tokenPayload.UsrId;
+            _authentication.LigaId = tokenPayload.LigaId;
             //#endregion
             deferred.resolve(response);
 

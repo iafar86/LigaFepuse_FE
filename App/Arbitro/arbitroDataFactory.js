@@ -1,11 +1,12 @@
-﻿ligaFepuseApp.factory('arbitroDataFactory', function ($http, $q) {
+﻿ligaFepuseApp.factory('arbitroDataFactory', function ($http, $q, authSvc) {
     var urlApi = "http://localhost:50174/"; //desarrollo
     var arbitroDataFactory = {};
+
 
     var _getArbitros = function () { //Trae todos los arbitros de la Liga
         return $http.get(urlApi + 'api/Arbitroes', {
             params: {
-                prmIdLiga: 1, //cambiar por 1
+                prmIdLiga: authSvc.authentication.LigaId, //iafar: para acceder a los datos del token
             }
         }).then(
             function (response) {
