@@ -1,4 +1,4 @@
-﻿<div layout="column" class="container " flex ="100">
+﻿<div layout="column" class="container " flex="100">
     <h4 class="page-head-line">Equipos de la Liga</h4>
     <md-content style="max-width: 700px">
         <div class="md-whiteframe-z2">
@@ -116,6 +116,60 @@
                         </md-list>
                     </md-content>
                 </md-tab>
+                <md-tab label="Sedes">
+                    <md-content class="md-padding">
+                        <md-content>
+                            <md-toolbar>
+                                <div class="md-toolbar-tools">
+                                    <input placeholder="Buscar" class="md-input" type="search" ng-model="search" />
+                                    <span flex></span>
+                                    <md-icon><i class="mdi-action-search "></i></md-icon>
+                                </div>
+                            </md-toolbar>
+                        </md-content>
+                        <br />
+                        <md-list>
+                            <md-list-item class="md-2-line" ng-repeat="sede in sedesList | filter:search">
+                                <div class="md-list-item-text" layout="row">
+                                    <h2>{{sede.Nombre}}</h2>
+                                    <span flex></span>                                    
+                                    <md-button layout-align="end end" class="md-warn" ng-click="eliminarSede(sede)">Eliminar</md-button>                                    
+                                </div>
+                                <md-divider ng-if="!$last"></md-divider>
+                            </md-list-item>
+
+                        </md-list>
+                    </md-content>
+
+
+                </md-tab>
+                <md-tab label="Profesiones" >
+                    <md-content class="md-padding">
+                        <md-content>
+                            <md-toolbar>
+                                <div class="md-toolbar-tools">
+                                    <input placeholder="Buscar" class="md-input" type="search" ng-model="search" />
+                                    <span flex></span>
+                                    <md-icon><i class="mdi-action-search "></i></md-icon>
+                                </div>
+                            </md-toolbar>
+                        </md-content>
+                        <br />
+                        <md-list>
+                            <md-list-item class="md-2-line" ng-repeat="profesion in profesionesList | filter:search">
+                                <div class="md-list-item-text" layout="row">
+                                    <h2>{{profesion.Nombre}}</h2>
+                                    <span flex></span>
+                                    <md-button layout-align="end end" class="md-warn" ng-click="eliminarProfesion(profesion)">Eliminar</md-button>
+                                </div>
+                                <md-divider ng-if="!$last"></md-divider>
+                            </md-list-item>
+
+                        </md-list>
+                    </md-content>
+
+
+                </md-tab>
             </md-tabs>
 
             <!--<md-virtual-repeat-container id="vertical-container">
@@ -134,7 +188,8 @@
      toggling-method="hover">
     <button mfb-button icon="fa fa-futbol-o" label="Agregar Equipo" ng-click="nuevoEquipoLiga(ev)"></button>
     <button mfb-button icon="mdi-social-person-add" label="Agregar Arbitro" ng-click="arbitroAdd()"></button>
-
+    <button mfb-button icon="fa fa-map-marker" label="Agregar Sede" ng-click="sedeAdd()"></button>
+    <button mfb-button icon="fa fa-briefcase" label="Agregar Profesion" ng-click="profesionAdd()"></button>
     <!--style="background-color: #D32F2F"-->
 </nav>
 

@@ -1,5 +1,7 @@
 ﻿ligaFepuseApp.controller('equipoCtrl', function ($scope, $stateParams, $state, $filter, $mdDialog, $mdMedia,
-    ngTableParams, torneoList, equiposLiga, arbitroList, equipoDataFactory, torneoDataFactory, arbitroDataFactory) //, equipoDataFactory, torneoDataFactory, arbitroDataFactory, torneoList, equiposLiga, arbitroList
+    ngTableParams, torneoList, equiposLiga, arbitroList,
+    equipoDataFactory, torneoDataFactory, arbitroDataFactory,
+    sedeDataFactory, profesionDataFactory, sedesList, profesionesList) //, equipoDataFactory, torneoDataFactory, arbitroDataFactory, torneoList, equiposLiga, arbitroList
 {
     $scope.torneos = torneoList;// trae todos los torneos de la liga
     $scope.listadoEquiposTorneo = [];// guarda los equipos de un torneo
@@ -234,7 +236,106 @@
 
     //<-------END REGION---------->
 
-   
+
+    //<-------REGION SEDE------->
+    $scope.sedesList = sedesList;
+    $scope.obtenerSedes = function () {
+        sedeDataFactory.getSedes().then(function (response) {
+            $scope.sedesList = response;
+        });
+    };
+
+    $scope.sedeAdd = function () {
+        $mdDialog.show({
+            //scope: $scope,
+            controller: DialogSedeController,
+            //targetEvent: $event,
+            templateUrl: 'App/Sede/Partials/sedeAdd.html'            
+        }).then(function () {
+            sedeDataFactory.getSedes().then(function (response) {
+                $scope.sedesList = response;
+            },
+                function (err) {
+                    if (err) {
+                        $scope.error = err;
+                        alert("Error: " + $scope.error.Message);
+                    }
+                });
+
+        })
+    }
+    $scope.eliminarSede = function (sede) {
+        sedeDataFactory.delSede(sede.Id).then(function (response) {
+            alert("Sede eliminada");
+        },
+        function (err) {
+            if (err) {
+                $scope.error = err;
+                alert("Erorr al borrar: " + $scope.error.Message);
+            }
+        },
+        function (err) {
+            if (err) {
+                $scope.error = err;
+                alert("Erorr al borrar: " + $scope.error.Message);
+            }
+        });
+
+        sedeDataFactory.getSedes().then(function (response) {
+            $scope.sedesList = response;
+        })
+    }
+    
+    //<-------END REGION-------->
+    
+    //<------REGION PROFESIONES------->
+    $scope.profesionesList = profesionesList;
+
+    $scope.addProfesion = function () {
+        $mdDialog.show({
+            //scope: $scope,
+            controller: DialogProfesionController,
+            //targetEvent: $event,
+            templateUrl: 'App/Profesion/Partials/sedeAdd.html'
+        }).then(function () {
+            profesionDataFactory.getProfesiones().then(function (response) {
+                $scope.profesionesList = response;
+            },
+                function (err) {
+                    if (err) {
+                        $scope.error = err;
+                        alert("Error: " + $scope.error.Message);
+                    }
+                });
+
+        })
+
+    }
+
+    $scope.eliminarProfesion = function (profesion) {
+        sedeDataFactory.delProfesion(profesion.Id).then(function (response) {
+            alert("Profesión eliminada");
+        },
+        function (err) {
+            if (err) {
+                $scope.error = err;
+                alert("Erorr al borrar: " + $scope.error.Message);
+            }
+        },
+        function (err) {
+            if (err) {
+                $scope.error = err;
+                alert("Erorr al borrar: " + $scope.error.Message);
+            }
+        });
+
+        profesionDataFactory.getProfesiones().then(function (response) {
+            $scope.profesionesList = response;
+        })
+        
+    }
+    //<-------END REGION------->
+
 })
 
 
@@ -426,3 +527,75 @@ function DialogArbitroController($scope, $mdDialog, arbitroShow, edit, func, arb
 
 }
 //<----------END REGION ARBITRO--------------->
+
+//<------REGION DIALOG DE SEDE---------->
+function DialogSedeController($scope, $mdDialog, sedeDataFactory) {
+
+
+    $scope.cancel = function () {
+        $scope = $scope.$new(true);
+        $mdDialog.cancel();
+    };
+
+    $scope.hide = function () {
+        $mdDialog.hide();
+    };
+
+    $scope.nuevaSede = function (sede) {
+        sedeDataFactory.postSede(sede).then(function (response) {
+            alert("Sede Agregada");
+        },
+        function (err) {
+            if (err) {
+                $scope.error = err;
+                alert("Erorr al borrar: " + $scope.error.Message);
+            }
+        },
+        function (err) {
+            if (err) {
+                $scope.error = err;
+                alert("Erorr al borrar: " + $scope.error.Message);
+            }
+        }
+        );      
+        $scope.hide(response);
+    };
+
+    
+}
+//<-------END REGION--------->
+
+//<--------REGION DIALOG PROFESION-------->
+function DialogSedeController($scope, $mdDialog, profesionDataFactory) {
+    $scope.cancel = function () {
+        $scope = $scope.$new(true);
+        $mdDialog.cancel();
+    };
+
+    $scope.hide = function () {
+        $mdDialog.hide();
+    };
+
+    $scope.nuevaProfesion = function (profesion) {
+        profesionDataFactory.postProfesion(profesion).then(function () {
+            alert("Profesion Agregada");
+        },
+        function (err) {
+            if (err) {
+                $scope.error = err;
+                alert("Erorr al borrar: " + $scope.error.Message);
+            }
+        },
+        function (err) {
+            if (err) {
+                $scope.error = err;
+                alert("Erorr al borrar: " + $scope.error.Message);
+            }
+        });
+
+        $scope.hide();
+
+    }
+
+}
+//<--------END REGION-------->

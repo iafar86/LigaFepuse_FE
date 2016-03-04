@@ -12,14 +12,29 @@
 
     };
 
-    var _postSede = function (data) {
-        return $http.post(urlApi + 'api/Sedes', data).then(function (response) {
+    var _postSede = function (data) { // nueva sede
+        return $http.post(urlApi + '/api/Sedes', data).then(function (response) {
             return response;
-        });
+        })
     };
+
+    var _delSede = function (prmId) {
+        var deferred = $q.defer();
+
+        $http.delete(url + '/api/Sedes' + prmId).then(
+            function (response) {
+                deferred.resolve(response);
+            },
+            function (response) {
+                deferred.reject(response.data);
+            });
+        return deferred.promise;
+    }
+
 
     sedeDataFactory.getSedes = _getSedes;
     sedeDataFactory.postSede = _postSede;
+    sedeDataFactory.delSede = _delSede;
 
     return sedeDataFactory;
 

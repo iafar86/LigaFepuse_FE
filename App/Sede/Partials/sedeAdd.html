@@ -1,0 +1,21 @@
+﻿<md-dialog layout="row" flex>
+    <md-dialog-content flex>
+        <div layout="row">           
+            <md-card flex="70">
+                <md-toolbar>
+                    <div class="md-toolbar-tools">Nueva Sede</div>
+                </md-toolbar>
+                <md-card-content>
+                    <md-input-container style="min-width: 400px">
+                        <label>Nombre de sede</label>
+                        <input type="text" ng-model="sede.Nombre" class="form-control" required />
+                    </md-input-container>
+                </md-card-content>
+                <md-card-actions layout="row" layout-align="end end">
+                    <md-button ng-click="nuevaSede(sede)">Guardar</md-button>
+                    <md-button ng-click="cancel()">Cancelar</md-button>
+                </md-card-actions>
+            </md-card>
+        </div>
+    </md-dialog-content>
+</md-dialog>
