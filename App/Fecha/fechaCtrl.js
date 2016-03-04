@@ -1,4 +1,6 @@
-﻿ligaFepuseApp.controller('fechaCtrl', function ($scope, $stateParams, $state, $filter, $mdDialog, $mdMedia, ngTableParams, fechaDataFactory, listPartidos, listEquipos, listArbitros, infoTorneo) {
+﻿ligaFepuseApp.controller('fechaCtrl', function ($scope, $stateParams, $state, $filter, $mdDialog, $mdMedia,
+    ngTableParams, fechaDataFactory, listPartidos,
+    listEquipos, listArbitros, infoTorneo,sedeDataFactory, listSedes) {
     //#region fpaz: Inicializacion de Variables de Scope
     $scope.listPartidos = listPartidos; //fpaz: tiene todos los partidos de la fecha
     $scope.listEquipos = listEquipos; //fpaz: tiene todos los equipos del torneo al que pertenece la fecha
@@ -6,6 +8,7 @@
     $scope.torneo = infoTorneo;
     $scope.partido = {};
     $scope.partidosCargados = []; // fpaz: array de partidos agregados en el alta de fechas o en el alta de partidos para una fecha
+    $scope.listSedes = listSedes;
     //#endregion
 
     //#region fpaz: Alta de Fechas del Torneo
@@ -35,7 +38,7 @@
             //p.DiaYHora = $scope.partidosCargados[x].DiaYHora;
             p.Dia = $scope.partidosCargados[x].Dia;
             p.Hora = $scope.partidosCargados[x].Hora;
-            p.Sede = $scope.partidosCargados[x].Sede;
+            p.SedeId = $scope.partidosCargados[x].Sede.Id;
             p.GolesLocal = 0;
             p.GolesVisitante = 0;
             p.EquipoLocalId = $scope.partidosCargados[x].EquipoLocal.Id;

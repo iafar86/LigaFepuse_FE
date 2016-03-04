@@ -24,17 +24,21 @@
     $scope.partidoAdd = function (prmPartido) {
         
         //armo el obj partido que voy a dar de alta
+        
         var p = {};
         p.FechaId = $stateParams.fechaId;
         //p.DiaYHora = prmPartido.DiaYHora;
         p.Dia = prmPartido.Dia;
         p.Hora = prmPartido.Hora;
-        p.Sede = prmPartido.Sede;
+        p.SedeId = prmPartido.Sede.Id;
         p.GolesLocal = 0;
         p.GolesVisitante = 0;
         p.EquipoLocalId = prmPartido.EquipoLocal.Id;
         p.EquipoVisitanteId = prmPartido.EquipoVisitante.Id;
-        p.ArbitroId = prmPartido.Arbitro.Id;        
+        if (prmPartido.Arbitro != null) {
+            p.ArbitroId = prmPartido.Arbitro.Id;
+        }
+        
 
         partidoDataFactory.postPartido(p).then(function (response) {
             alert("Nueva Partido Guardado");
@@ -60,6 +64,7 @@
 
     //#region modificacion de partido
     $scope.fechaHoraNueva = {};
+
     $scope.edit = function () {//fpaz: activa el modo de edicion de los campos        
         $scope.editValue = true;                
     };

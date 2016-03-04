@@ -1,6 +1,5 @@
-﻿<md-dialog layout="row" flex="100">
+﻿<md-dialog layout="row" flex>
     <md-dialog-content flex>
-        <div class="container">
             <div layout="row">
                 <md-card flex="30">
                     <md-card-content layout="column" layout-align="center center" layout-fill>
@@ -11,12 +10,12 @@
                     </md-card-content>
                 </md-card>
 
-                <md-card flex="60">
+                <md-card flex="70">
                     <md-toolbar>
                         <div class="md-toolbar-tools">Nuevo Equipo</div>
                     </md-toolbar>
                     <md-card-content>
-                        <md-input-container>
+                        <md-input-container style="min-width: 400px">
                             <label>Nombre</label>
                             <input type="text" ng-model="equipo.Nombre" class="form-control" required />
                         </md-input-container>
@@ -27,9 +26,5 @@
                     </md-card-actions>
                 </md-card>
             </div>
-
-
-        </div>
-
     </md-dialog-content>
 </md-dialog>

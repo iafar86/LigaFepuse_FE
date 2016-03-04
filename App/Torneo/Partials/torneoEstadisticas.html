@@ -1,0 +1,124 @@
+﻿<div layout="row">
+<!--#region Estadisticas de Goleadores-->
+<div class="col-sm-12">
+    <div class="card">
+        <div class="card-heading">
+            <div class="clear text-ellipsis hidden-sm">
+                <div layout="row">
+                    <div flex="grow">
+                        <h2 class="page-head-line">
+                            Tabla de Goleadores del Torneo
+                        </h2>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="card-body">
+            <table ng-table="tableGoleadores" class="table table-bordered table-hover table-condensed editable-table">
+                <tr ng-repeat="jugador in listGoleadores">
+                    <td data-title="'N°'">
+                        {{$index+1}}
+                    </td>
+                    <td data-title="'Jugador'">
+                        <span>{{jugador.NombreJugador}}</span>
+                    </td>
+                    <td data-title="'Equipo'">
+                        <span>{{jugador.NombreEquipo}}</span>
+                    </td>
+                    <td data-title="'PJ'" sortable="'PartidosJugados'">
+                        <span>{{jugador.PartidosJugados}}</span>
+                    </td>
+                    <td data-title="'Goles'" sortable="'Goles'">
+                        <span>{{jugador.Goles}}</span>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+</div>
+<!--#endregion-->
+</div>
+
+<div layout="row">
+    <!--#region Estadisticas de Amonestados-->
+    <div class="col-sm-6">
+        <div class="card">
+            <div class="card-heading">
+                <div class="clear text-ellipsis hidden-sm">
+                    <div layout="row">
+                        <div flex="grow">
+                            <h2 class="page-head-line">
+                                Tabla de Amonestados del Torneo
+                            </h2>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="card-body">
+                <table ng-table="tableAmonestados" class="table table-bordered table-hover table-condensed editable-table">
+                    <tr ng-repeat="jugador in listAmonestados">
+                        <td data-title="'N°'">
+                            {{$index+1}}
+                        </td>
+                        <td data-title="'Jugador'">
+                            <span>{{jugador.NombreJugador}}</span>
+                        </td>
+                        <td data-title="'Equipo'">
+                            <span>{{jugador.NombreEquipo}}</span>
+                        </td>
+                        <td data-title="'PJ'" sortable="'PartidosJugados'">
+                            <span>{{jugador.PartidosJugados}}</span>
+                        </td>
+                        <td data-title="'Tarjetas Amarillas'" sortable="'CantTarjAmarillas'">
+                            <span>{{jugador.CantTarjAmarillas}}</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!--#endregion-->
+
+    <!--#region Estadisticas de Expulsados-->
+    <div class="col-sm-6">
+        <div class="card">
+            <div class="card-heading">
+                <div class="clear text-ellipsis hidden-sm">
+                    <div layout="row">
+                        <div flex="grow">
+                            <h2 class="page-head-line">
+                                Tabla de Expulsados del Torneo
+                            </h2>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="card-body">
+                <table ng-table="tableExpulsados" class="table table-bordered table-hover table-condensed editable-table">
+                    <tr ng-repeat="jugador in listAmonestados">
+                        <td data-title="'N°'">
+                            {{$index+1}}
+                        </td>
+                        <td data-title="'Jugador'">
+                            <span>{{jugador.NombreJugador}}</span>
+                        </td>
+                        <td data-title="'Equipo'">
+                            <span>{{jugador.NombreEquipo}}</span>
+                        </td>
+                        <td data-title="'PJ'" sortable="'PartidosJugados'">
+                            <span>{{jugador.PartidosJugados}}</span>
+                        </td>
+                        <td data-title="'Tarjetas Rojas'" sortable="'CantTarjRojas'">
+                            <span>{{jugador.CantTarjRojas}}</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!--#endregion-->
+</div>

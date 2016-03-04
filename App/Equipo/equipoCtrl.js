@@ -1,11 +1,21 @@
 ﻿ligaFepuseApp.controller('equipoCtrl', function ($scope, $stateParams, $state, $filter, $mdDialog, $mdMedia,
-    ngTableParams, torneoList, equiposLiga, arbitroList, equipoDataFactory, torneoDataFactory, arbitroDataFactory) //, equipoDataFactory, torneoDataFactory, arbitroDataFactory, torneoList, equiposLiga, arbitroList
+    ngTableParams, torneoList, equiposLiga, arbitroList,
+    equipoDataFactory, torneoDataFactory, arbitroDataFactory,
+    sedeDataFactory, profesionDataFactory, sedesList, profesionesList) //, equipoDataFactory, torneoDataFactory, arbitroDataFactory, torneoList, equiposLiga, arbitroList
 {
     $scope.torneos = torneoList;// trae todos los torneos de la liga
     $scope.listadoEquiposTorneo = [];// guarda los equipos de un torneo
 
     $scope.equiposLiga = [];// guarda todos los torneos de la liga
     $scope.equiposLiga = equiposLiga; // revisar porque trae un arreglo adentro de otro kikexp
+
+
+    $scope.equiposCount = 0;
+    $scope.query = {
+        //order: 'name',
+        limit: 5,
+        page: 1
+    };
 
     //#Region Obtiene los equipos de un torneo
     $scope.obtenerEquipos = function () {
@@ -143,34 +153,34 @@
 
 
     //#region Paginacion de la tabla dinamica de Dictamenes (se puede llenar con dictamenes Institucionales o Jurisdiccionales segun la opcion elegida)
-    var data = $scope.equiposLiga;
-    $scope.tableParams = new ngTableParams({
-        page: 1,            // show first page
-        count: 3,          // count per page        
-        filter: {
-            // filtros de la tabla, 
-            Nombre: '' //por numero de nrodictamen       
-            //codplanmejora: ''// por nombre de codplanmejora
-        }
-        //sorting: {
-        //    name: 'asc'
-        //}
-    }, {
-        total: data.length, // saco el Total de registros del listado de escuelas
-        getData: function ($defer, params) {
-            var filteredData = params.filter() ?
-                   $filter('filter')(data, params.filter()) :
-                   data;
+    //var data = $scope.equiposLiga;
+    //$scope.tableParams = new ngTableParams({
+    //    page: 1,            // show first page
+    //    count: 3,          // count per page        
+    //    filter: {
+    //        // filtros de la tabla, 
+    //        Nombre: '' //por numero de nrodictamen       
+    //        //codplanmejora: ''// por nombre de codplanmejora
+    //    }
+    //    //sorting: {
+    //    //    name: 'asc'
+    //    //}
+    //}, {
+    //    total: data.length, // saco el Total de registros del listado de escuelas
+    //    getData: function ($defer, params) {
+    //        var filteredData = params.filter() ?
+    //               $filter('filter')(data, params.filter()) :
+    //               data;
 
-            var orderedData = params.sorting() ?
-                   $filter('orderBy')(filteredData, params.orderBy()) :
-                   data;
+    //        var orderedData = params.sorting() ?
+    //               $filter('orderBy')(filteredData, params.orderBy()) :
+    //               data;
 
-            $scope.equiposLiga = orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count());
-            params.total(orderedData.length); // set total for recalc pagination
-            $defer.resolve($scope.equiposLiga);
-        }
-    });
+    //        $scope.equiposLiga = orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count());
+    //        params.total(orderedData.length); // set total for recalc pagination
+    //        $defer.resolve($scope.equiposLiga);
+    //    }
+    //});
     //#endregion
 
 
@@ -226,21 +236,105 @@
 
     //<-------END REGION---------->
 
-    //#region Imprimir listado
-    $scope.printToCart = function (printSectionId) {
-        
-        var innerContents = document.getElementById(printSectionId).innerHTML;
-        var popupWinindow = window.open('', '_blank', 'width=600,height=700,scrollbars=no,menubar=no,toolbar=no,location=no,status=no,titlebar=no');
-        popupWinindow.document.open();
-        popupWinindow.document.write('<html><head> <link rel="stylesheet" href="libs/assets/animate.css/animate.css" type="text/css" /><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"><link rel="stylesheet" href="libs/angular/angular-loading-bar/build/loading-bar.css" type="text/css" /><link rel="stylesheet" href="libs/angular/angular-material/angular-material.css" type="text/css" /><link rel="stylesheet" href="styles/material-design-icons.css" type="text/css" /><link rel="stylesheet" href="styles/app.min.css" type="text/css" /><link href="libs/angular/angular-material/angular-material.min.css" rel="stylesheet" /><script src="libs/angular/angular-material/angular-material.min.js"></script><script src="libs/angular/angular-material-icons/angular-material-icons.min.js"></script><link rel="stylesheet" type="text/css" href="style.css" /></head><body onload="window.print()">' + innerContents + '</html>');  
-        popupWinindow.document.close();
+
+    //<-------REGION SEDE------->
+    $scope.sedesList = sedesList;
+    $scope.obtenerSedes = function () {
+        sedeDataFactory.getSedes().then(function (response) {
+            $scope.sedesList = response;
+        });
+    };
+
+    $scope.sedeAdd = function () {
+        $mdDialog.show({
+            //scope: $scope,
+            controller: DialogSedeController,
+            //targetEvent: $event,
+            templateUrl: 'App/Sede/Partials/sedeAdd.html'            
+        }).then(function () {
+            sedeDataFactory.getSedes().then(function (response) {
+                $scope.sedesList = response;
+            },
+                function (err) {
+                    if (err) {
+                        $scope.error = err;
+                        alert("Error: " + $scope.error.Message);
+                    }
+                });
+
+        })
+    }
+    $scope.eliminarSede = function (sede) {
+        sedeDataFactory.delSede(sede.Id).then(function (response) {
+            alert("Sede eliminada");
+        },
+        function (err) {
+            if (err) {
+                $scope.error = err;
+                alert("Erorr al borrar: " + $scope.error.Message);
+            }
+        },
+        function (err) {
+            if (err) {
+                $scope.error = err;
+                alert("Erorr al borrar: " + $scope.error.Message);
+            }
+        });
+
+        sedeDataFactory.getSedes().then(function (response) {
+            $scope.sedesList = response;
+        })
+    }
+    
+    //<-------END REGION-------->
+    
+    //<------REGION PROFESIONES------->
+    $scope.profesionesList = profesionesList;
+
+    $scope.addProfesion = function () {
+        $mdDialog.show({
+            //scope: $scope,
+            controller: DialogProfesionController,
+            //targetEvent: $event,
+            templateUrl: 'App/Profesion/Partials/sedeAdd.html'
+        }).then(function () {
+            profesionDataFactory.getProfesiones().then(function (response) {
+                $scope.profesionesList = response;
+            },
+                function (err) {
+                    if (err) {
+                        $scope.error = err;
+                        alert("Error: " + $scope.error.Message);
+                    }
+                });
+
+        })
+
     }
 
-    
-    //#endRegion
+    $scope.eliminarProfesion = function (profesion) {
+        sedeDataFactory.delProfesion(profesion.Id).then(function (response) {
+            alert("Profesión eliminada");
+        },
+        function (err) {
+            if (err) {
+                $scope.error = err;
+                alert("Erorr al borrar: " + $scope.error.Message);
+            }
+        },
+        function (err) {
+            if (err) {
+                $scope.error = err;
+                alert("Erorr al borrar: " + $scope.error.Message);
+            }
+        });
 
-
-
+        profesionDataFactory.getProfesiones().then(function (response) {
+            $scope.profesionesList = response;
+        })
+        
+    }
+    //<-------END REGION------->
 
 })
 
@@ -433,3 +527,75 @@ function DialogArbitroController($scope, $mdDialog, arbitroShow, edit, func, arb
 
 }
 //<----------END REGION ARBITRO--------------->
+
+//<------REGION DIALOG DE SEDE---------->
+function DialogSedeController($scope, $mdDialog, sedeDataFactory) {
+
+
+    $scope.cancel = function () {
+        $scope = $scope.$new(true);
+        $mdDialog.cancel();
+    };
+
+    $scope.hide = function () {
+        $mdDialog.hide();
+    };
+
+    $scope.nuevaSede = function (sede) {
+        sedeDataFactory.postSede(sede).then(function (response) {
+            alert("Sede Agregada");
+        },
+        function (err) {
+            if (err) {
+                $scope.error = err;
+                alert("Erorr al borrar: " + $scope.error.Message);
+            }
+        },
+        function (err) {
+            if (err) {
+                $scope.error = err;
+                alert("Erorr al borrar: " + $scope.error.Message);
+            }
+        }
+        );      
+        $scope.hide(response);
+    };
+
+    
+}
+//<-------END REGION--------->
+
+//<--------REGION DIALOG PROFESION-------->
+function DialogSedeController($scope, $mdDialog, profesionDataFactory) {
+    $scope.cancel = function () {
+        $scope = $scope.$new(true);
+        $mdDialog.cancel();
+    };
+
+    $scope.hide = function () {
+        $mdDialog.hide();
+    };
+
+    $scope.nuevaProfesion = function (profesion) {
+        profesionDataFactory.postProfesion(profesion).then(function () {
+            alert("Profesion Agregada");
+        },
+        function (err) {
+            if (err) {
+                $scope.error = err;
+                alert("Erorr al borrar: " + $scope.error.Message);
+            }
+        },
+        function (err) {
+            if (err) {
+                $scope.error = err;
+                alert("Erorr al borrar: " + $scope.error.Message);
+            }
+        });
+
+        $scope.hide();
+
+    }
+
+}
+//<--------END REGION-------->

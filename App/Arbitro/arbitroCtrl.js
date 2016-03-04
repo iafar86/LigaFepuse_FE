@@ -17,7 +17,16 @@
             } //paso de scope
         }).then(function (response) {
             if (response == "ok") { //iafar: se guardo nuevo arbitro?
-                alert('guardo un arbitro, actualizar lista ' + response)
+                //alert('guardo un arbitro, actualizar lista ' + response);
+                arbitroDataFactory.getArbitros().then(function (response) {
+                    $scope.arbitroList = response;
+                },
+                function (err) {
+                    if (err) {
+                        $scope.error = err;
+                        alert("Error: " + $scope.error.Message);
+                    }
+                });
             } else {
                 alert('Le dio a cancelar ' + response)
             }

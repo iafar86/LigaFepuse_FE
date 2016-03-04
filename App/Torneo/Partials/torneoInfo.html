@@ -22,7 +22,7 @@
     </div>
     <!--#endregion-->
     <div class="row row-sm">
-        <md-tabs md-dynamic-height md-border-bottom>
+        <md-tabs md-dynamic-height md-border-bottom>            
             <md-tab label="Tabla de Posiciones" ui-sref="torneo.info.tablaPos">
                 <md-content class="md-padding">
                     <!--#region Partidos de la Fecha -->
@@ -64,10 +64,16 @@
                              active-icon="mdi-content-clear" resting-icon="mdi-content-add"
                              toggling-method="hover">
                             <button mfb-button icon="glyphicon glyphicon-calendar" label="Agregar Nueva Fecha" ng-click="addFecha()"></button>
-                            <button mfb-button icon="fa fa-futbol-o" label="Agregar Nuevo Partido" ng-click="addPartido()"></button>
-                            <button mfb-button icon="fa fa-users" label="Agregar Nuevo Equipo"></button>
+                            <button mfb-button icon="fa fa-futbol-o" label="Agregar Nuevo Partido" ng-click="addPartido()"></button>                            
                         </nav>
                     </div>
+                    <!--#endregion-->
+                </md-content>
+            </md-tab>
+            <md-tab label="Estadisticas del Torneo" ui-sref="torneo.info.estadisticas">
+                <md-content class="md-padding">
+                    <!--#region Estadisticas del Torneo -->
+                    <div ui-view="estadisticas"></div>
                     <!--#endregion-->
                 </md-content>
             </md-tab>

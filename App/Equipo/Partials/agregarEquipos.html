@@ -1,4 +1,4 @@
-﻿<md-dialog layout="column" flex="100">
+﻿<md-dialog layout="column" flex="70">
     <md-dialog-content>
         <md-content>
             <md-toolbar>
@@ -17,27 +17,28 @@
             </md-toolbar>
         </md-content>
 
-        <div flex="70">
-            
-                <md-content>
+        <div flex="90" class="container" style="max-height: 500px">
 
-                    <md-list ng-repeat="equipo in equiposLiga | filter: search">
-                        <md-list-item class="md-3-line" layout="row">
-                            <img class="md-avatar" style="min-width: 100px; min-height: 100px" />
-                            <div class="md-list-item-text">
-                                <h3>{{equipo.Nombre}}</h3>
-                                <!--<h4>Al dia: {{equipo.alDia}}</h4>-->
-                            </div>
-                            <md-checkbox class="md-secondary" aria-label="checkbox" ng-change="addCheck(equipo)" ng-model="equipo.isChecked"></md-checkbox>
-                        </md-list-item>
-                            
-                    </md-list>
-                    <md-actions layout="row" layout-align="end end">
-                        <md-button ng-click="variable = true">Agregar Nuevo</md-button>
-                        <md-button ng-click="addEquipos(listadoTem)">Agregar</md-button>
-                        <md-button ng-click="cancelar()">Cancelar</md-button>
-                    </md-actions>
-                </md-content>   
+            <md-content>
+
+                <md-list ng-repeat="equipo in equiposLiga | filter: search">
+                    <md-list-item class="md-3-line" layout="row" style="max-height: 90px; margin-bottom: 20px">
+                        <img class="md-avatar" style="min-width: 70px; min-height: 70px" />
+                        <div class="md-list-item-text">
+                            <h3>{{equipo.Nombre}}</h3>
+                            <!--<h4>Al dia: {{equipo.alDia}}</h4>-->
+                        </div>                        
+                        <md-checkbox class="md-secondary" aria-label="checkbox" ng-change="addCheck(equipo)" ng-model="equipo.isChecked"></md-checkbox>
+                        <label>Agregar</label>
+                    </md-list-item>
+                    <md-divider></md-divider>
+                </md-list>
+                <md-actions layout="row" layout-align="end end">
+                    <md-button ng-click="variable = true">Agregar Nuevo</md-button>
+                    <md-button ng-click="addEquipos(listadoTem)">Agregar</md-button>
+                    <md-button ng-click="cancelar()">Cancelar</md-button>
+                </md-actions>
+            </md-content>
             <md-divider></md-divider>
 
             <div ng-show="variable">
@@ -48,9 +49,9 @@
                 <md-actions layout="column" layout-align="end end">
                     <md-button ng-click="addEquipo(equipo)">Agregar</md-button>
                     <md-button ng-click="variable = false">Cancelar</md-button>
-                </md-actions> 
+                </md-actions>
             </div>
-                    
+
         </div>
         
     </md-dialog-content>
