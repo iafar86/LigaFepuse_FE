@@ -361,7 +361,7 @@
             })
 
             .state('jugador.jugadorList', {
-                url: '/ListaJugadores/:idTorneo?idEquipo', //:idTorneo?idEquipo
+                url: '/ListaJugadores/:idTorneo?idEquipo', 
                 templateUrl: 'App/Jugador/Partials/jugadorEquipo.html',
                 controller: 'jugadorCtrl',
                 resolve: {
@@ -380,12 +380,11 @@
                         var torneoId = $stateParams.idTorneo;
                         var equipoId = $stateParams.idEquipo;
                         return jugadorDataFactory.getJugadoresEquipoTorneo(torneoId, equipoId)
+                    },
+                    profesionesList: function (profesionDataFactory) {
+                        return profesionDataFactory.getProfesiones();
                     }
 
-                },
-                params: {
-                    idTorneo: "miTorneo",
-                    idEquipo: "miEquipo"
                 }
             })
 

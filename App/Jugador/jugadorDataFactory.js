@@ -24,12 +24,14 @@
 
     var _getJugadoresEquipoTorneo = function (prmIdTorneo, prmIdEquipo) { //trae todos los Jugadores de un torneo y de un equipo
         //var prmIdLiga = authSvc.authentication.ligaId;
+        console.log("entra EJT "+ prmIdTorneo+ " "+prmIdEquipo)
         return $http.get(urlApi + '/api/Jugadors', {
             params: {
                 prmIdTorneo: prmIdTorneo,
                 prmIdEquipo: prmIdEquipo
             }
         }).then(function (response) {
+            //debugger;
             console.log(response.data);
             return response.data;
         });

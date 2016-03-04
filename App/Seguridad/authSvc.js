@@ -7,7 +7,8 @@
         isAuth: false,
         userName: "",
         roles: [],
-        LigaId:""
+        LigaId: ""
+      
     };
 
     //#region registracion de usuario

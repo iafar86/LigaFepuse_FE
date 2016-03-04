@@ -6,7 +6,8 @@
     var _getArbitros = function () { //Trae todos los arbitros de la Liga
         return $http.get(urlApi + 'api/Arbitroes', {
             params: {
-                prmIdLiga: authSvc.authentication.LigaId, //iafar: para acceder a los datos del token
+                prmIdLiga:1
+                //prmIdLiga: authSvc.authentication.Liga.Id, //iafar: para acceder a los datos del token
             }
         }).then(
             function (response) {
