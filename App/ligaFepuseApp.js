@@ -195,6 +195,23 @@
                 }
 
             })
+            .state('torneo.info.estadisticas', {
+                url: '/Estadisticas',
+                views: {
+                    'estadisticas': {
+                        templateUrl: 'App/Torneo/Partials/torneoEstadisticas.html',
+                        controller: 'estadisticasCtrl',
+                        resolve: {
+                            estadisticasDataFactory: 'estadisticasDataFactory',                            
+                            estadisticasTorneo: function (estadisticasDataFactory, $stateParams) {
+                                var torneoId= $stateParams.torneoId;
+                                return estadisticasDataFactory.getEstadisticasTorneo(torneoId);
+                            }
+                        }
+                    }
+                }
+
+            })
             //#endregion
 
         //#region Fechas
