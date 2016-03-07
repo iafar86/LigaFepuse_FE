@@ -1,10 +1,10 @@
 ﻿
 <div layout="column" layout-fill>
-   
+
     <!--#region Panel de resultados-->
     <md-content style="background-color:#eee" flex>
         <md-card>
-           <md-card-title>
+            <md-card-title>
                 <md-toolbar class="md-table-toolbar md-default" ng-hide="selected.length || filter.show">
                     <div class="md-toolbar-tools">
                         <h2 class="md-title">Jugadores</h2>
@@ -17,59 +17,55 @@
 
                 <md-toolbar class="md-table-toolbar md-default" ng-show="filter.show">
                     <div class="md-toolbar-tools">
-                        <md-icon>search</md-icon>
-                        <form flex name="filter.form">
-                            <input type="text" ng-model="query.filter"  placeholder="search">
-                        </form>
+                        <br />
+                        
+                        <md-input-container flex name="filter.form" >
+
+                            <input type="text" ng-model="search" placeholder="Buscar" layout-align="end end">
+                        </md-input-container>
                         <md-button class="md-icon-button" ng-click="filter.show = false">
                             <ng-md-icon icon="clear"></ng-md-icon>
                         </md-button>
                     </div>
                 </md-toolbar>
             </md-card-title>
-           <md-card-content>
-               <md-table-container>
-                   <table md-table md-row-select ng-model="selected" md-progress="promise">
-                       <thead md-head md-order="query.order" md-on-reorder="onReorder">
-                           <tr md-row>
-                               <th md-column md-order-by="nameToLower"><span>Matricula</span></th>
-                               <th md-column md-numeric md-order-by="calories.value"><span>Calories</span></th>
-                               <th md-column md-numeric>Fat (g)</th>
-                               <th md-column md-numeric>Carbs (g)</th>
-                               <th md-column md-numeric>Protein (g)</th>
-                               <th md-column md-numeric>Sodium (mg)</th>
-                               <th md-column md-numeric>Calcium (%)</th>
-                               <th md-column md-numeric>Iron (%)</th>
-                           </tr>
-                       </thead>
-                       <tbody md-body>
-                           <tr md-row md-select="dessert" md-select-id="{{dessert.name}}" md-auto-select ng-repeat="dessert in desserts.data">
-                               <td md-cell>{{dessert.name}}</td>
-                               <td md-cell>{{dessert.calories.value}}</td>
-                               <td md-cell>{{dessert.fat.value | number: 1}}</td>
-                               <td md-cell>{{dessert.carbs.value}}</td>
-                               <td md-cell>{{dessert.protein.value | number: 1}}</td>
-                               <td md-cell>{{dessert.sodium.value}}</td>
-                               <td md-cell>{{dessert.calcium.value}}{{dessert.calcium.unit}}</td>
-                               <td md-cell>{{dessert.iron.value}}{{dessert.iron.unit}}</td>
-                           </tr>
-                       </tbody>
-                   </table>
-               </md-table-container>
+            <md-card-content>
+                <md-table-container style="height:400px">
+                    <table md-table md-row-select md-progress="promise">
+                        <thead md-head md-order="myOrder" md-on-reorder="onReorder">
+                            <tr md-row>
+                                <th md-column md-numeric>D.N.I.</th>
+                                <th md-column md-numeric>Matricula</th>
+                                <th md-column md-order-by="NombreApellido"><span>Nombre y Apellido</span></th>
+                                <th md-column>Federado</th>
+                                <th md-column>Ficha Medica</th>
+                                <th md-column>Profesion</th>
+                            </tr>
+                        </thead>
+                        <tbody md-body>
+                            <tr md-row md-select="jugador" md-auto-select ng-repeat="j in jugadoresList | filter:search | orderBy:myOrder | limitTo: query.limit: (query.page - 1) * query.limit ">
+                                <td md-cell>{{j.Dni}}</td>
+                                <td md-cell>{{j.Matricula}}</td>
+                                <td md-cell>{{j.NombreApellido}}</td>
+                                <td md-cell>{{j.Federado == true ? "Si" : "No"}}</td>     <!--elem.WithCertification == true ? "Yes" : "No"-->   
+                                <td md-cell>{{j.FichaMedica == true ? "Si" : "No"}}</td>
+                                <td md-cell>{{busProf(j.ProfesionId)}}</td>
+                                <td md-cell><md-button class="md-raised" ng-click="jugadorInfo(j)">Detalle</md-button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </md-table-container>
 
-               <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{desserts.count}}" md-on-paginate="onPaginate" md-page-select></md-table-pagination>
-           </md-card-content>
+                <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{jugadoresCount}}" md-on-paginate="onPaginate" md-page-select></md-table-pagination>
+            </md-card-content>
         </md-card>
         <!--#region iafar: menu flotante-->
         <div layout="row" layout-align="star center">
             <nav mfb-menu position="br" effect="zoomin" label="Herramientas"
                  active-icon="mdi-content-clear" resting-icon="mdi-content-add"
                  toggling-method="hover">
-                <button mfb-button icon="mdi-social-person-add" label="Nuevo Jugador" ng-click="jugadorAdd()"></button>
-                <button mfb-button icon="fa fa-print" label="Imprimir Listado" ng-click="printToCart('printear')"></button>
-                <!--<button mfb-button icon="glyphicon glyphicon-calendar" label="Agregar Nueva Fecha" ng-click="addFecha()"></button>
-        <button mfb-button icon="fa fa-futbol-o" label="Agregar Nuevo Partido" ng-click="addPartido()"></button>
-        <button mfb-button icon="fa fa-users" label="Agregar Nuevo Equipo"></button>-->
+                <button mfb-button icon="mdi-content-add" label="Nuevo Jugador" ng-click="jugadorAdd()"></button>
+                <button mfb-button icon="mdi-action-search" label="Agregar jugadores en liga" ng-click="jugadoresLiga()"></button>
             </nav>
         </div>
         <!--#endregion-->

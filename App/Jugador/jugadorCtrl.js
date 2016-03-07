@@ -1,12 +1,13 @@
 ﻿ligaFepuseApp.controller('jugadorCtrl', function ($scope, $stateParams, $state, $filter, $mdDialog, $mdMedia,
-    torneoInfo, equipoInfo, torneoDataFactory, equipoDataFactory, jugadorDataFactory, jugadoresList, profesionDataFactory) {
-    
+    torneoInfo, equipoInfo, jugadoresList, profesionesList, torneoDataFactory, profesionDataFactory, equipoDataFactory, jugadorDataFactory) {
+
 
     //#region prueba tabla
+   
     $scope.filter = [{
-        show:false
+        show: false
     }];
-
+    $scope.jugadoresCount = jugadoresList.length;
     $scope.query = {
         filter: '',
         limit: '5',
@@ -17,18 +18,61 @@
     $scope.torneoInfo = torneoInfo;
     $scope.equipoInfo = equipoInfo;
     $scope.jugadoresList = jugadoresList;
-    
+    $scope.profesionesList = profesionesList;
+
     $scope.jugador = [];
-   // $scope.jugador.FichaMedica = "No";
-    //$scope.jugador.Federado = "No";
-   
+
+    $scope.busProf = function (idProf) {
+        for (i in profesionesList) {
+            if (profesionesList[i].Id == idProf) {
+                return profesionesList[i].Nombre;
+                break;
+            }
+
+        }
+    }
+    $scope.jugadoresLiga = function () {
+        $mdDialog.show({
+            //scope: $scope,
+            //controller: DialogJugadorController,
+            //targetEvent: $event,
+            templateUrl: 'App/Jugador/Partials/JugadoresList.html',
+            onComplete: afterShowAnimation
+            //locals: {
+            //    jugadorShow: jugadorSelect,
+            //    edit: true,
+            //    func: "Informacion de ",
+            //    equipoId: $scope.equipoInfo.Id,
+            //    torneoId: $scope.torneoInfo.Id,
+            //    equiposList: $scope.torneoInfo.EquipoTorneos,
+            //    profesionesList: $scope.profesionesList
+            //} //paso de scope
+        }).then(function (response) {
+            if (response == "ok") { //iafar: se modifico jugador?
+
+        //        jugadorDataFactory.getJugadoresEquipoTorneo(torneoInfo.Id, equipoInfo.Id).then(function (response2) {
+        //            $scope.jugadoresList = response2;
+        //            $scope.jugadoresCount = jugadoresList.length;
+        //        },
+        //function (err) {
+        //    if (err) {
+        //        $scope.error = err;
+        //        alert("Error: " + $scope.error.Message);
+        //    }
+        //});
+            } else {
+                alert('Le dio a cancelar ' + response)
+            }
+        })
+    }
+
 
     $scope.jugadorInfo = function (jugadorSelect) {
         $mdDialog.show({
             //scope: $scope,
             controller: DialogJugadorController,
             //targetEvent: $event,
-            templateUrl: 'App/Jugador/Partials/jugadorInfo.html',          
+            templateUrl: 'App/Jugador/Partials/jugadorInfo.html',
             onComplete: afterShowAnimation,
             locals: {
                 jugadorShow: jugadorSelect,
@@ -36,13 +80,24 @@
                 func: "Informacion de ",
                 equipoId: $scope.equipoInfo.Id,
                 torneoId: $scope.torneoInfo.Id,
-                equiposList: $scope.torneoInfo.EquipoTorneos
+                equiposList: $scope.torneoInfo.EquipoTorneos,
+                profesionesList: $scope.profesionesList
             } //paso de scope
         }).then(function (response) {
-            if (response=="ok") { //iafar: se guardo nuevo jugador?
-                alert('Edito un jugador, actualizar lista '+ response)
+            if (response == "ok") { //iafar: se modifico jugador?
+                
+                jugadorDataFactory.getJugadoresEquipoTorneo(torneoInfo.Id, equipoInfo.Id).then(function (response2) {
+                    $scope.jugadoresList = response2;
+                    $scope.jugadoresCount = jugadoresList.length;
+                },
+        function (err) {
+            if (err) {
+                $scope.error = err;
+                alert("Error: " + $scope.error.Message);
+            }
+        });
             } else {
-                alert('Le dio a cancelar '+ response)
+                alert('Le dio a cancelar ' + response)
             }
         })
     }
@@ -60,22 +115,21 @@
                 func: "Nuevo",
                 equipoId: $scope.equipoInfo.Id,
                 torneoId: $scope.torneoInfo.Id,
-                equiposList: $scope.torneoInfo.EquipoTorneos
+                equiposList: $scope.torneoInfo.EquipoTorneos,
+                profesionesList: $scope.profesionesList
             } //paso de scope
         }).then(function (response) {
-            if (response=="ok") { //iafar: se guardo nuevo jugador?
-                alert('guardo un jugador, actualizar lista ' + response)
-                var torneoId = $stateParams.idTorneo;
-                var equipoId = $stateParams.idEquipo;
-                jugadorDataFactory.getJugadoresEquipoTorneo(torneoId, equipoId).then(function (response) {
-                    $scope.jugadoresList = response;
+            if (response == "ok") { //iafar: se guardo nuevo jugador?
+                jugadorDataFactory.getJugadoresEquipoTorneo(torneoInfo.Id, equipoInfo.Id).then(function (response2) {
+                    $scope.jugadoresList = response2;
+                    $scope.jugadoresCount = jugadoresList.length;
                 },
-                function (err) {
-                    if (err) {
-                        $scope.error = err;
-                        alert("Error: " + $scope.error.Message);
-                    }
-                });
+          function (err) {
+              if (err) {
+                  $scope.error = err;
+                  alert("Error: " + $scope.error.Message);
+              }
+          });
             } else {
                 alert('Le dio a cancelar ' + response)
             }
@@ -85,7 +139,7 @@
     // Cuando termina la animacion
     function afterShowAnimation(scope, element, options) {
         // post-show code here: DOM element focus, etc.
-        
+
     }
 
     //#region Imprimir listado
@@ -106,7 +160,7 @@
 
 
 function DialogJugadorController($scope, $mdDialog, jugadorShow, edit, func, equipoId,
-    torneoId, equiposList, equipoDataFactory, jugadorDataFactory, equipoTorneoDataFactory, profesionDataFactory) {
+    torneoId, equiposList, profesionesList, equipoDataFactory, jugadorDataFactory, equipoTorneoDataFactory, profesionDataFactory) {
 
     //#region inicializacion de scope
     $scope.jugador = jugadorShow;
@@ -114,51 +168,51 @@ function DialogJugadorController($scope, $mdDialog, jugadorShow, edit, func, equ
     $scope.edit = edit; //iafar: indica si los campos estan habilitados para edicion o no
     $scope.func = func;//iafar: cadena que expresa que tipo de operacion hara el modal
     $scope.equipoId = equipoId;
-    $scope.profesionList = profesionDataFactory.query();
-   
+    $scope.profesionList = profesionesList;
+
     //#endregion
 
-   
+
     $scope.closeDialog = function (response) {
 
         $mdDialog.hide(response);
 
     };
 
-    $scope.editJugador = function() {
+    $scope.editJugador = function () {
         $scope.edit = false;
-        $scope.func="Edicion de "
+        $scope.func = "Edicion de "
     }
 
     $scope.guardarJugador = function () {
 
 
-        if($scope.func=="Nuevo"){
+        if ($scope.func == "Nuevo") {
             //iafar: nuevo jugador
-           
+
             //#region datos de modelo
             //$scope.jugador.Profesion = "Profesion Prueba"           
-			$scope.jugador.EquiposJugadorTorneos = [{
+            $scope.jugador.EquiposJugadorTorneos = [{
                 EquipoId: equipoId,
                 TorneoId: torneoId
-			}];
+            }];
 
 
             //#endregion
 
             jugadorDataFactory.postJugador($scope.jugador);//iafar: trabajar con un promise
-           
+
         } else {
             //iafar: se modifica un jugador
             console.log("se modificaron datos basicos jugador")
             jugadorDataFactory.putJugador($scope.jugador.Id, $scope.jugador)
-            if(equipoId != $scope.equipoId){
+            if (equipoId != $scope.equipoId) {
                 //iafar: se cambio de equipo
                 console.log("se modifico equipo")
                 var ejtId = jugadorShow.EquiposJugadorTorneos[0].Id;
                 jugadorShow.EquiposJugadorTorneos[0].EquipoId = $scope.equipoId;
                 jugadorDataFactory.putEquipoJugadorTorneo(ejtId, jugadorShow.EquiposJugadorTorneos[0]);
-            }           
+            }
 
 
 
@@ -166,7 +220,7 @@ function DialogJugadorController($scope, $mdDialog, jugadorShow, edit, func, equ
         }
         $scope.closeDialog("ok");
     }
-   
+
 
 }
 

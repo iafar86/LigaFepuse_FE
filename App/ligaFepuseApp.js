@@ -195,6 +195,23 @@
                 }
 
             })
+            .state('torneo.info.estadisticas', {
+                url: '/Estadisticas',
+                views: {
+                    'estadisticas': {
+                        templateUrl: 'App/Torneo/Partials/torneoEstadisticas.html',
+                        controller: 'estadisticasCtrl',
+                        resolve: {
+                            estadisticasDataFactory: 'estadisticasDataFactory',                            
+                            estadisticasTorneo: function (estadisticasDataFactory, $stateParams) {
+                                var torneoId= $stateParams.torneoId;
+                                return estadisticasDataFactory.getEstadisticasTorneo(torneoId);
+                            }
+                        }
+                    }
+                }
+
+            })
             //#endregion
 
         //#region Fechas
@@ -404,7 +421,7 @@
             })
 
             .state('jugador.jugadorList', {
-                url: '/ListaJugadores/:idTorneo?idEquipo', //:idTorneo?idEquipo
+                url: '/ListaJugadores/:idTorneo?idEquipo', 
                 templateUrl: 'App/Jugador/Partials/jugadorEquipo.html',
                 controller: 'jugadorCtrl',
                 resolve: {
@@ -423,12 +440,11 @@
                         var torneoId = $stateParams.idTorneo;
                         var equipoId = $stateParams.idEquipo;
                         return jugadorDataFactory.getJugadoresEquipoTorneo(torneoId, equipoId)
+                    },
+                    profesionesList: function (profesionDataFactory) {
+                        return profesionDataFactory.getProfesiones();
                     }
 
-                },
-                params: {
-                    idTorneo: "miTorneo",
-                    idEquipo: "miEquipo"
                 }
             })
 
