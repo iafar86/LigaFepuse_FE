@@ -31,10 +31,22 @@
         return deferred.promise;
     }
 
+    var _putSede = function (prmId, data) {
+        var deferred = $q.defer();
+        $http.put(urlApi + '/api/Sedes/' + prmId, data).then(
+            function (response) {
+                deferred.resolve(response);
+            },
+            function (response) {
+                deferred.reject(response.data);
+            });
+        return deferred.promise;
+    }
 
     sedeDataFactory.getSedes = _getSedes;
     sedeDataFactory.postSede = _postSede;
     sedeDataFactory.delSede = _delSede;
+    sedeDataFactory.putSede = _putSede;
 
     return sedeDataFactory;
 

@@ -264,6 +264,23 @@
 
         })
     }
+
+    $scope.editarSede = function (sede) {
+
+        sedeDataFactory.putSede(sede.Id, sede).then(function (response) {
+            alert("Profesion modificada");
+        },
+        function (err) {
+            if (err) {
+                $scope.error = err;
+                alert("Error al borrar: " + $scope.error.Message);
+            }
+        });
+
+        $scope.variable = false;
+
+    }
+
     $scope.eliminarSede = function (sede) {
         sedeDataFactory.delSede(sede.Id).then(function (response) {
             alert("Sede eliminada");
@@ -312,7 +329,24 @@
 
     }
 
+    $scope.editarProfesion = function (profesion) {
+        
+        profesionDataFactory.putProfesion(profesion.Id, profesion).then(function (response) {
+            alert("Profesion modificada");
+        },
+        function (err) {
+            if (err) {
+                $scope.error = err;
+                alert("Error al borrar: " + $scope.error.Message);
+            }
+        });
+
+        $scope.variable = false;
+
+    }
+
     $scope.eliminarProfesion = function (profesion) {
+
         sedeDataFactory.delProfesion(profesion.Id).then(function (response) {
             alert("Profesión eliminada");
         },
