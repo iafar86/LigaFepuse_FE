@@ -1,4 +1,5 @@
-﻿ligaFepuseApp.controller('equipoTorneoCtrl', function ($scope, $stateParams, $state, $filter, $mdDialog, $mdMedia, ngTableParams, equipoTorneoDataFactory, tablaPosiciones, torneoDataFactory, equipoDataFactory) {
+﻿ligaFepuseApp.controller('equipoTorneoCtrl', function ($scope, $stateParams, $state, $filter, $mdDialog, $mdMedia, ngTableParams,
+    equipoTorneoDataFactory, tablaPosiciones, torneoDataFactory, equipoDataFactory) { 
     //#region fpaz: Inicializacion de Variables de Scope    
     $scope.tablaPosiciones = tablaPosiciones;
     $scope.editValue = false;
