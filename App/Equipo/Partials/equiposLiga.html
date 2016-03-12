@@ -130,10 +130,18 @@
                         <br />
                         <md-list>
                             <md-list-item class="md-2-line" ng-repeat="sede in sedesList | filter:search">
-                                <div class="md-list-item-text" layout="row">
+                                <div class="md-list-item-text" layout="row" ng-hide="variable">
                                     <h2>{{sede.Nombre}}</h2>
                                     <span flex></span>                                    
-                                    <md-button layout-align="end end" class="md-warn" ng-click="eliminarSede(sede)">Eliminar</md-button>                                    
+                                    <md-button layout-align="end end" class="md-warn" ng-click="variable = true">Editar</md-button>                                    
+                                </div>
+                                <div layout="row" ng-show="variable" flex>
+                                    <md-input-container flex="60">
+                                        <input type="text" ng-model="sede.Nombre" />
+                                    </md-input-container>
+
+                                    <span flex></span>
+                                    <button mfb-button label="Listo" icon="fa fa-check" ng-click="editarSede(sede); variable= false"></button>
                                 </div>
                                 <md-divider ng-if="!$last"></md-divider>
                             </md-list-item>
@@ -157,10 +165,18 @@
                         <br />
                         <md-list>
                             <md-list-item class="md-2-line" ng-repeat="profesion in profesionesList | filter:search">
-                                <div class="md-list-item-text" layout="row">
+                                <div class="md-list-item-text" layout="row" ng-hide="variable">
                                     <h2>{{profesion.Nombre}}</h2>
                                     <span flex></span>
-                                    <md-button layout-align="end end" class="md-warn" ng-click="eliminarProfesion(profesion)">Eliminar</md-button>
+                                    <md-button layout-align="end end" class="md-warn" ng-click="variable = true">Editar</md-button>
+                                </div>
+                                <div layout="row" ng-show="variable" flex>
+                                    <md-input-container flex="60">
+                                        <input type="text" ng-model="profesion.Nombre" />
+                                    </md-input-container>
+                                    
+                                    <span flex></span>
+                                    <button mfb-button  label="Listo" icon="fa fa-check" ng-click="editarProfesion(profesion); variable= false"></button>
                                 </div>
                                 <md-divider ng-if="!$last"></md-divider>
                             </md-list-item>
