@@ -70,7 +70,7 @@
 
     var _postEquipo = function (data) { // post de un equipo
         return $http.post(urlApi + '/api/Equipoes', data).then(function (response) {
-            return response;
+            return response.data;
         })
     };
 
@@ -101,12 +101,26 @@
         return deferred.promise;
     }
 
+    var _postImagenEquipo = function (data) { //fpaz: alta de una Imagen en el Torneo
+        console.log("entra a postImagenEquipo")
+        var deferred = $q.defer();
+        $http.post(urlApi + '/api/Equipoes/Imagen', data).then(
+            function (response) {
+                deferred.resolve(response);
+            },
+            function (response) {
+                deferred.reject(response.data);
+            });
+        return deferred.promise;
+    };
+
     equipoDataFactory.getEquipos = _getEquipos;
     equipoDataFactory.getEquipo = _getEquipo;
     equipoDataFactory.getEquiposLiga = _getEquiposLiga;
     equipoDataFactory.postEquipo = _postEquipo;
     equipoDataFactory.putEquipo = _putEquipo;
     equipoDataFactory.delEquipo = _delEquipo;
+    equipoDataFactory.postImagenEquipo = _postImagenEquipo;
 
     return equipoDataFactory;
 

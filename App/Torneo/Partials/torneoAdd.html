@@ -3,11 +3,9 @@
 
     <md-content class="md-padding" layout-xs="column" layout="row" layout-wrap>
         <div flex-xs flex="30" ng-repeat="torneo in torneos" layout-padding layout-margin>
-            <md-card style="min-width: 300px; max-height: 400px">
-                <img ng-src="{{imagen}}" class="md-card-image" alt="Fepuse" style="min-width: 200px; max-height: 200px">
-                <!--<md-card-title-media>
-                <div class="md-media-sm card-media" ng-src="{{imagen}}"></div>
-            </md-card-title-media>-->
+            <md-card style="min-width: 300px; max-height: 400px">                
+                <img ng-src="{{torneo.ImagenesTorneo[0] != null ? torneo.ImagenesTorneo[0].FileUrl : imagen }}"
+                     class="md-card-image" alt="Fepuse" style="min-width: 200px; max-height: 200px">                
                 <md-card-content>
                     <h3>{{torneo.Nombre}}</h3>
                     <h4>Temporada {{torneo.AnioInicio}}/{{torneo.AnioFin}}</h4>

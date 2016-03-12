@@ -1,6 +1,6 @@
 ﻿var ligaFepuseApp = angular.module('ligaFepuseApp', ['ngMaterial', 'ng-mfb', 'ngMdIcons', 'ngResource', 'ui.router', 'ngCookies', 'ngTable', 'ngSanitize', 'ngAnimate',
  'ngAria', 'ct.ui.router.extras', 'angular-loading-bar', 'daypilot', 'LocalStorageModule', 'angular-jwt', 'ui.bootstrap', 'twitter.timeline',
-'ezfb', 'md.data.table'])
+'ezfb', 'md.data.table','ngFileUpload'])
     .config(function ($stateProvider, $urlRouterProvider, $httpProvider, $stickyStateProvider, cfpLoadingBarProvider, ezfbProvider) {
 
 
@@ -141,7 +141,7 @@
                         controller: 'fechaCtrl',
                         resolve: {
                             fechaDataFactory: 'fechaDataFactory',
-                            sedeDataFactory: 'SedeDataFactory',
+                            //sedeDataFactory: 'SedeDataFactory',
                             listPartidos: function (fechaDataFactory, $stateParams) {
                                 var fechaId = $stateParams.fechaId;
                                 return fechaDataFactory.getFecha(fechaId);
@@ -156,9 +156,12 @@
                             infoTorneo: function () {
                                 return { value: [] };
                             },
-                            listadoSedes: function (sedeDataFactory) {
-                                return sedeDataFactory.getSedes();
-                            }                                              
+                            listSedes: function () {
+                                return { value: [] };
+                            },
+                            //listadoSedes: function (sedeDataFactory) {
+                            //    return sedeDataFactory.getSedes();
+                            //}                                              
                         }
                     }
                 }
@@ -241,7 +244,6 @@
                      }
              })
          //#endregion
-
 
         //#region Equipos
             .state('equipo', {
