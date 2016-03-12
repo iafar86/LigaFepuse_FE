@@ -1,5 +1,6 @@
 ﻿ligaFepuseApp.controller('torneoCtrl', function ($scope, $stateParams, $state, $filter, $mdDialog, $mdMedia, 
-ngTableParams, torneoDataFactory, torneoList, infoTorneo, fechaDataFactory, equipoDataFactory, arbitroDataFactory, sedeDataFactory)
+ngTableParams, torneoDataFactory, torneoList, infoTorneo, fechaDataFactory,
+equipoDataFactory, arbitroDataFactory, sedeDataFactory, imagenesDataFactory)
 {
     $scope.torneos = torneoList;
 
@@ -49,7 +50,7 @@ ngTableParams, torneoDataFactory, torneoList, infoTorneo, fechaDataFactory, equi
             
         })
         .then(function (torneos) {
-            $scope.torneos = torneos;
+            $scope.torneos = torneos;            
         });
         $scope.$watch(function () {
             return $mdMedia('xs') || $mdMedia('sm');
@@ -60,7 +61,7 @@ ngTableParams, torneoDataFactory, torneoList, infoTorneo, fechaDataFactory, equi
     //endRegion  
 
     //fpaz: funcion para ir al detalle del torneo y mostrar el fixture de la primera fecha si es que tiene alguna fecha cargada, sino muestra la vista para administracion del torneo
-    $scope.verDetalle = function (torneoId) {
+    $scope.verDetalle = function (torneoId) {        
         fechaDataFactory.getPrimeraFecha(torneoId).then(function (response) {            
             $state.go('torneo.info.fecha', { torneoId: torneoId, fechaId: response });
         },
@@ -151,7 +152,7 @@ ngTableParams, torneoDataFactory, torneoList, infoTorneo, fechaDataFactory, equi
     //#endregion
     //#endregion
 })
-function DialogControllerTorneo($scope, $mdDialog, torneoDataFactory) {
+function DialogControllerTorneo($scope, $mdDialog, torneoDataFactory, imagenesDataFactory) {
 
     $scope.addTorneo = function (torneo) {
         //$scope.equipoListadoPrueba.push(equipo);
@@ -164,10 +165,21 @@ function DialogControllerTorneo($scope, $mdDialog, torneoDataFactory) {
         }
         
         torneoDataFactory.postTorneo(torneoAdd).then(function (response) {
-            alert("Nuevo torneo guardado");
-            
-            torneos = torneoDataFactory.getTorneos();
-            $mdDialog.hide(torneos);
+            console.log("Torneo guardado")
+            if (torneo.logo != null) {
+                if (cargaLogo(torneo.logo, response.Id)) {                    
+                    //torneos = torneoDataFactory.getTorneos();
+                    //$mdDialog.hide(torneos);                    
+                } else {
+                    alert("Nuevo torneo guardado, Sin Logo");
+                    torneos = torneoDataFactory.getTorneos();
+                    $mdDialog.hide(torneos);                    
+                }
+            } else {
+                alert("Nuevo torneo guardado, Sin Logo");
+                torneos = torneoDataFactory.getTorneos();
+                $mdDialog.hide(torneos);                
+            }            
         },
         function (err) {
             if (err) {
@@ -176,6 +188,50 @@ function DialogControllerTorneo($scope, $mdDialog, torneoDataFactory) {
             }
         });
     }
+
+    $scope.prmImagen = {};
+
+    //#region fpaz: carga una imagen al azure
+    var cargaLogo = function (file, idTorneo) { 
+        console.log("IdTorneo: " + idTorneo);
+        console.log("Imagen: " + file);
+        var res = true;
+        imagenesDataFactory.postImagen(file).then(function (response) {
+            console.log("cargo la imagen en azure");
+            alert("Imagen guardada en azure");
+            //fpaz: imagen cargada en el azure correctamente      
+            $scope.prmImagen = response[0];
+            var imagen = $scope.prmImagen;
+            imagen.TorneoId = idTorneo;
+            console.log(imagen);
+            //fpaz: guardo los datos de la imagen en la bd y la asocio con el torneo
+            torneoDataFactory.postImagenTorneo(imagen).then(function (response) {
+                //fpaz: imagen cargada en la bd correctamente                      
+                console.log("logo guardado en bd");
+                alert("Imagen guardada en BD");
+                res = true;
+                torneos = torneoDataFactory.getTorneos();
+                $mdDialog.hide(torneos);
+            },
+            function (err) {
+                if (err) {
+                    $scope.error = err;
+                    console.log("Error al Guardar el logo: " + $scope.error.Message);
+                    res = false;
+                }
+            });           
+        },
+        function (err) {
+            if (err) {
+                $scope.error = err;
+                console.log("Error al Guardar el logo: " + $scope.error.Message);
+                res = false;
+            }
+        });
+        return res;
+    }
+    //#endregion
+
 
     $scope.hide = function () {
         $mdDialog.hide();

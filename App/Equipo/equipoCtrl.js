@@ -1,7 +1,7 @@
 ﻿ligaFepuseApp.controller('equipoCtrl', function ($scope, $stateParams, $state, $filter, $mdDialog, $mdMedia,
     ngTableParams, torneoList, equiposLiga, arbitroList,
     equipoDataFactory, torneoDataFactory, arbitroDataFactory,
-    sedeDataFactory, profesionDataFactory, sedesList, profesionesList) //, equipoDataFactory, torneoDataFactory, arbitroDataFactory, torneoList, equiposLiga, arbitroList
+    sedeDataFactory, profesionDataFactory, sedesList, profesionesList, imagenesDataFactory) //, equipoDataFactory, torneoDataFactory, arbitroDataFactory, torneoList, equiposLiga, arbitroList
 {
     $scope.torneos = torneoList;// trae todos los torneos de la liga
     $scope.listadoEquiposTorneo = [];// guarda los equipos de un torneo
@@ -375,7 +375,7 @@
 
 
 //#Region controller Dialog
-function DialogController($scope, $mdDialog, equiposLiga, torneo, torneoDataFactory, listadoEquiposTorneo, equipoDataFactory) {
+function DialogController($scope, $mdDialog, equiposLiga, torneo, torneoDataFactory, listadoEquiposTorneo, equipoDataFactory,imagenesDataFactory) {
 
     $scope.equiposLiga = equiposLiga;
     $scope.equiposAdd = [];
@@ -451,15 +451,34 @@ function DialogController($scope, $mdDialog, equiposLiga, torneo, torneoDataFact
         equipo.AlDia = true;
         equipoDataFactory.postEquipo(equipo).then(function (response) {
             alert("Equipo agregado correctamente");
-            equipoDataFactory.getEquiposLiga().then(function (response) {
-                $scope.equiposLiga = response;
-            },
-            function (err) {
-                if (err) {
-                    $scope.error = err;
-                    alert("Error" + $scope.error.Message);
+            if (equipo.logo != null) {
+                if (!cargaLogo(equipo.logo, response.Id)) {
+                    alert("Nuevo Equipo guardado, Sin Logo");
+                    equipoDataFactory.getEquiposLiga().then(
+                    function (response) {
+                        $scope.equiposLiga = response;
+                    },
+                    function (err) {
+                        if (err) {
+                            $scope.error = err;
+                            alert("Error al guardar el logo" + $scope.error.Message);
+                            res = false;
+                        }
+                    });
                 }
-            });
+            } else {
+                alert("Nuevo torneo guardado, Sin Logo");
+                equipoDataFactory.getEquiposLiga().then(
+                    function (response) {
+                        $scope.equiposLiga = response;
+                    },
+                    function (err) {
+                        if (err) {
+                            $scope.error = err;
+                            alert("Error" + $scope.error.Message);
+                        }
+                    });
+            }
         },
         function (err) {
             if (err) {
@@ -473,6 +492,55 @@ function DialogController($scope, $mdDialog, equiposLiga, torneo, torneoDataFact
         $scope.variable = false;
     }
     //#endRegion
+
+    //#region fpaz: carga una imagen al azure
+    var cargaLogo = function (file, idEquipo) {
+        console.log("idEquipo: " + idEquipo);
+        console.log("Imagen: " + file);
+        var res = true;
+        imagenesDataFactory.postImagen(file).then(function (response) {
+            console.log("cargo la imagen en azure");
+            alert("Imagen guardada en azure");
+            //fpaz: imagen cargada en el azure correctamente      
+            $scope.prmImagen = response[0];
+            var imagen = $scope.prmImagen;
+            imagen.EquipoId = idEquipo;
+            console.log(imagen);
+            //fpaz: guardo los datos de la imagen en la bd y la asocio con el torneo
+            equipoDataFactory.postImagenEquipo(imagen).then(function (response) {
+                //fpaz: imagen cargada en la bd correctamente                      
+                console.log("logo guardado en bd");
+                res = true;
+                equipoDataFactory.getEquiposLiga().then(
+                    function (response) {
+                        $scope.equiposLiga = response;
+                    },
+                    function (err) {
+                        if (err) {
+                            $scope.error = err;
+                            alert("Error al guardar el logo" + $scope.error.Message);
+                            res = false;
+                        }
+                    });
+            },
+            function (err) {
+                if (err) {
+                    $scope.error = err;
+                    console.log("Error al Guardar el logo: " + $scope.error.Message);
+                    res = false;
+                }
+            });
+        },
+        function (err) {
+            if (err) {
+                $scope.error = err;
+                console.log("Error al Guardar el logo: " + $scope.error.Message);
+                res = false;
+            }
+        });
+        return res;
+    }
+    //#endregion
 
     //Region Baja de equipo de la liga
     $scope.delEquipoLiga = function (equipo) {
