@@ -1,0 +1,31 @@
+﻿<md-dialog flex="90" aria-label="Nuevo Jugador" id="printear">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>{{func}} Jugador</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="closeDialog()">
+                <i class="fa fa-times"></i>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div ng-repeat="jugador in partido.EquipoLocal.PartidosJugadores" layout="row" flex>
+            <div flex="50">
+                <div class="md-3-line" layout="row">
+                    <img class="img-circle" src="http://www.ole.com.ar/bbtfile/5012_20150908naA9Cs.png" style="min-width: 100px; min-height: 100px" />
+                    <div class="md-list-item-text" style="padding-left: 12px">
+                        <h2>{{jugador.Nombre}}</h2>
+                        <h3 ng-show="jugador.federado = true">Federado: Si</h3>
+                        <h3 ng-hide="equipo.federado = true">Federado: No</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <md-dialog-actions layout="row" class="bg-primary">
+            <span flex></span>
+            <md-button class="md-raised" ng-hide="edit" ng-click="printToCart('printear')">Imprimir Listado</md-button>
+            
+        </md-dialog-actions>
+    </md-dialog-content>
+
+</md-dialog>
