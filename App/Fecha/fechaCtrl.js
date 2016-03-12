@@ -1,6 +1,6 @@
 ﻿ligaFepuseApp.controller('fechaCtrl', function ($scope, $stateParams, $state, $filter, $mdDialog, $mdMedia,
     ngTableParams, fechaDataFactory, listPartidos,
-    listEquipos, listArbitros, infoTorneo,sedeDataFactory, listSedes) {
+    listEquipos, listArbitros, infoTorneo, sedeDataFactory, listSedes) {
     //#region fpaz: Inicializacion de Variables de Scope
     $scope.listPartidos = listPartidos; //fpaz: tiene todos los partidos de la fecha
     $scope.listEquipos = listEquipos; //fpaz: tiene todos los equipos del torneo al que pertenece la fecha
