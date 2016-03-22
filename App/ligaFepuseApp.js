@@ -1,6 +1,6 @@
 ﻿var ligaFepuseApp = angular.module('ligaFepuseApp', ['ngMaterial', 'ng-mfb', 'ngMdIcons', 'ngResource', 'ui.router', 'ngCookies', 'ngTable', 'ngSanitize', 'ngAnimate',
  'ngAria', 'ct.ui.router.extras', 'angular-loading-bar', 'daypilot', 'LocalStorageModule', 'angular-jwt', 'ui.bootstrap', 'twitter.timeline',
-'ezfb', 'md.data.table','ngFileUpload'])
+'ezfb', 'md.data.table', 'uiRouterStyles', 'ngFileUpload'])
     .config(function ($stateProvider, $urlRouterProvider, $httpProvider, $stickyStateProvider, cfpLoadingBarProvider, ezfbProvider) {
 
 
@@ -29,7 +29,10 @@
         .state('seguridad.login', {
             url: '/Login',
             templateUrl: '/App/Seguridad/Partials/login.html',
-            controller: 'loginCtrl'
+            controller: 'loginCtrl',
+            data: {
+                css: '/App/Seguridad/styleLoginCss.css'
+            }
         })
 
         .state('seguridad.signup', {

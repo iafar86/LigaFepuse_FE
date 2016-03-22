@@ -21,6 +21,8 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+   
+
     <!--#region angular Material icons-->
     <link rel="stylesheet" href="libs/assets/animate.css/animate.css" type="text/css" />
     <!--<link rel="stylesheet" href="../libs/assets/font-awesome/css/font-awesome.css" type="text/css" />-->
@@ -39,6 +41,9 @@
     <script src="libs/angular/angular-aria/angular-aria.js"></script>
     <script src="libs/angular/angular-messages/angular-messages.js"></script>
     <!--#endregion-->
+    <!-- #region styles per state-->
+    <script src="libs/angular/ui-router-styles/ui-router-styles.js"></script>
+    <!-- #endregion -->
     <!--#region Angular Material -->
     <!--<link href="libs/angular/angular-material/angular-material.css" rel="stylesheet" />
     <script src="libs/angular/angular-material/angular-material.js"></script>-->
@@ -103,7 +108,7 @@
     <script src="App/Seguridad/loginCtrl.js"></script>
     <script src="App/Seguridad/signupCtrl.js"></script>
     <script src="App/Seguridad/tokenDataFactory.js"></script>
-    <link href="App/Seguridad/styleLoginCss.css" rel="stylesheet" />
+    <!--<link href="App/Seguridad/styleLoginCss.css" rel="stylesheet" />-->
     <!--#endregion-->
     <!--#region Controllers-->
     <script src="App/Torneo/torneoCtrl.js"></script>
@@ -130,14 +135,16 @@
     <script src="App/Estadisticas/estadisticasDataFactory.js"></script>
     <!--#endregion-->
 </head>
-<body ng-app="ligaFepuseApp">
+<body ng-app="ligaFepuseApp" ui-router-styles>
     <div ui-view></div>
     <!-- JAVASCRIPT AT THE BOTTOM TO REDUCE THE LOADING TIME  -->
     <!-- CORE JQUERY SCRIPTS -->
     <script src="libs/js/jquery-1.11.1.js"></script>
-
+    <script src="libs/js/jquery.backstretch.js"></script>
     <!-- BOOTSTRAP SCRIPTS  -->
     <script src="libs/js/bootstrap.js"></script>
     <script src="libs/angular/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+
+
 </body>
 </html>

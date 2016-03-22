@@ -6,8 +6,8 @@
 
     </div>
 
-    <div layout="row">
-        <md-content  flex="75" >
+    <div layout="column">
+        <md-content flex="75">
             <div layout="column">
                 <br />
                 <md-toolbar class="md-table-toolbar md-default">
@@ -25,121 +25,216 @@
                         </md-input-container>
 
                     </div>
+                    <md-tabs md-stretch-tabs="always" md-selected="data.selectedIndex">
+                        <md-tab id="tab1" aria-controls="tab1-content">
+                            Tabla de Posiciones
+                        </md-tab>
+                        <md-tab id="tab2" aria-controls="tab2-content">
+                            Fechas
+                        </md-tab>
+                    </md-tabs>
                 </md-toolbar>
 
-                <!--#region Tabla Posiciones -->
-                <md-table-container style="height:400px">
-                    <table md-table>
-                        <thead md-head md-order="query.order" md-on-reorder="onReorder">
-                            <tr md-row>
-                                <th md-column md-numeric>N°</th>
-                                <th md-column md-numeric>Equipo</th>
-                                <th md-column md-numeric>PJ</th>
-                                <th md-column md-numeric>PG</th>
-                                <th md-column md-numeric>PE</th>
-                                <th md-column md-numeric>PP</th>
-                                <th md-column md-numeric>GF</th>
-                                <th md-column md-numeric>GC</th>
-                                <th md-column md-numeric>DG</th>
-                                <th md-column md-numeric>PTS</th>
-                            </tr>
-                        </thead>
-                        <tbody md-body>
-                            <tr md-row ng-repeat="equipo in tablaPos | limitTo: query.limit: (query.page - 1) * query.limit ">
-                                <td md-cell>{{$index+1}}</td>
-                                <td md-cell>{{equipo.Equipo.Nombre}}</td>
-                                <td md-cell>{{equipo.PartidosJugados}}</td>
-                                <td md-cell>{{equipo.PartidosGanados}}</td>
-                                <td md-cell>{{equipo.PartidosEmpatados}}</td>
-                                <td md-cell>{{equipo.PartidosPerdidos}}</td>
-                                <td md-cell>{{equipo.GolesAFavor}}</td>
-                                <td md-cell>{{equipo.GolesEnContra}}</td>
-                                <td md-cell>{{equipo.DiferenciaGoles}}</td>
-                                <td md-cell>{{equipo.Puntos}}</td>
+                <!-- #region preparando contenido de tabs -->
+                <ui-view layout="column" layout-fill layout-padding layout-fill>
+                    <div class="inset" hide-sm></div>
+                    <ng-switch on="data.selectedIndex" class="tabpanel-container">
+                        <div role="tabpanel"
+                             id="tab1-content"
+                             aria-labelledby="tab1"
+                             ng-switch-when="0"
+                             md-swipe-left="next()"
+                             md-swipe-right="previous()"
+                             layout="column">
 
-                            </tr>
-                        </tbody>
-                    </table>
-                </md-table-container>
+                            <!--#region Tabla Posiciones -->
+                            <md-table-container style="height:400px">
+                                <table md-table>
+                                    <thead md-head md-order="query.order" md-on-reorder="onReorder">
+                                        <tr md-row>
+                                            <th md-column md-numeric>N°</th>
+                                            <th md-column md-numeric>Equipo</th>
+                                            <th md-column md-numeric>PJ</th>
+                                            <th md-column md-numeric>PG</th>
+                                            <th md-column md-numeric>PE</th>
+                                            <th md-column md-numeric>PP</th>
+                                            <th md-column md-numeric>GF</th>
+                                            <th md-column md-numeric>GC</th>
+                                            <th md-column md-numeric>DG</th>
+                                            <th md-column md-numeric>PTS</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody md-body>
+                                        <tr md-row ng-repeat="equipo in tablaPos | limitTo: query.limit: (query.page - 1) * query.limit ">
+                                            <td md-cell>{{$index+1}}</td>
+                                            <td md-cell>{{equipo.Equipo.Nombre}}</td>
+                                            <td md-cell>{{equipo.PartidosJugados}}</td>
+                                            <td md-cell>{{equipo.PartidosGanados}}</td>
+                                            <td md-cell>{{equipo.PartidosEmpatados}}</td>
+                                            <td md-cell>{{equipo.PartidosPerdidos}}</td>
+                                            <td md-cell>{{equipo.GolesAFavor}}</td>
+                                            <td md-cell>{{equipo.GolesEnContra}}</td>
+                                            <td md-cell>{{equipo.DiferenciaGoles}}</td>
+                                            <td md-cell>{{equipo.Puntos}}</td>
 
-                <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{equiposCount}}" md-page-select></md-table-pagination>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </md-table-container>
 
-                <!--#endregion Fin Posiciones -->
+                            <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{equiposCount}}" md-page-select></md-table-pagination>
+
+                            <!--#endregion Fin Posiciones -->
+
+
+                        </div>
+
+                        <div role="tabpanel"
+                             id="tab2-content"
+                             aria-labelledby="tab2"
+                             ng-switch-when="1"
+                             md-swipe-left="next()"
+                             md-swipe-right="previous()"
+                             layout="column" flex>
+                            <!--<md-content flex>-->
+                            <md-tabs md-selected="selectedIndex" style="min-height:500px">
+                                <md-tab ng-repeat="fecha in FechasInfo">
+                                    <!--md-on-select="onTabSelected(tab)" md-on-deselect="announceDeselected(tab)"-->
+                                    <md-tab-label>
+                                        Fecha {{fecha.numFecha}}
+                                        <!--<md-icon class="fa-binoculars">-->
+                                    </md-tab-label>
+                                    <md-tab-body>
+
+                                        <div ng-repeat="partido in fecha.infoPartidos">
+                                            <br />
+                                            <div>
+                                                <!--<div>-->
+                                                <div layout="row">
+                                                    <div layout="row" flex="45">
+                                                        <md-input-container flex="85">
+                                                            <label>Equipo Local</label>
+                                                            <input class="form-control md-input" ng-model="partido.nombreEquipoLocal" ng-disabled="true">
+                                                        </md-input-container>
+                                                        <div flex="15" layout="column" class="text-center">
+                                                            <label>Goles</label>
+                                                            <span class="form-control md-input">{{partido.golesLocal}}</span>
+                                                        </div>
+                                                    </div>
+                                                    <span flex="5" layout-aling="center end">:</span>
+                                                    <div layout="row" flex="45">
+                                                        <div flex="15" layout="column" class="text-center">
+                                                            <label>Goles</label>
+                                                            <span class="form-control md-input">{{partido.golesVisitante}}</span>
+                                                        </div>
+                                                        <md-input-container flex="85">
+                                                            <label>Equipo Visitante</label>
+                                                            <input class="form-control md-input" ng-model="partido.nombreEquipoVisitante" ng-disabled="true">
+                                                        </md-input-container>
+
+                                                    </div>
+                                                </div>
+                                                <!--</div>-->
+                                                <div class="m-b-xs">
+                                                    <span class="text-muted block text-xs">
+                                                        Sede : {{partido.sede}} &nbsp;&nbsp;&nbsp; Dia: {{partido.dia | date:"dd/MM/yyyy 'Horario:'partido.hora"}}
+                                                    </span>
+                                                    <span class="text-muted block text-xs">
+                                                        Arbitro : {{partido.nombreArbitro}}
+                                                    </span>
+
+                                                </div>
+                                                <md-actions layout="row" layout-align="end end">
+                                                    <a ui-sref="partido.info({partidoId: partido.Id})">Ver Detalle</a>
+                                                </md-actions>
+                                                <md-divider></md-divider>
+                                            </div>
+                                        </div>
+                                        <!--#region Tabla Detalle Fecha -->
+                                        <!--<md-table-container style="height:400px">
+                                            <table md-table>
+                                                <thead md-head>
+                                                    <tr md-row>
+                                                        <th md-column md-numeric>Dia</th>
+                                                        <th md-column md-numeric>Hora</th>
+                                                        <th md-column md-numeric>Sede</th>
+                                                        <th md-column md-numeric><span></span></th>
+                                                        <th md-column md-numeric>Equipo Local</th>
+                                                        <th md-column md-numeric></th>
+                                                        <th md-column md-numeric></th>
+                                                        <th md-column md-numeric>Equipo Visitante</th>
+                                                        <th md-column md-numeric>Arbitro</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody md-body layout-fill style="height:400px">
+                                                    <tr md-row ng-repeat="partido in fecha.infoPartidos | limitTo: query.limit: (query.page - 1) * query.limit ">
+
+                                                        <td md-cell>{{partido.Dia}}</td>
+                                                        <td md-cell>{{partido.Hora}}</td>
+                                                        <td md-cell>{{partido.sede}}</td>
+                                                        <td md-cell><span></span></td>
+                                                        <td md-cell>{{partido.nombreEquipoLocal}}</td>
+                                                        <td md-cell>{{partido.golesLocal}}</td>
+                                                        <td md-cell>{{partido.golesVisitante}}</td>
+                                                        <td md-cell>{{partido.nombreEquipoVisitante}}</td>
+                                                        <td md-cell>{{partido.nombreArbitro}}</td>
+
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </md-table-container>
+
+                                        <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{equiposCount}}" md-page-select></md-table-pagination>-->
+                                        
+
+                                          <!--#endregion Fin Posiciones -->
+
+                                    </md-tab-body>
+                                </md-tab>
+                            </md-tabs>
+
+                            <!--</md-content>-->
+
+                        </div>
+
+                    </ng-switch>
+
+                </ui-view>
+
+                ie
+                <!-- #endregion -->
+
             </div>
         </md-content>
-        <span flex="5"></span>
-        <md-content twitter-timeline flex class="md-whiteframe-6dp">
-            <!-- iafar:seccion facebook -->
-            <div class="fb-page " data-href="https://www.facebook.com/Fepuse-Futbol-393003964093005/?fref=ts" data-tabs="timeline" data-height="600" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"></div>
-        </md-content>
+
+        <br />
+        <d
+
+        <br />
+        <d
+        <div layout="row" style="height:600px">
+            <md-content twitter-timeline flex class="md-whiteframe-6dp">
+                 f
+                >
+
+                <!-- iafar:seccion facebook -->
+                <!--<div class="fb-page " data-href="https://www.facebook.com/Fepuse-Futbol-393003964093005/?fref=ts" data-tabs="timeline" data-height="600" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"></div>-->
+                <div class="fb-page" data-href="https://www.facebook.com/Fepuse-Futbol-393003964093005/?fref=ts" data-tabs="timeline" data-width="542" data-height="600" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"></div>
+            </md-content>
+            <span flex="5"></span>
+            <md-content class="md-whiteframe-9dp" flex>
+                <!-- iafar: seccion twitter -->
+
+                <a class="twitter-timeline" href="https://twitter.com/search?q=%23futbol%20%23Argentino" data-widget-id="700364044755189760" layout-fill>Tweets sobre #futbol #Argentino</a>
+
+
+            </md-content>
+        </div>
+
 
     </div>
     <br />
     <div layout="row">
-        <md-content flex="75" class="md-whiteframe-9dp">
-            <md-tabs md-selected="selectedIndex" style="min-height:506px">
-                <md-tab ng-repeat="fecha in FechasInfo" >
-                    <!--md-on-select="onTabSelected(tab)" md-on-deselect="announceDeselected(tab)"-->
-                    <md-tab-label>
-                        Fecha {{fecha.numFecha}}
-                        <!--<md-icon class="fa-binoculars">-->
-                    </md-tab-label>
-                    <md-tab-body>
-                        <!--#region Tabla Detalle Fecha -->
-                        <md-table-container style="height:400px">
-                            <table md-table>
-                                <thead md-head>
-                                    <tr md-row>
-                                        <th md-column md-numeric>Dia</th>
-                                        <th md-column md-numeric>Hora</th>
-                                        <th md-column md-numeric>Sede</th>
-                                        <th md-column md-numeric><span></span></th>
-                                        <th md-column md-numeric>Equipo Local</th>
-                                        <th md-column md-numeric></th>
-                                        <th md-column md-numeric></th>
-                                        <th md-column md-numeric>Equipo Visitante</th>
-                                        <th md-column md-numeric>Arbitro</th>
-                                    </tr>
-                                </thead>
-                                <tbody md-body layout-fill style="height:400px">
-                                    <tr md-row ng-repeat="partido in fecha.infoPartidos | limitTo: query.limit: (query.page - 1) * query.limit ">
-                                        <!--<td md-cell>{{$index+1}}</td>-->
-                                        <td md-cell>{{partido.Dia}}</td>
-                                        <td md-cell>{{partido.Hora}}</td>
-                                        <td md-cell>{{partido.sede}}</td>
-                                        <td md-cell><span></span></td>
-                                        <td md-cell>{{partido.nombreEquipoLocal}}</td>
-                                        <td md-cell>{{partido.golesLocal}}</td>
-                                        <td md-cell>{{partido.golesVisitante}}</td>
-                                        <td md-cell>{{partido.nombreEquipoVisitante}}</td>
-                                        <td md-cell>{{partido.nombreArbitro}}</td>
-
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </md-table-container>
-
-                        <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{equiposCount}}" md-page-select></md-table-pagination>
-
-                        <!--#endregion Fin Posiciones -->
-                    </md-tab-body>
-                </md-tab>
-            </md-tabs>
-
-        </md-content>
-        <span flex="5"></span>
-        <md-content class="md-whiteframe-9dp" flex>
-            <!-- iafar: seccion twitter -->
-            <div>
-                <a class="twitter-timeline" href="https://twitter.com/search?q=%23futbol%20%23Argentino" data-widget-id="700364044755189760" layout-fill>Tweets sobre #futbol #Argentino</a>
-
-            </div>
-
-
-        </md-content>
-
-
-
 
 
 
