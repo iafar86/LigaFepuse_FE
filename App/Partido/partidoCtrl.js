@@ -275,18 +275,34 @@
 
 
     //Region imprimir listado de jugadores
-    $scope.imprimirListadoEquipoLocal = function () {
+    $scope.imprimirListadoEquipoLocal = function (jugadoresEquipoLocal) {
         var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
         $mdDialog.show({
             controller: DialogImprimirController,
             templateUrl: 'App/Partido/Partials/listadoJugadores.html',
-            parent: angular.element(document.body),
-            targetEvent: ev,
-            clickOutsideToClose: false,
-            jugadoresEquipoLocal: $scope.partido.EquipoLocal.PartidosJugadores
+            clickOutsideToClose: true,
+            jugadoresDialog: jugadoresEquipoLocal
         })
         .then(function () {
             
+        });
+        $scope.$watch(function () {
+            return $mdMedia('xs') || $mdMedia('sm');
+        }, function (wantsFullScreen) {
+            $scope.customFullscreen = (wantsFullScreen === true);
+        });
+    };
+
+    $scope.imprimirListadoEquipoVisitante = function (jugadoresEquipoVisitante) {
+        var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
+        $mdDialog.show({
+            controller: DialogImprimirController,
+            templateUrl: 'App/Partido/Partials/listadoJugadores.html',
+            clickOutsideToClose: true,
+            jugadoresDialog: jugadoresEquipoVisitante
+        })
+        .then(function () {
+
         });
         $scope.$watch(function () {
             return $mdMedia('xs') || $mdMedia('sm');
@@ -299,7 +315,9 @@
 })
 
 
-function DialogImprimirController($scope, $mdDialog, jugadoresEquipoLocal) {
+function DialogImprimirController($scope, $mdDialog, jugadoresDialog) {
+    $scope.jugadores = jugadoresDialog;
+
     //#region Imprimir listado
     $scope.printToCart = function (printSectionId) {
 
@@ -309,6 +327,11 @@ function DialogImprimirController($scope, $mdDialog, jugadoresEquipoLocal) {
         popupWinindow.document.write('<html><head> <link rel="stylesheet" href="libs/assets/animate.css/animate.css" type="text/css" /><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"><link rel="stylesheet" href="libs/angular/angular-loading-bar/build/loading-bar.css" type="text/css" /><link rel="stylesheet" href="libs/angular/angular-material/angular-material.css" type="text/css" /><link rel="stylesheet" href="styles/material-design-icons.css" type="text/css" /><link rel="stylesheet" href="styles/app.min.css" type="text/css" /><link href="libs/angular/angular-material/angular-material.min.css" rel="stylesheet" /><script src="libs/angular/angular-material/angular-material.min.js"></script><script src="libs/angular/angular-material-icons/angular-material-icons.min.js"></script><link rel="stylesheet" type="text/css" href="style.css" /></head><body onload="window.print()">' + innerContents + '</html>');
         popupWinindow.document.close();
     }
+
+    $scope.cancel = function () {
+        $scope = $scope.$new(true);
+        $mdDialog.cancel();
+    };
 
 
     //#endRegion

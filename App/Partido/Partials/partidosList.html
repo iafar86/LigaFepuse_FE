@@ -11,24 +11,23 @@
                     <div>
                         <div layout="row">
                             <md-input-container layout="row" flex="50">
-                                <div flex ="90">
-                                    <label>Equipo Local</label>
+                                <div flex ="90">                              
                                     <input class="form-control md-input" ng-model="partido.nombreEquipoLocal" ng-disabled="true">                                     
                                 </div>
-                                <div flex="10">
+                                <div flex="10" layout="row">
                                     <label>Goles</label>
                                     <span class="form-control md-input">{{partido.GolesLocal}}</span>
                                 </div>
                             </md-input-container>
-                            <md-input-container layout="row" layout-align="center end" flex="50">
-                                <div flex="90">
-                                    <label>Equipo Visitante</label>
-                                    <input class="form-control md-input" ng-model="partido.nombreEquipoVisitante" ng-disabled="true">                                    
-                                </div>
+                            <md-input-container layout="row" flex="50">
                                 <div flex="10">
                                     <label>Goles</label>
                                     <span class="form-control md-input">{{partido.GolesVisitante}}</span>
                                 </div>
+                                <div flex="90">                                    
+                                    <input class="form-control md-input" ng-model="partido.nombreEquipoVisitante" ng-disabled="true">                                    
+                                </div>
+                                
                             </md-input-container>
                         </div>                        
                     </div>

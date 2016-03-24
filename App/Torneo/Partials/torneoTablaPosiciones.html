@@ -22,7 +22,7 @@
                             {{$index+1}}
                         </td>
                         <td data-title="'Equipo'">
-                            <span>{{equipo.Equipo.Nombre}}</span>
+                            <span ui-sref="jugador.jugadorList({idTorneo:equipo.TorneoId, idEquipo:equipo.Equipo.Id})"><a>{{equipo.Equipo.Nombre}}</a> </span>
                         </td>
                         <td data-title="'PJ'" sortable="'PartidosJugados'">
                             <span ng-show="!editValue">{{equipo.PartidosJugados}}</span>
@@ -102,6 +102,7 @@
          active-icon="mdi-content-clear" resting-icon="mdi-content-add"
          toggling-method="hover">
         <button mfb-button icon="mdi-image-edit" label="Editar" ng-click="edit()"></button>
+        <button mfb-button icon="mdi-content-add" label="Agregar Equipos" ng-click="nuevoEquipo()"></button>
         <!--<button mfb-button icon="fa fa-shirtsinbulk" label="Agregar Equipos" ng-click="obtenerEquiposLiga()">            
             
         </button>-->
