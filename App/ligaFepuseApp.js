@@ -122,6 +122,7 @@
                  controller: 'torneoCtrl',
                  resolve: {
                      torneoDataFactory: 'torneoDataFactory',
+                     equipoDataFatory: 'equipoDataFactory',
                      torneoList: function () {
                          return { value: [] };
                      },
@@ -132,6 +133,9 @@
 
                      listadoSedes: function (sedeDataFactory) {
                          return sedeDataFactory.getSedes();
+                     },
+                     equiposLiga: function (equipoDataFactory) {
+                         return equipoDataFactory.getEquiposLiga();
                      }
 
                  }
@@ -180,9 +184,12 @@
                             //kike
                             torneoDataFactory: 'torneoDataFactory',
                             equipoDataFactory: 'equipoDataFactory',
-                            listadoEquiposTorneo: function(torneoDataFactory, $stateParams){
+                            torneoInfo: function(torneoDataFactory, $stateParams){
                                 var torneoId= $stateParams.torneoId;
                                 return torneoDataFactory.getTorneo(torneoId);
+                            },
+                            equiposLiga: function (equipoDataFactory) {
+                                return equipoDataFactory.getEquiposLiga();
                             },
                             //equiposLiga: function(equipoDataFactory){
                             //    return equipoDataFactory.getEquiposLiga;

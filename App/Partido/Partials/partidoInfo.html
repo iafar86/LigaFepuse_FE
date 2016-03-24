@@ -40,7 +40,7 @@
                 <div class="form-group has-error">
                     <label class="control-label" for="fecha">Dia y Hora del Partido</label>
                     <br />
-                    <span id="fecha">Dia: {{partido.Dia | date:"dd/MM/yyyy 'Horario:' partido.Hora"}}</span>
+                    <span id="fecha">Dia: {{partido.Dia | date:"dd/MM/yyyy"}} Hora: {{partido.Hora}}</span>
                     <md-input-container ng-show="editValue">
                         <label>Nuevo Dia y Hora del Partido</label>
                         <input type="datetime-local" ng-model="fechaHoraNueva"
@@ -73,9 +73,9 @@
                         <div layout="row">
                             <div flex="80">
                                 <h2 class="page-head-line">
-                                    <a href class="pull-left"><img src="http://www.promiedos.com.ar/images/s30/riverplate.png" class="img-responsive"></a>
+                                    <a href  class="pull-left"><img src="http://www.promiedos.com.ar/images/s30/riverplate.png" class="img-responsive"></a>
                                     &nbsp;&nbsp;
-                                    {{partido.EquipoLocal.Nombre}}
+                                    <a href ng-click="imprimirListadoEquipoLocal(partido.EquipoLocal.PartidosJugadores)"> {{partido.EquipoLocal.Nombre}}</a>
                                 </h2>
                             </div>
                             <div flex="20">
@@ -134,7 +134,7 @@
                             </div>
                             <div flex="80">
                                 <h2 class="page-head-line text-right">
-                                    {{partido.EquipoVisitante.Nombre}}
+                                    <a href ng-click="imprimirListadoEquipoVisitante(partido.EquipoVisitante.PartidosJugadores)">{{partido.EquipoVisitante.Nombre}}</a> 
                                     &nbsp;&nbsp;
                                     <a href class="pull-right"><img src="http://www.promiedos.com.ar/images/s30/bocajuniors.png" class="img-responsive"></a>
                                 </h2>
