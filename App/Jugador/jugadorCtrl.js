@@ -142,25 +142,11 @@
 
     }
 
-    //#region Imprimir listado
-    $scope.printToCart = function (printSectionId) {
-
-        var innerContents = document.getElementById(printSectionId).innerHTML;
-        var popupWinindow = window.open('', '_blank', 'width=600,height=700,scrollbars=no,menubar=no,toolbar=no,location=no,status=no,titlebar=no');
-        popupWinindow.document.open();
-        popupWinindow.document.write('<html><head> <link rel="stylesheet" href="libs/assets/animate.css/animate.css" type="text/css" /><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"><link rel="stylesheet" href="libs/angular/angular-loading-bar/build/loading-bar.css" type="text/css" /><link rel="stylesheet" href="libs/angular/angular-material/angular-material.css" type="text/css" /><link rel="stylesheet" href="styles/material-design-icons.css" type="text/css" /><link rel="stylesheet" href="styles/app.min.css" type="text/css" /><link href="libs/angular/angular-material/angular-material.min.css" rel="stylesheet" /><script src="libs/angular/angular-material/angular-material.min.js"></script><script src="libs/angular/angular-material-icons/angular-material-icons.min.js"></script><link rel="stylesheet" type="text/css" href="style.css" /></head><body onload="window.print()">' + innerContents + '</html>');
-        popupWinindow.document.close();
-    }
-
-
-    //#endRegion
-
-
 });
 
 
 function DialogJugadorController($scope, $mdDialog, jugadorShow, edit, func, equipoId,
-    torneoId, equiposList, profesionesList, equipoDataFactory, jugadorDataFactory, equipoTorneoDataFactory, profesionDataFactory) {
+    torneoId, equiposList, profesionesList, equipoDataFactory, jugadorDataFactory, equipoTorneoDataFactory, profesionDataFactory, imagenesDataFactory) {
 
     //#region inicializacion de scope
     $scope.jugador = jugadorShow;
@@ -169,12 +155,13 @@ function DialogJugadorController($scope, $mdDialog, jugadorShow, edit, func, equ
     $scope.func = func;//iafar: cadena que expresa que tipo de operacion hara el modal
     $scope.equipoId = equipoId;
     $scope.profesionList = profesionesList;
-
+    $scope.jugador.imagen = null;
     //#endregion
 
 
     $scope.closeDialog = function (response) {
-
+        $scope.jugador.imagen = "";
+        debugger;
         $mdDialog.hide(response);
 
     };
@@ -190,17 +177,33 @@ function DialogJugadorController($scope, $mdDialog, jugadorShow, edit, func, equ
         if ($scope.func == "Nuevo") {
             //iafar: nuevo jugador
 
-            //#region datos de modelo
-            //$scope.jugador.Profesion = "Profesion Prueba"           
+            //#region datos de modelo         
             $scope.jugador.EquiposJugadorTorneos = [{
                 EquipoId: equipoId,
                 TorneoId: torneoId
             }];
-
-
             //#endregion
 
-            jugadorDataFactory.postJugador($scope.jugador);//iafar: trabajar con un promise
+            jugadorDataFactory.postJugador($scope.jugador).then(function (response) {
+                debugger;
+                if ($scope.jugador.imagen != null) {
+                    var jugadorId= response.data.Jugador.Id
+                    if (cargaLogo($scope.jugador.imagen, jugadorId)) {
+                        //torneos = torneoDataFactory.getTorneos();
+                        //$mdDialog.hide(torneos);                    
+                    } else {
+                        alert("Nuevo Jugador guardado, Sin Logo");
+                    }
+                } else {
+                    alert("Nuevo jugador guardado, Sin Logo");
+                }
+            },
+        function (err) {
+            if (err) {
+                $scope.error = err;
+                alert("Error al Guardar el Jugador: " + $scope.error.Message);
+            }
+        });
 
         } else {
             //iafar: se modifica un jugador
@@ -220,6 +223,47 @@ function DialogJugadorController($scope, $mdDialog, jugadorShow, edit, func, equ
         }
         $scope.closeDialog("ok");
     }
+
+    //#region fpaz: carga una imagen al azure
+    var cargaLogo = function (file, idJugador) {
+        console.log("IdJugador: " + idJugador);
+        console.log("Imagen: " + file);
+        var res = true;
+        debugger;
+        imagenesDataFactory.postImagen(file).then(function (response) {
+            console.log("cargo la imagen en azure");
+            alert("Imagen guardada en azure");
+            //fpaz: imagen cargada en el azure correctamente      
+            $scope.prmImagen = response[0];
+            var imagen = $scope.prmImagen;
+            imagen.JugadorId = idTorneo;
+            console.log(imagen);
+            //fpaz: guardo los datos de la imagen en la bd y la asocio con el torneo
+            torneoDataFactory.postImagenJugador(imagen).then(function (response) {
+                //fpaz: imagen cargada en la bd correctamente                      
+                console.log("logo guardado en bd");
+                alert("Imagen guardada en BD");
+                res = true;
+            },
+            function (err) {
+                if (err) {
+                    $scope.error = err;
+                    console.log("Error al Guardar el logo: " + $scope.error.Message);
+                    res = false;
+                }
+            });
+        },
+        function (err) {
+            if (err) {
+                $scope.error = err;
+                console.log("Error al Guardar el logo: " + $scope.error.Message);
+                res = false;
+            }
+        });
+        return res;
+    }
+    //#endregion
+
 
 
 }

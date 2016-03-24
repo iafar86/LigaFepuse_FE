@@ -1,4 +1,4 @@
-﻿<md-dialog flex="90" aria-label="Nuevo Jugador">
+﻿<md-dialog flex="90" aria-label="Nuevo Jugador" ng-cloak>
     <md-toolbar>
         <div class="md-toolbar-tools">
             <h2>{{func}} Jugador</h2>
@@ -13,11 +13,34 @@
         <div layout="row" class="md-inline-form" layout-fill layout-align="center center">
             <md-card layout="row" flex="30">
                 <md-card-content layout="column" layout-align="center center" layout-fill>
-                    <div class="md-media-xl card-media rounded">
-                        <!--iafar:Aqui se puede poner una imagen-->
-                        <ng-md-icon icon="person_add" style="fill: #abcdef" size="200"></ng-md-icon>
-                    </div>
-                    <md-input-container layout-fill>
+
+
+                    <md-button class="inline-block animate-show" flex ng-disabled='edit' ngf-drop="" ngf-select="" ng-model="jugador.imagen"
+                               ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-allow-dir="true" accept="image/*"
+                               ngf-pattern="'image/*'" ngf-max-size="5MB">
+                        <div class="md-media-xl card-media rounded">
+                            <!--  class="b-a b-dashed p-lg bg-white text-center m-b" -->
+                            <!--iafar:Aqui se puede poner una imagen-->
+                            <ng-md-icon ng-show="!jugador.imagen" icon="person_add" style="fill: #abcdef" size="200"></ng-md-icon>
+                            <img ngf-thumbnail="jugador.imagen" class="thumb img-responsive">
+                            <i ng-show="myForm.file.$error.maxSize">
+                                File too large
+                                {{picFile.size / 1000000|number:1}}MB: max 5M
+                            </i>
+                        </div>
+                    </md-button>
+
+
+
+                    <!--<md-button class="inline-block animate-show" flex>
+                        <div class="md-media-xl card-media rounded">
+
+                            <ng-md-icon icon="person_add" style="fill: #abcdef" size="200"></ng-md-icon>
+                        </div>
+                    </md-button>-->
+                    <md-divider></md-divider>
+
+                    <md-input-container layout-fill flex>
                         <label>Apodo</label>
                         <input ng-model="jugador.Apodo" ng-disabled='edit'>
                     </md-input-container>
@@ -84,8 +107,8 @@
             </md-card>
         </div>
         <!--</div>-->
-        <md-dialog-actions layout="row" class="bg-primary">           
-            <span flex></span>            
+        <md-dialog-actions layout="row" class="bg-primary">
+            <span flex></span>
             <md-button class="md-raised" ng-hide="edit" ng-click="guardarJugador()">Guardar</md-button>
             <md-button class="md-raised" ng-show="edit" ng-click="editJugador()">Editar</md-button>
             <md-button class="md-raised md-shadow-animated" style="margin-right:20px;" ng-click="closeDialog('cancel')">Cancelar</md-button>

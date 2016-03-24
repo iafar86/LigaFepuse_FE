@@ -28,7 +28,7 @@
                 <div class="form-group has-error">
                     <label class="control-label" for="sede">Sede del Partido</label>
                     <br />
-                    <span id="sede" ng-show="!editValue">{{partido.Sede}}</span>    
+                    <span id="sede" ng-show="!editValue">{{partido.Sede.Nombre}}</span>    
                     <md-input-container ng-show="editValue">
                         <label>Sede del Partido</label>
                         <input class="md-input" ng-model="partido.Sede">
