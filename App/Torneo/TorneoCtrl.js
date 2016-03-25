@@ -137,7 +137,10 @@ equipoDataFactory, arbitroDataFactory, sedeDataFactory, imagenesDataFactory)
                     },
                     listArbitros: function (arbitroDataFactory) {
                         return arbitroDataFactory.getArbitros();
-                    }                    
+                    },
+                    listSedes: function (sedeDataFactory) {
+                        return sedeDataFactory.getSedes();
+                    }
                 }
             })
               .then(function () {

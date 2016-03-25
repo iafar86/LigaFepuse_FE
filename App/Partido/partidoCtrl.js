@@ -1,10 +1,11 @@
 ﻿ligaFepuseApp.controller('partidoCtrl', function ($scope, $stateParams, $state, $filter, $mdDialog, $mdMedia, ngTableParams, partidoDataFactory,
-    listPartidos, listEquipos, listArbitros, infoTorneo, infoPartido, equipoTorneoDataFactory) {
+    listPartidos, listEquipos, listArbitros, infoTorneo, infoPartido, equipoTorneoDataFactory, listSedes, sedeDataFactory) {
     //#region fpaz: Inicializacion de Variables de Scope
     $scope.listPartidos = listPartidos; //fpaz: tiene todos los partidos de la fecha
     $scope.listEquipos = listEquipos; //fpaz: tiene todos los equipos del torneo al que pertenece la fecha
     $scope.listArbitros = listArbitros; //fpaz: listado de arbitros de la liga
     $scope.torneo = infoTorneo;
+    $scope.sedes = listSedes;
     $scope.fecha = {};
     $scope.partido = infoPartido;    
     $scope.init = function () { //fpaz: funcion para cargar el objeto fecha a partir del id de fecha pasado como parametro en el stae        
@@ -29,7 +30,9 @@
         p.FechaId = $stateParams.fechaId;
         //p.DiaYHora = prmPartido.DiaYHora;
         p.Dia = prmPartido.Dia;
-        p.Hora = prmPartido.Hora;
+        hora = prmPartido.Hora.getHours().toString();
+        minutos = prmPartido.Hora.getMinutes().toString();
+        p.Hora = hora.concat(":", minutos);
         p.SedeId = prmPartido.Sede.Id;
         p.GolesLocal = 0;
         p.GolesVisitante = 0;

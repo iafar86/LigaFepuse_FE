@@ -63,7 +63,7 @@
 
     var _postImagenJugador = function (data) { //fpaz: alta de una Imagen de un jugador
         var deferred = $q.defer();
-        $http.post(urlApi + 'api/Jugadors/Imagen', data).then(
+        $http.post(urlApi + '/api/Jugadors/Imagen', data).then(
             function (response) {
                 deferred.resolve(response);
             },

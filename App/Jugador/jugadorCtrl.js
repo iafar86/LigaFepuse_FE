@@ -146,21 +146,22 @@
 
 
 function DialogJugadorController($scope, $mdDialog, jugadorShow, edit, func, equipoId,
-    torneoId, equiposList, profesionesList, equipoDataFactory, jugadorDataFactory, equipoTorneoDataFactory, profesionDataFactory, imagenesDataFactory) {
+    torneoId, equiposList, profesionesList, equipoDataFactory, jugadorDataFactory, equipoTorneoDataFactory,
+    profesionDataFactory, imagenesDataFactory) {
 
     //#region inicializacion de scope
+    
     $scope.jugador = jugadorShow;
     $scope.equiposList = equiposList;
     $scope.edit = edit; //iafar: indica si los campos estan habilitados para edicion o no
     $scope.func = func;//iafar: cadena que expresa que tipo de operacion hara el modal
     $scope.equipoId = equipoId;
     $scope.profesionList = profesionesList;
-    $scope.jugador.imagen = null;
     //#endregion
 
 
     $scope.closeDialog = function (response) {
-        $scope.jugador.imagen = "";
+        //$scope.jugador.imagen = "";
         debugger;
         $mdDialog.hide(response);
 
@@ -187,7 +188,7 @@ function DialogJugadorController($scope, $mdDialog, jugadorShow, edit, func, equ
             jugadorDataFactory.postJugador($scope.jugador).then(function (response) {
                 debugger;
                 if ($scope.jugador.imagen != null) {
-                    var jugadorId= response.data.Jugador.Id
+                    var jugadorId= response.data.Id
                     if (cargaLogo($scope.jugador.imagen, jugadorId)) {
                         //torneos = torneoDataFactory.getTorneos();
                         //$mdDialog.hide(torneos);                    
@@ -212,9 +213,7 @@ function DialogJugadorController($scope, $mdDialog, jugadorShow, edit, func, equ
             if (equipoId != $scope.equipoId) {
                 //iafar: se cambio de equipo
                 console.log("se modifico equipo")
-                var ejtId = jugadorShow.EquiposJugadorTorneos[0].Id;
-                jugadorShow.EquiposJugadorTorneos[0].EquipoId = $scope.equipoId;
-                jugadorDataFactory.putEquipoJugadorTorneo(ejtId, jugadorShow.EquiposJugadorTorneos[0]);
+               
             }
 
 
@@ -234,12 +233,13 @@ function DialogJugadorController($scope, $mdDialog, jugadorShow, edit, func, equ
             console.log("cargo la imagen en azure");
             alert("Imagen guardada en azure");
             //fpaz: imagen cargada en el azure correctamente      
+            debugger;
             $scope.prmImagen = response[0];
             var imagen = $scope.prmImagen;
-            imagen.JugadorId = idTorneo;
+            imagen.PersonaId = idJugador;
             console.log(imagen);
             //fpaz: guardo los datos de la imagen en la bd y la asocio con el torneo
-            torneoDataFactory.postImagenJugador(imagen).then(function (response) {
+            jugadorDataFactory.postImagenJugador(imagen).then(function (response) {
                 //fpaz: imagen cargada en la bd correctamente                      
                 console.log("logo guardado en bd");
                 alert("Imagen guardada en BD");
@@ -260,6 +260,7 @@ function DialogJugadorController($scope, $mdDialog, jugadorShow, edit, func, equ
                 res = false;
             }
         });
+        debugger;
         return res;
     }
     //#endregion
