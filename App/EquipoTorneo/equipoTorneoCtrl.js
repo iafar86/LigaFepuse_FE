@@ -105,9 +105,9 @@
         })
         .then(function (listadoEquiposTorneo) {
             //$scope.obtenerEquipos();
-            torneoDataFactory.getTorneo($stateParams.torneoId).then(function (response) {
-                $scope.listadoEquiposTorneo = response.EquipoTorneos;
-            })
+            equipoTorneoDataFactory.getTablaPosiciones($stateParams.torneoId).then(function (response) {
+                $scope.tablaPosiciones = response;
+            });
             //if (bandera == null) {
             //    $scope.torneoSelect = bandera;
             //    $scope.variable = bandera;
