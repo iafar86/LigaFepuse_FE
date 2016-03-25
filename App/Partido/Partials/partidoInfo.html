@@ -73,7 +73,7 @@
                         <div layout="row">
                             <div flex="80">
                                 <h2 class="page-head-line">
-                                    <a href  class="pull-left"><img src="http://www.promiedos.com.ar/images/s30/riverplate.png" class="img-responsive"></a>
+                                    <a href  class="pull-left"><img src="{{partido.EquipoLocal.ImagenesEquipo[0].FileUrl}}" class="img-responsive"></a>
                                     &nbsp;&nbsp;
                                     <a href ng-click="imprimirListadoEquipoLocal(partido.EquipoLocal.PartidosJugadores)"> {{partido.EquipoLocal.Nombre}}</a>
                                 </h2>
@@ -136,7 +136,7 @@
                                 <h2 class="page-head-line text-right">
                                     <a href ng-click="imprimirListadoEquipoVisitante(partido.EquipoVisitante.PartidosJugadores)">{{partido.EquipoVisitante.Nombre}}</a> 
                                     &nbsp;&nbsp;
-                                    <a href class="pull-right"><img src="http://www.promiedos.com.ar/images/s30/bocajuniors.png" class="img-responsive"></a>
+                                    <a href class="pull-right"><img src="{{partido.EquipoVisitante.ImagenesEquipo[0].FileUrl}}" class="img-responsive"></a>
                                 </h2>
                             </div>                            
                         </div>

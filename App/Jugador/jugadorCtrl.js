@@ -142,29 +142,27 @@
 
     }
 
-
-    
-
-
 });
 
 
 function DialogJugadorController($scope, $mdDialog, jugadorShow, edit, func, equipoId,
-    torneoId, equiposList, profesionesList, equipoDataFactory, jugadorDataFactory, equipoTorneoDataFactory, profesionDataFactory) {
+    torneoId, equiposList, profesionesList, equipoDataFactory, jugadorDataFactory, equipoTorneoDataFactory,
+    profesionDataFactory, imagenesDataFactory) {
 
     //#region inicializacion de scope
+    
     $scope.jugador = jugadorShow;
     $scope.equiposList = equiposList;
     $scope.edit = edit; //iafar: indica si los campos estan habilitados para edicion o no
     $scope.func = func;//iafar: cadena que expresa que tipo de operacion hara el modal
     $scope.equipoId = equipoId;
     $scope.profesionList = profesionesList;
-
     //#endregion
 
 
     $scope.closeDialog = function (response) {
-
+        //$scope.jugador.imagen = "";
+        debugger;
         $mdDialog.hide(response);
 
     };
@@ -180,17 +178,33 @@ function DialogJugadorController($scope, $mdDialog, jugadorShow, edit, func, equ
         if ($scope.func == "Nuevo") {
             //iafar: nuevo jugador
 
-            //#region datos de modelo
-            //$scope.jugador.Profesion = "Profesion Prueba"           
+            //#region datos de modelo         
             $scope.jugador.EquiposJugadorTorneos = [{
                 EquipoId: equipoId,
                 TorneoId: torneoId
             }];
-
-
             //#endregion
 
-            jugadorDataFactory.postJugador($scope.jugador);//iafar: trabajar con un promise
+            jugadorDataFactory.postJugador($scope.jugador).then(function (response) {
+                debugger;
+                if ($scope.jugador.imagen != null) {
+                    var jugadorId= response.data.Id
+                    if (cargaLogo($scope.jugador.imagen, jugadorId)) {
+                        //torneos = torneoDataFactory.getTorneos();
+                        //$mdDialog.hide(torneos);                    
+                    } else {
+                        alert("Nuevo Jugador guardado, Sin Logo");
+                    }
+                } else {
+                    alert("Nuevo jugador guardado, Sin Logo");
+                }
+            },
+        function (err) {
+            if (err) {
+                $scope.error = err;
+                alert("Error al Guardar el Jugador: " + $scope.error.Message);
+            }
+        });
 
         } else {
             //iafar: se modifica un jugador
@@ -199,9 +213,7 @@ function DialogJugadorController($scope, $mdDialog, jugadorShow, edit, func, equ
             if (equipoId != $scope.equipoId) {
                 //iafar: se cambio de equipo
                 console.log("se modifico equipo")
-                var ejtId = jugadorShow.EquiposJugadorTorneos[0].Id;
-                jugadorShow.EquiposJugadorTorneos[0].EquipoId = $scope.equipoId;
-                jugadorDataFactory.putEquipoJugadorTorneo(ejtId, jugadorShow.EquiposJugadorTorneos[0]);
+               
             }
 
 
@@ -210,6 +222,49 @@ function DialogJugadorController($scope, $mdDialog, jugadorShow, edit, func, equ
         }
         $scope.closeDialog("ok");
     }
+
+    //#region fpaz: carga una imagen al azure
+    var cargaLogo = function (file, idJugador) {
+        console.log("IdJugador: " + idJugador);
+        console.log("Imagen: " + file);
+        var res = true;
+        debugger;
+        imagenesDataFactory.postImagen(file).then(function (response) {
+            console.log("cargo la imagen en azure");
+            alert("Imagen guardada en azure");
+            //fpaz: imagen cargada en el azure correctamente      
+            debugger;
+            $scope.prmImagen = response[0];
+            var imagen = $scope.prmImagen;
+            imagen.PersonaId = idJugador;
+            console.log(imagen);
+            //fpaz: guardo los datos de la imagen en la bd y la asocio con el torneo
+            jugadorDataFactory.postImagenJugador(imagen).then(function (response) {
+                //fpaz: imagen cargada en la bd correctamente                      
+                console.log("logo guardado en bd");
+                alert("Imagen guardada en BD");
+                res = true;
+            },
+            function (err) {
+                if (err) {
+                    $scope.error = err;
+                    console.log("Error al Guardar el logo: " + $scope.error.Message);
+                    res = false;
+                }
+            });
+        },
+        function (err) {
+            if (err) {
+                $scope.error = err;
+                console.log("Error al Guardar el logo: " + $scope.error.Message);
+                res = false;
+            }
+        });
+        debugger;
+        return res;
+    }
+    //#endregion
+
 
 
 }

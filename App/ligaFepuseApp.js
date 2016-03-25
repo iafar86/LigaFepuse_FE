@@ -116,7 +116,7 @@
                 }
             }
         })
-             .state('torneo.info', {
+             .state('torneo.info', {                 
                  url: '/Torneo/:torneoId',
                  templateUrl: 'App/Torneo/Partials/torneoInfo.html',
                  controller: 'torneoCtrl',

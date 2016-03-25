@@ -3,16 +3,70 @@
         <div class="p-h b-b b-light">
             <ul class="nav nav-lines nav-md b-info">
                 <li class="active"><a href>Fixture De La Fecha: {{listPartidos.NumFecha}}</a></li>
+
             </ul>
         </div>
-        <div class="p-h-lg m-b-lg">
+
+        <!-- #region tempo -->
+        
+        <div ng-repeat="partido in listPartidos.InfoPartidos">
+            <br />
+            <div>
+                <div layout="row">
+                    <div layout="row" flex="45">
+                        <md-input-container flex="85">
+                            <label>Equipo Local</label>
+                            <input class="form-control md-input" ng-model="partido.nombreEquipoLocal" ng-disabled="true">
+                        </md-input-container>
+                        <div flex="15" layout="column" class="text-center">
+                            <label>Goles</label>
+                            <span class="form-control md-input">{{partido.GolesLocal}}</span>
+                        </div>
+                    </div>
+                    <span flex="5" layout-aling="center end">:</span>
+                    <div layout="row" flex="45">
+                        <div flex="15" layout="column" class="text-center">
+                            <label>Goles</label>
+                            <span class="form-control md-input">{{partido.GolesVisitante}}</span>
+                        </div>
+                        <md-input-container flex="85">
+                            <label>Equipo Visitante</label>
+                            <input class="form-control md-input" ng-model="partido.nombreEquipoVisitante" ng-disabled="true">
+                        </md-input-container>
+
+                    </div>
+                </div>
+                <!--</div>-->
+                <div class="m-b-xs">
+                    <span class="text-muted block text-xs">
+                        Sede : {{partido.Sede}} &nbsp;&nbsp;&nbsp; Dia: {{partido.Dia | date:"dd/MM/yyyy 'Horario:'partido.Hora"}}
+                    </span>
+                    <span class="text-muted block text-xs">
+                        Arbitro : {{partido.nombreArbitro}}
+                    </span>
+
+                </div>
+                <md-actions layout="row" layout-align="end end">
+                    <a ui-sref="partido.info({partidoId: partido.Id})">Ver Detalle</a>
+                </md-actions>
+                <md-divider></md-divider>
+            </div>
+        </div>
+        <!-- #endregion -->
+
+
+
+
+
+        <!--<div class="p-h-lg m-b-lg">
+            <br />
             <div ng-repeat="partido in listPartidos.InfoPartidos">
                 <div>
                     <div>
                         <div layout="row">
                             <md-input-container layout="row" flex="50">
-                                <div flex ="90">                              
-                                    <input class="form-control md-input" ng-model="partido.nombreEquipoLocal" ng-disabled="true">                                     
+                                <div flex="90">
+                                    <input class="form-control md-input" ng-model="partido.nombreEquipoLocal" ng-disabled="true">
                                 </div>
                                 <div flex="10" layout="row">
                                     <label>Goles</label>
@@ -24,28 +78,28 @@
                                     <label>Goles</label>
                                     <span class="form-control md-input">{{partido.GolesVisitante}}</span>
                                 </div>
-                                <div flex="90">                                    
-                                    <input class="form-control md-input" ng-model="partido.nombreEquipoVisitante" ng-disabled="true">                                    
+                                <div flex="90">
+                                    <input class="form-control md-input" ng-model="partido.nombreEquipoVisitante" ng-disabled="true">
                                 </div>
-                                
+
                             </md-input-container>
-                        </div>                        
+                        </div>
                     </div>
                     <div class="m-b-xs">
                         <span class="text-muted block text-xs">
                             Sede : {{partido.Sede}} &nbsp;&nbsp;&nbsp; Dia: {{partido.Dia | date:"dd/MM/yyyy"}} &nbsp;&nbsp;&nbsp;  Hora: {{partido.Hora}}
-                        </span>    
+                        </span>
                         <span class="text-muted block text-xs">
                             Arbitro : {{partido.nombreArbitro}}
                         </span>
-                        
+
                     </div>
                     <md-actions layout="row" layout-align="end end">
-                        <a ui-sref="partido.info({partidoId: partido.Id})">Ver Detalle</a>                         
+                        <a ui-sref="partido.info({partidoId: partido.Id})">Ver Detalle</a>
                     </md-actions>
                     <md-divider></md-divider>
                 </div>
             </div>
-        </div>
+        </div>-->
     </div>
 </div>

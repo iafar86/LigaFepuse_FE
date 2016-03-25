@@ -194,8 +194,7 @@ function DialogControllerTorneo($scope, $mdDialog, torneoDataFactory, imagenesDa
         });
     }
 
-    $scope.prmImagen = {};
-
+    
     //#region fpaz: carga una imagen al azure
     var cargaLogo = function (file, idTorneo) { 
         console.log("IdTorneo: " + idTorneo);
