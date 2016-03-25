@@ -150,51 +150,16 @@
         };
     }
     //#endRegion
+    
 
-
-    //#region Paginacion de la tabla dinamica de Dictamenes (se puede llenar con dictamenes Institucionales o Jurisdiccionales segun la opcion elegida)
-    //var data = $scope.equiposLiga;
-    //$scope.tableParams = new ngTableParams({
-    //    page: 1,            // show first page
-    //    count: 3,          // count per page        
-    //    filter: {
-    //        // filtros de la tabla, 
-    //        Nombre: '' //por numero de nrodictamen       
-    //        //codplanmejora: ''// por nombre de codplanmejora
-    //    }
-    //    //sorting: {
-    //    //    name: 'asc'
-    //    //}
-    //}, {
-    //    total: data.length, // saco el Total de registros del listado de escuelas
-    //    getData: function ($defer, params) {
-    //        var filteredData = params.filter() ?
-    //               $filter('filter')(data, params.filter()) :
-    //               data;
-
-    //        var orderedData = params.sorting() ?
-    //               $filter('orderBy')(filteredData, params.orderBy()) :
-    //               data;
-
-    //        $scope.equiposLiga = orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count());
-    //        params.total(orderedData.length); // set total for recalc pagination
-    //        $defer.resolve($scope.equiposLiga);
-    //    }
-    //});
-    //#endregion
-
-
-
-
-
-
-    //<-------REGION ARBITRO---------------->
+    //#region <-------REGION ARBITRO---------------->
     $scope.arbitroList = arbitroList;
     //#region Inicializacion de Variables de Scope
 
     //#endregion
 
     $scope.arbitroAdd = function () {
+        console.log("Esta en arbitroAdd");
         $mdDialog.show({
             //scope: $scope,
             controller: DialogArbitroController,
@@ -205,13 +170,22 @@
                 edit: false,
                 func: "Nuevo"
             } //paso de scope
-        }).then(function (response) {
-            if (response == "ok") { //iafar: se guardo nuevo arbitro?
-                alert('guardo un arbitro, actualizar lista ' + response)
-            } else {
-                alert('Le dio a cancelar ' + response)
-            }
         })
+        .then(function (arbitros) {
+            $scope.arbitroList = arbitros;
+        });
+        $scope.$watch(function () {
+            return $mdMedia('xs') || $mdMedia('sm');
+        }, function (wantsFullScreen) {
+            $scope.customFullscreen = (wantsFullScreen === true);
+        });
+            //.then(function (response) {
+            //    if (response == "ok") { //iafar: se guardo nuevo arbitro?
+            //        alert('guardo un arbitro, actualizar lista ' + response)
+            //    } else {
+            //        alert('Le dio a cancelar ' + response)
+            //    }
+            //});
     }
 
     $scope.arbitroInfo = function (arbitroSelect) {
@@ -234,10 +208,10 @@
         })
     }
 
-    //<-------END REGION---------->
+    //#endregion <-------END REGION---------->
 
 
-    //<-------REGION SEDE------->
+    //#region <-------REGION SEDE------->
     $scope.sedesList = sedesList;
     $scope.obtenerSedes = function () {
         sedeDataFactory.getSedes().then(function (response) {
@@ -303,9 +277,9 @@
         })
     }
     
-    //<-------END REGION-------->
+    //#endregion <-------END REGION-------->
     
-    //<------REGION PROFESIONES------->
+    //#region <------REGION PROFESIONES------->
     $scope.profesionesList = profesionesList;
 
     $scope.addProfesion = function () {
@@ -368,13 +342,13 @@
         })
         
     }
-    //<-------END REGION------->
+    //#endregion <-------END REGION------->
 
 })
 
 
 
-//#Region controller Dialog
+//#region controller Dialog
 function DialogController($scope, $mdDialog, equiposLiga, torneo, torneoDataFactory, listadoEquiposTorneo, equipoDataFactory,imagenesDataFactory) {
 
     $scope.equiposLiga = equiposLiga;
@@ -408,7 +382,7 @@ function DialogController($scope, $mdDialog, equiposLiga, torneo, torneoDataFact
         
     }
 
-    //#Region alta de equipos en un torneo
+    //#region alta de equipos en un torneo
     $scope.addEquipos = function (listadoTem)
     {
         for (i=0; i< listadoTem.length; i++) {
@@ -443,9 +417,9 @@ function DialogController($scope, $mdDialog, equiposLiga, torneo, torneoDataFact
         })
 
     }
-    //#endRegion
+    //#endregion
 
-    //alta de equipo en la Liga
+    //#region alta de equipo en la Liga
     $scope.addEquipo = function (equipo) {
         equipo.LigaId = 1;
         equipo.AlDia = true;
@@ -491,7 +465,7 @@ function DialogController($scope, $mdDialog, equiposLiga, torneo, torneoDataFact
         $scope.equipo = null;
         $scope.variable = false;
     }
-    //#endRegion
+    //#endregion
 
     //#region fpaz: carga una imagen al azure
     var cargaLogo = function (file, idEquipo) {
@@ -583,16 +557,18 @@ function DialogController($scope, $mdDialog, equiposLiga, torneo, torneoDataFact
         $mdDialog.cancel();
     };
 }
-//#endRegion
+//#endregion
 
 
 
-//<--------REGION DIALOG ARBITRO------------>
-function DialogArbitroController($scope, $mdDialog, arbitroShow, edit, func, arbitroDataFactory) {
-
+//#region <--------REGION DIALOG ARBITRO------------>
+function DialogArbitroController($scope, $mdDialog, arbitroShow, edit, func, arbitroDataFactory, imagenesDataFactory) {
+    console.log("Esta en DialogArbitroController");
     //#region inicializacion de scope
+    
     $scope.arbitro = arbitroShow;
     $scope.arbitro.LigaId = 1;
+    $scope.arbitro.mensaje = "Esta en DialogArbitroController";
     $scope.edit = edit; //iafar: indica si los campos estan habilitados para edicion o no
     $scope.func = func;//iafar: cadena que expresa que tipo de operacion hara el modal
 
@@ -610,14 +586,35 @@ function DialogArbitroController($scope, $mdDialog, arbitroShow, edit, func, arb
         $scope.func = "Edicion de "
     }
 
-    $scope.guardarArbitro = function () {
-
-
+    $scope.guardarArbitro = function (arbitro) {
+        console.log("entra por guardarArbitro");
         if ($scope.func == "Nuevo") {
             //iafar: nuevo arbitro
 
-            arbitroDataFactory.postArbitro($scope.arbitro);//iafar: trabajar con un promise
-
+            //arbitroDataFactory.postArbitro($scope.arbitro);//iafar: trabajar con un promise
+            arbitroDataFactory.postArbitro(arbitro).then(function (response) {
+                console.log("Arbitro guardado: " + response.Id)
+                if ($scope.arbitro.logo != null) {
+                    if (cargaLogo(arbitro.logo, response.Id)) {
+                        //torneos = torneoDataFactory.getTorneos();
+                        //$mdDialog.hide(torneos);                    
+                    } else {
+                        alert("Nuevo Arbitro guardado, Sin Imagen");
+                        arbitros = arbitroDataFactory.getArbitros();
+                        $mdDialog.hide(arbitros);
+                    }
+                } else {
+                    alert("Nuevo Arbitro guardado, Sin Imagen");
+                    arbitros = arbitroDataFactory.getArbitros();
+                    $mdDialog.hide(arbitros);
+                }
+            },
+         function (err) {
+             if (err) {
+                 $scope.error = err;
+                 alert("Error al Guardar el Arbitro: " + $scope.error.Message);
+             }
+         });
         } else {
             //iafar: se modifica un jugador
             arbitroDataFactory.putArbitro($scope.arbitro.Id, $scope.arbitro);
@@ -626,11 +623,52 @@ function DialogArbitroController($scope, $mdDialog, arbitroShow, edit, func, arb
         $scope.closeDialog("ok");
     }
 
+    //#region fpaz: carga una imagen al azure
+    var cargaLogo = function (file, idArbitro) {
+        console.log("IdArbitro: " + idArbitro);
+        console.log("Imagen: " + file);
+        var res = true;
+        imagenesDataFactory.postImagen(file).then(function (response) {
+            console.log("cargo la imagen en azure");
+            alert("Imagen guardada en azure");
+            //fpaz: imagen cargada en el azure correctamente      
+            $scope.prmImagen = response[0];
+            var imagen = $scope.prmImagen;
+            imagen.PersonaId = idArbitro;
+            console.log(imagen);
+            //fpaz: guardo los datos de la imagen en la bd y la asocio con el torneo
+            arbitroDataFactory.postImagenArbitro(imagen).then(function (response) {
+                //fpaz: imagen cargada en la bd correctamente                      
+                console.log("logo guardado en bd");
+                alert("Imagen guardada en BD");
+                res = true;
+                arbitros = arbitroDataFactory.getArbitros();
+                $mdDialog.hide(arbitros);
+            },
+            function (err) {
+                if (err) {
+                    $scope.error = err;
+                    console.log("Error al Guardar el logo: " + $scope.error.Message);
+                    res = false;
+                }
+            });
+        },
+        function (err) {
+            if (err) {
+                $scope.error = err;
+                console.log("Error al Guardar el logo: " + $scope.error.Message);
+                res = false;
+            }
+        });
+        return res;
+    }
+    //#endregion
+
 
 }
-//<----------END REGION ARBITRO--------------->
+//#endregion <----------END REGION ARBITRO--------------->
 
-//<------REGION DIALOG DE SEDE---------->
+//#region <------REGION DIALOG DE SEDE---------->
 function DialogSedeController($scope, $mdDialog, sedeDataFactory) {
 
 
@@ -665,9 +703,9 @@ function DialogSedeController($scope, $mdDialog, sedeDataFactory) {
 
     
 }
-//<-------END REGION--------->
+//#endregion <-------END REGION--------->
 
-//<--------REGION DIALOG PROFESION-------->
+//#region <--------REGION DIALOG PROFESION-------->
 function DialogSedeController($scope, $mdDialog, profesionDataFactory) {
     $scope.cancel = function () {
         $scope = $scope.$new(true);
@@ -700,4 +738,4 @@ function DialogSedeController($scope, $mdDialog, profesionDataFactory) {
     }
 
 }
-//<--------END REGION-------->
+//#endregion <--------END REGION-------->

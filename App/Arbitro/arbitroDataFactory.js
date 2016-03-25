@@ -20,7 +20,7 @@
 
     var _postArbitro = function (data) { // nuevo  arbitro
         return $http.post(urlApi + 'api/Arbitroes', data).then(function (response) {
-            return response;
+            return response.data;
         })
     };
 
@@ -51,12 +51,25 @@
         return deferred.promise;
     }
 
+    var _postImagenArbitro = function (data) { //fpaz: alta de una Imagen del Arbitro
+        var deferred = $q.defer();
+        $http.post(urlApi + 'api/Arbitroes/Imagen', data).then(
+            function (response) {
+                deferred.resolve(response);
+            },
+            function (response) {
+                deferred.reject(response.data);
+            });
+        return deferred.promise;
+    };
+
 
 
     arbitroDataFactory.getArbitros = _getArbitros;
     arbitroDataFactory.postArbitro = _postArbitro;
     arbitroDataFactory.putArbitro = _putArbitro;
     arbitroDataFactory.delArbitro = _delArbitro;
+    arbitroDataFactory.postImagenArbitro = _postImagenArbitro;
 
     return arbitroDataFactory;
 });
