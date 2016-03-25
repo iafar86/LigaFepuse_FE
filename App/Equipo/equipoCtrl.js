@@ -159,45 +159,9 @@
         };
     }
     //#endRegion
+    
 
-
-    //#region Paginacion de la tabla dinamica de Dictamenes (se puede llenar con dictamenes Institucionales o Jurisdiccionales segun la opcion elegida)
-    //var data = $scope.equiposLiga;
-    //$scope.tableParams = new ngTableParams({
-    //    page: 1,            // show first page
-    //    count: 3,          // count per page        
-    //    filter: {
-    //        // filtros de la tabla, 
-    //        Nombre: '' //por numero de nrodictamen       
-    //        //codplanmejora: ''// por nombre de codplanmejora
-    //    }
-    //    //sorting: {
-    //    //    name: 'asc'
-    //    //}
-    //}, {
-    //    total: data.length, // saco el Total de registros del listado de escuelas
-    //    getData: function ($defer, params) {
-    //        var filteredData = params.filter() ?
-    //               $filter('filter')(data, params.filter()) :
-    //               data;
-
-    //        var orderedData = params.sorting() ?
-    //               $filter('orderBy')(filteredData, params.orderBy()) :
-    //               data;
-
-    //        $scope.equiposLiga = orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count());
-    //        params.total(orderedData.length); // set total for recalc pagination
-    //        $defer.resolve($scope.equiposLiga);
-    //    }
-    //});
-    //#endregion
-
-
-
-
-
-
-    //<-------REGION ARBITRO---------------->
+    //#region <-------REGION ARBITRO---------------->
     $scope.arbitroList = arbitroList;
     //#region Inicializacion de Variables de Scope
 
@@ -243,10 +207,10 @@
         })
     }
 
-    //<-------END REGION---------->
+    //#endregion <-------END REGION---------->
 
 
-    //<-------REGION SEDE------->
+    //#region <-------REGION SEDE------->
     $scope.sedesList = sedesList;
     $scope.obtenerSedes = function () {
         sedeDataFactory.getSedes().then(function (response) {
@@ -312,9 +276,9 @@
         })
     }
     
-    //<-------END REGION-------->
+    //#endregion <-------END REGION-------->
     
-    //<------REGION PROFESIONES------->
+    //#region <------REGION PROFESIONES------->
     $scope.profesionesList = profesionesList;
 
     $scope.profesionAdd = function () {
@@ -377,13 +341,13 @@
         })
         
     }
-    //<-------END REGION------->
+    //#endregion <-------END REGION------->
 
 })
 
 
 
-//#Region controller Dialog
+//#region controller Dialog
 function DialogController($scope, $mdDialog, equiposLiga, torneo, torneoDataFactory, listadoEquiposTorneo, equipoDataFactory,imagenesDataFactory) {
 
     $scope.equiposLiga = equiposLiga;
@@ -417,7 +381,7 @@ function DialogController($scope, $mdDialog, equiposLiga, torneo, torneoDataFact
         
     }
 
-    //#Region alta de equipos en un torneo
+    //#region alta de equipos en un torneo
     $scope.addEquipos = function (listadoTem)
     {
         for (i=0; i< listadoTem.length; i++) {
@@ -452,9 +416,9 @@ function DialogController($scope, $mdDialog, equiposLiga, torneo, torneoDataFact
         })
 
     }
-    //#endRegion
+    //#endregion
 
-    //alta de equipo en la Liga
+    //#region alta de equipo en la Liga
     $scope.addEquipo = function (equipo) {
         equipo.LigaId = 1;
         equipo.AlDia = true;
@@ -500,7 +464,7 @@ function DialogController($scope, $mdDialog, equiposLiga, torneo, torneoDataFact
         $scope.equipo = null;
         $scope.variable = false;
     }
-    //#endRegion
+    //#endregion
 
     //#region fpaz: carga una imagen al azure
     var cargaLogo = function (file, idEquipo) {
@@ -592,14 +556,15 @@ function DialogController($scope, $mdDialog, equiposLiga, torneo, torneoDataFact
         $mdDialog.cancel();
     };
 }
-//#endRegion
+//#endregion
 
 
 
-//<--------REGION DIALOG ARBITRO------------>
-function DialogArbitroController($scope, $mdDialog, arbitroShow, edit, func, arbitroDataFactory) {
-
+//#region <--------REGION DIALOG ARBITRO------------>
+function DialogArbitroController($scope, $mdDialog, arbitroShow, edit, func, arbitroDataFactory, imagenesDataFactory) {
+    console.log("Esta en DialogArbitroController");
     //#region inicializacion de scope
+    
     $scope.arbitro = arbitroShow;
     $scope.arbitro.LigaId = 1;
     $scope.edit = edit; //iafar: indica si los campos estan habilitados para edicion o no
@@ -637,9 +602,9 @@ function DialogArbitroController($scope, $mdDialog, arbitroShow, edit, func, arb
 
 
 }
-//<----------END REGION ARBITRO--------------->
+//#endregion <----------END REGION ARBITRO--------------->
 
-//<------REGION DIALOG DE SEDE---------->
+//#region <------REGION DIALOG DE SEDE---------->
 function DialogSedeController($scope, $mdDialog, sedeDataFactory) {
 
 
@@ -674,9 +639,9 @@ function DialogSedeController($scope, $mdDialog, sedeDataFactory) {
 
     
 }
-//<-------END REGION--------->
+//#endregion <-------END REGION--------->
 
-//<--------REGION DIALOG PROFESION-------->
+//#region <--------REGION DIALOG PROFESION-------->
 function DialogProfesionController($scope, $mdDialog, profesionDataFactory) {
     $scope.cancel = function () {
         $scope = $scope.$new(true);
@@ -709,4 +674,4 @@ function DialogProfesionController($scope, $mdDialog, profesionDataFactory) {
     }
 
 }
-//<--------END REGION-------->
+//#endregion <--------END REGION-------->
