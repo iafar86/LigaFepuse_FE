@@ -1,4 +1,4 @@
-﻿<md-dialog aria-label="Agregar Partidos a la Fecha " flex="100" ng-cloak ng-init="init()">
+﻿<md-dialog aria-label="Agregar Partidos a la Fecha " flex="70" ng-cloak ng-init="init()">
     <form>
         <md-toolbar>
             <div class="md-toolbar-tools">
@@ -41,14 +41,17 @@
                     <div layout="row">
                         <div flex="50">
                             <md-input-container>
-                                <label>Sede del Partido</label>
-                                <input class="md-input" ng-model="partido.Sede">
+                                <md-input-container style="margin-right: 10px;">
+                                    <md-select placeholder="Seleccionar Sede" ng-model="partido.Sede">
+                                        <md-option ng-value="sede" ng-repeat="sede in sedes">{{ sede.Nombre }}</md-option>
+                                    </md-select>
+                                </md-input-container>
                             </md-input-container>
                         </div>
                         <div flex="30">
                             <md-input-container>
                                 <label>Fecha del Partido</label>
-                                <input type="datetime-local" ng-model="partido.Dia"
+                                <input type="date" ng-model="partido.Dia"
                                        placeholder="dd/MM/yyyy" />
                             </md-input-container>
                         </div>
@@ -63,28 +66,13 @@
 
                     <div layout="row">
                         <div flex="50">
-                            <!--<md-autocomplete ng-disabled="false"
-                                             md-no-cache="true"
-                                             md-autofocus="false"
-                                             md-search-text-change="true"
-                                             md-selected-item-change="true"
-                                             md-menu-class="autocomplete-custom-template"
-                                             md-floating-label="Arbitro"
-                                             md-selected-item="partido.Arbitro"
-                                             md-search-text="searchText"
-                                             md-items="arbitro in listArbitros | filter: searchText"
-                                             md-item-text="item"
-                                             md-text-change="false"
-                                             ng-model="partido.Arbitro"
-                                             md-select-on-match="true"
-                                             md-min-length="0">
-                                <span>{{arbitro.NombreApellido}}</span>
-                            </md-autocomplete>-->  
-                            <md-input-container style="margin-right: 10px;">
-                                <md-select placeholder="Seleccionar Arbitro del Partido" ng-model="partido.Arbitro">
-                                    <md-option ng-value='arbitro' ng-repeat="arbitro in listArbitros">{{ arbitro.NombreApellido }}</md-option>
-                                </md-select>
-                            </md-input-container>
+                            <div flex="35">
+                                <md-input-container style="margin-right: 10px;">
+                                    <md-select placeholder="Seleccionar Arbitro del Partido" ng-model="partido.Arbitro">
+                                        <md-option ng-value="arbitro" ng-repeat="arbitro in listArbitros">{{ arbitro.NombreApellido }}</md-option>
+                                    </md-select>
+                                </md-input-container>
+                            </div>
                         </div>
                     </div>
                     <!--#endregion-->

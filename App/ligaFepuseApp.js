@@ -148,7 +148,7 @@
                         controller: 'fechaCtrl',
                         resolve: {
                             fechaDataFactory: 'fechaDataFactory',
-                            //sedeDataFactory: 'SedeDataFactory',
+                            sedeDataFactory: 'sedeDataFactory',
                             listPartidos: function (fechaDataFactory, $stateParams) {
                                 var fechaId = $stateParams.fechaId;
                                 return fechaDataFactory.getFecha(fechaId);
@@ -163,8 +163,8 @@
                             infoTorneo: function () {
                                 return { value: [] };
                             },
-                            listSedes: function () {
-                                return { value: [] };
+                            listSedes: function (sedeDataFactory) {
+                                return sedeDataFactory.getSedes();
                             },
                             //listadoSedes: function (sedeDataFactory) {
                             //    return sedeDataFactory.getSedes();
@@ -388,6 +388,8 @@
             controller: 'partidoCtrl',
             resolve: {
                 partidoDataFactory: 'partidoDataFactory',
+                sedeDataFactory: 'SedeDataFactory',
+                arbitroDataFactory: 'arbitroDataFactory',
                 //infoPartido: function () {
                 //    return { value: [] };
                 //},
@@ -406,6 +408,9 @@
                 },
                 listArbitros: function (arbitroDataFactory) {
                     return arbitroDataFactory.getArbitros();
+                },
+                listSedes: function (sedeDataFactory) {
+                    return sedeDataFactory.getSedes();
                 }
             }
         })

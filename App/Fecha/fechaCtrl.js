@@ -34,10 +34,11 @@
         //fpaz: armo el array de partidos
         var x;
         for (x in $scope.partidosCargados) {
-            var p = {};
-            //p.DiaYHora = $scope.partidosCargados[x].DiaYHora;
+            var p = {};            
             p.Dia = $scope.partidosCargados[x].Dia;
-            p.Hora = $scope.partidosCargados[x].Hora;
+            hora = $scope.partidosCargados[x].Hora.getHours().toString();
+            minutos = $scope.partidosCargados[x].Hora.getMinutes().toString();
+            p.Hora = hora.concat(":", minutos);
             p.SedeId = $scope.partidosCargados[x].Sede.Id;
             p.GolesLocal = 0;
             p.GolesVisitante = 0;
