@@ -3,6 +3,15 @@
     equipoDataFactory, torneoDataFactory, arbitroDataFactory,
     sedeDataFactory, profesionDataFactory, sedesList, profesionesList, imagenesDataFactory) //, equipoDataFactory, torneoDataFactory, arbitroDataFactory, torneoList, equiposLiga, arbitroList
 {
+    $scope.printToCart = function (printSectionId) {
+
+        var innerContents = document.getElementById(printSectionId).innerHTML;
+        var popupWinindow = window.open('', '_blank', 'width=600,height=700,scrollbars=no,menubar=no,toolbar=no,location=no,status=no,titlebar=no');
+        popupWinindow.document.open();
+        popupWinindow.document.write('<html><head> <link rel="stylesheet" href="libs/assets/animate.css/animate.css" type="text/css" /><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"><link rel="stylesheet" href="libs/angular/angular-loading-bar/build/loading-bar.css" type="text/css" /><link rel="stylesheet" href="libs/angular/angular-material/angular-material.css" type="text/css" /><link rel="stylesheet" href="styles/material-design-icons.css" type="text/css" /><link rel="stylesheet" href="styles/app.min.css" type="text/css" /><link href="libs/angular/angular-material/angular-material.min.css" rel="stylesheet" /><script src="libs/angular/angular-material/angular-material.min.js"></script><script src="libs/angular/angular-material-icons/angular-material-icons.min.js"></script><link rel="stylesheet" type="text/css" href="style.css" /></head><body onload="window.print()">' + innerContents + '</html>');
+        popupWinindow.document.close();
+    }
+
     $scope.torneos = torneoList;// trae todos los torneos de la liga
     $scope.listadoEquiposTorneo = [];// guarda los equipos de un torneo
 
@@ -159,7 +168,6 @@
     //#endregion
 
     $scope.arbitroAdd = function () {
-        console.log("Esta en arbitroAdd");
         $mdDialog.show({
             //scope: $scope,
             controller: DialogArbitroController,
@@ -170,22 +178,13 @@
                 edit: false,
                 func: "Nuevo"
             } //paso de scope
+        }).then(function (response) {
+            if (response == "ok") { //iafar: se guardo nuevo arbitro?
+                alert('guardo un arbitro, actualizar lista ' + response)
+            } else {
+                alert('Le dio a cancelar ' + response)
+            }
         })
-        .then(function (arbitros) {
-            $scope.arbitroList = arbitros;
-        });
-        $scope.$watch(function () {
-            return $mdMedia('xs') || $mdMedia('sm');
-        }, function (wantsFullScreen) {
-            $scope.customFullscreen = (wantsFullScreen === true);
-        });
-            //.then(function (response) {
-            //    if (response == "ok") { //iafar: se guardo nuevo arbitro?
-            //        alert('guardo un arbitro, actualizar lista ' + response)
-            //    } else {
-            //        alert('Le dio a cancelar ' + response)
-            //    }
-            //});
     }
 
     $scope.arbitroInfo = function (arbitroSelect) {
@@ -282,12 +281,12 @@
     //#region <------REGION PROFESIONES------->
     $scope.profesionesList = profesionesList;
 
-    $scope.addProfesion = function () {
+    $scope.profesionAdd = function () {
         $mdDialog.show({
             //scope: $scope,
             controller: DialogProfesionController,
             //targetEvent: $event,
-            templateUrl: 'App/Profesion/Partials/sedeAdd.html'
+            templateUrl: 'App/Profesion/Partials/profesionAdd.html'
         }).then(function () {
             profesionDataFactory.getProfesiones().then(function (response) {
                 $scope.profesionesList = response;
@@ -568,7 +567,6 @@ function DialogArbitroController($scope, $mdDialog, arbitroShow, edit, func, arb
     
     $scope.arbitro = arbitroShow;
     $scope.arbitro.LigaId = 1;
-    $scope.arbitro.mensaje = "Esta en DialogArbitroController";
     $scope.edit = edit; //iafar: indica si los campos estan habilitados para edicion o no
     $scope.func = func;//iafar: cadena que expresa que tipo de operacion hara el modal
 
@@ -586,35 +584,14 @@ function DialogArbitroController($scope, $mdDialog, arbitroShow, edit, func, arb
         $scope.func = "Edicion de "
     }
 
-    $scope.guardarArbitro = function (arbitro) {
-        console.log("entra por guardarArbitro");
+    $scope.guardarArbitro = function () {
+
+
         if ($scope.func == "Nuevo") {
             //iafar: nuevo arbitro
 
-            //arbitroDataFactory.postArbitro($scope.arbitro);//iafar: trabajar con un promise
-            arbitroDataFactory.postArbitro(arbitro).then(function (response) {
-                console.log("Arbitro guardado: " + response.Id)
-                if ($scope.arbitro.logo != null) {
-                    if (cargaLogo(arbitro.logo, response.Id)) {
-                        //torneos = torneoDataFactory.getTorneos();
-                        //$mdDialog.hide(torneos);                    
-                    } else {
-                        alert("Nuevo Arbitro guardado, Sin Imagen");
-                        arbitros = arbitroDataFactory.getArbitros();
-                        $mdDialog.hide(arbitros);
-                    }
-                } else {
-                    alert("Nuevo Arbitro guardado, Sin Imagen");
-                    arbitros = arbitroDataFactory.getArbitros();
-                    $mdDialog.hide(arbitros);
-                }
-            },
-         function (err) {
-             if (err) {
-                 $scope.error = err;
-                 alert("Error al Guardar el Arbitro: " + $scope.error.Message);
-             }
-         });
+            arbitroDataFactory.postArbitro($scope.arbitro);//iafar: trabajar con un promise
+
         } else {
             //iafar: se modifica un jugador
             arbitroDataFactory.putArbitro($scope.arbitro.Id, $scope.arbitro);
@@ -622,47 +599,6 @@ function DialogArbitroController($scope, $mdDialog, arbitroShow, edit, func, arb
         }
         $scope.closeDialog("ok");
     }
-
-    //#region fpaz: carga una imagen al azure
-    var cargaLogo = function (file, idArbitro) {
-        console.log("IdArbitro: " + idArbitro);
-        console.log("Imagen: " + file);
-        var res = true;
-        imagenesDataFactory.postImagen(file).then(function (response) {
-            console.log("cargo la imagen en azure");
-            alert("Imagen guardada en azure");
-            //fpaz: imagen cargada en el azure correctamente      
-            $scope.prmImagen = response[0];
-            var imagen = $scope.prmImagen;
-            imagen.PersonaId = idArbitro;
-            console.log(imagen);
-            //fpaz: guardo los datos de la imagen en la bd y la asocio con el torneo
-            arbitroDataFactory.postImagenArbitro(imagen).then(function (response) {
-                //fpaz: imagen cargada en la bd correctamente                      
-                console.log("logo guardado en bd");
-                alert("Imagen guardada en BD");
-                res = true;
-                arbitros = arbitroDataFactory.getArbitros();
-                $mdDialog.hide(arbitros);
-            },
-            function (err) {
-                if (err) {
-                    $scope.error = err;
-                    console.log("Error al Guardar el logo: " + $scope.error.Message);
-                    res = false;
-                }
-            });
-        },
-        function (err) {
-            if (err) {
-                $scope.error = err;
-                console.log("Error al Guardar el logo: " + $scope.error.Message);
-                res = false;
-            }
-        });
-        return res;
-    }
-    //#endregion
 
 
 }
@@ -706,7 +642,7 @@ function DialogSedeController($scope, $mdDialog, sedeDataFactory) {
 //#endregion <-------END REGION--------->
 
 //#region <--------REGION DIALOG PROFESION-------->
-function DialogSedeController($scope, $mdDialog, profesionDataFactory) {
+function DialogProfesionController($scope, $mdDialog, profesionDataFactory) {
     $scope.cancel = function () {
         $scope = $scope.$new(true);
         $mdDialog.cancel();

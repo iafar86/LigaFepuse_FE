@@ -150,7 +150,9 @@ equipoDataFactory, arbitroDataFactory, sedeDataFactory, imagenesDataFactory)
         
     };
     //#endregion
-    //#endregion
+
+
+
 })
 function DialogControllerTorneo($scope, $mdDialog, torneoDataFactory, imagenesDataFactory) {
 

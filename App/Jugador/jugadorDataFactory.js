@@ -61,6 +61,18 @@
         })
     };
 
+    var _postImagenJugador = function (data) { //fpaz: alta de una Imagen de un jugador
+        var deferred = $q.defer();
+        $http.post(urlApi + 'api/Jugadors/Imagen', data).then(
+            function (response) {
+                deferred.resolve(response);
+            },
+            function (response) {
+                deferred.reject(response.data);
+            });
+        return deferred.promise;
+    };
+
     var _putJugador = function (prmId, data) { // modifica un torneo
         var deferred = $q.defer();
 
@@ -98,6 +110,7 @@
     jugadorDataFactory.postJugador = _postJugador;
     jugadorDataFactory.putJugador = _putJugador;
     jugadorDataFactory.putEquipoJugadorTorneo = _putEquipoJugadorTorneo;
+    jugadorDataFactory.postImagenJugador = _postImagenJugador;
 
     return jugadorDataFactory;
 
