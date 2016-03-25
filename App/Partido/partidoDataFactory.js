@@ -1,5 +1,5 @@
-﻿ligaFepuseApp.factory('partidoDataFactory', function ($http, $q) {
-    var urlApi = "http://localhost:50174/"; //desarrollo
+﻿ligaFepuseApp.factory('partidoDataFactory', function ($http, $q, configSvc) {
+    var urlApi = configSvc.urlApi; // fpaz: toma el url del api de configSvc
     var partidoDataFactory = {};
 
     var _getPartido = function (prmIdPartido) { //trae la info del partido incluido equipos y sus jugadores, arbitro, info de la fecha, etc

@@ -1,5 +1,5 @@
-﻿ligaFepuseApp.factory('estadisticasDataFactory', function ($http, $q) {
-    var urlApi = "http://localhost:50174/"; //desarrollo
+﻿ligaFepuseApp.factory('estadisticasDataFactory', function ($http, $q, configSvc) {
+    var urlApi = configSvc.urlApi; // fpaz: toma el url del api de configSvc
     var estadisticasDataFactory = {};
 
     var _getEstadisticasTorneo = function (prmIdTorneo) { //fpaz: trae las estadisticas del torneo seleccionado

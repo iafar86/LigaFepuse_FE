@@ -1,5 +1,5 @@
-﻿ligaFepuseApp.factory('torneoDataFactory', function ($http, $q) {
-    var urlApi = "http://localhost:50174/"; //desarrollo
+﻿ligaFepuseApp.factory('torneoDataFactory', function ($http, $q, configSvc) {
+    var urlApi = configSvc.urlApi; // fpaz: toma el url del api de configSvc
     var torneoDataFactory = {};
 
     var _getTorneos = function () { //trae todos los Torneos

@@ -19,9 +19,10 @@
                     <tr ng-repeat="equipo in tablaPosiciones" ng-init="aux=false;pjOrig = equipo.PartidosJugados; pgOrig=equipo.PartidosGanados; peOrig=equipo.PartidosEmpatados; ppOrig=equipo.PartidosPerdidos;
                         gfOrig=equipo.GolesAFavor; gcOrig=equipo.GolesEnContra; gdOrig=equipo.DiferenciaGoles; ptosOrig=equipo.Puntos">
                         <td data-title="'N°'">
-                            {{$index+1}}
+                            {{equipo.Posicion}}
                         </td>
-                        <td data-title="'Equipo'">
+                        <td data-title="'Equipo'">                            
+                            <img class="img-thumbnail img-responsive" ng-src="{{equipo.Equipo.ImagenesEquipo[0].FileUrl}}" width="30"  />
                             <span ui-sref="jugador.jugadorList({idTorneo:equipo.TorneoId, idEquipo:equipo.Equipo.Id})"><a>{{equipo.Equipo.Nombre}}</a> </span>
                         </td>
                         <td data-title="'PJ'" sortable="'PartidosJugados'">

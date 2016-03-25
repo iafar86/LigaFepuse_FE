@@ -1,13 +1,17 @@
-﻿ligaFepuseApp.factory('equipoTorneoDataFactory', function ($http, $q) {
-    var urlApi = "http://localhost:50174/"; //desarrollo
+﻿ligaFepuseApp.factory('equipoTorneoDataFactory', function ($http, $q, configSvc) {
+    var urlApi = configSvc.urlApi; // fpaz: toma el url del api de configSvc
     var equipoTorneoDataFactory = {};
 
     var _getTablaPosiciones = function (prmIdTorneo) { //trae la info para la tabla de posiciones del torneo
         //var deferred = $q.defer();
         return $http.get(urlApi + 'api/EquipoTorneos/' + prmIdTorneo).then(
             function (response) {
-                //deferred.resolve(response);
-                return response.data
+                
+                var tablaPos = response.data
+                for (var i = 0; i < tablaPos.length; i++) { //fpaz: calculo la posicion
+                    tablaPos[i].Posicion = i + 1;
+                }
+                return tablaPos
             },
             function (response) {
                 return response.data

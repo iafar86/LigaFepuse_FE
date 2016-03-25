@@ -1,6 +1,5 @@
-﻿ligaFepuseApp.factory('profesionDataFactory', function ($http, $q) { 
-    var urlApi = "http://localhost:50174"; //desarrollo
-    //var urlApi = ""; //azure
+﻿ligaFepuseApp.factory('profesionDataFactory', function ($http, $q, configSvc) { 
+    var urlApi = configSvc.urlApi; // fpaz: toma el url del api de configSvc
     var profesionDataFactory = {};
 
     var _getProfesiones = function () { //trae todas las profesiones

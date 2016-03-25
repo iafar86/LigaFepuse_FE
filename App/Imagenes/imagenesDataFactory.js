@@ -1,5 +1,5 @@
-﻿ligaFepuseApp.factory('imagenesDataFactory', function (Upload, $timeout, $http, $q) {
-    var urlApi = "http://localhost:50174/"; //desarrollo
+﻿ligaFepuseApp.factory('imagenesDataFactory', function (Upload, $timeout, $http, $q, configSvc) {
+    var urlApi = configSvc.urlApi; // fpaz: toma el url del api de configSvc
     var imagenesDataFactory = {};
 
     //fpaz: Upload de una imagen al Blob de Azure
