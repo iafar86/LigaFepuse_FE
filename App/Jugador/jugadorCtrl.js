@@ -2,7 +2,7 @@
     torneoInfo, equipoInfo, jugadoresList, profesionesList, torneoDataFactory, profesionDataFactory, equipoDataFactory, jugadorDataFactory) {
 
 
-    //#region prueba tabla
+    //#region control ng-table
    
     $scope.filter = [{
         show: false
@@ -162,7 +162,7 @@ function DialogJugadorController($scope, $mdDialog, jugadorShow, edit, func, equ
 
     $scope.closeDialog = function (response) {
         //$scope.jugador.imagen = "";
-        debugger;
+        
         $mdDialog.hide(response);
 
     };
@@ -186,7 +186,6 @@ function DialogJugadorController($scope, $mdDialog, jugadorShow, edit, func, equ
             //#endregion
 
             jugadorDataFactory.postJugador($scope.jugador).then(function (response) {
-                debugger;
                 if ($scope.jugador.imagen != null) {
                     var jugadorId= response.data.Id
                     if (cargaLogo($scope.jugador.imagen, jugadorId)) {
@@ -225,15 +224,11 @@ function DialogJugadorController($scope, $mdDialog, jugadorShow, edit, func, equ
 
     //#region fpaz: carga una imagen al azure
     var cargaLogo = function (file, idJugador) {
-        console.log("IdJugador: " + idJugador);
-        console.log("Imagen: " + file);
         var res = true;
-        debugger;
+        
         imagenesDataFactory.postImagen(file).then(function (response) {
-            console.log("cargo la imagen en azure");
-            alert("Imagen guardada en azure");
             //fpaz: imagen cargada en el azure correctamente      
-            debugger;
+            
             $scope.prmImagen = response[0];
             var imagen = $scope.prmImagen;
             imagen.PersonaId = idJugador;
@@ -260,7 +255,7 @@ function DialogJugadorController($scope, $mdDialog, jugadorShow, edit, func, equ
                 res = false;
             }
         });
-        debugger;
+        
         return res;
     }
     //#endregion

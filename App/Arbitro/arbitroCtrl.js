@@ -58,7 +58,8 @@
 
 })
 
-function DialogArbitroController($scope, $mdDialog, arbitroShow, edit, func, arbitroDataFactory) {
+function DialogArbitroController($scope, $mdDialog, arbitroShow, edit, func,
+    arbitroDataFactory, imagenesDataFactory) {
 
     //#region inicializacion de scope
     $scope.arbitro = arbitroShow;
@@ -86,7 +87,27 @@ function DialogArbitroController($scope, $mdDialog, arbitroShow, edit, func, arb
         if ($scope.func == "Nuevo") {
             //iafar: nuevo arbitro
 
-            arbitroDataFactory.postArbitro($scope.arbitro);//iafar: trabajar con un promise
+            arbitroDataFactory.postArbitro($scope.arbitro).then(function (response) {
+                
+                if ($scope.arbitro.imagen != null) {
+                    
+                    var arbitroId = response.Id
+                    if (cargaLogo($scope.arbitro.imagen, arbitroId)) {
+                        //torneos = torneoDataFactory.getTorneos();
+                        //$mdDialog.hide(torneos);                    
+                    } else {
+                        alert("Nuevo Arbitro guardado, Sin Logo");
+                    }
+                } else {
+                    alert("Nuevo arbitro guardado, Sin Logo");
+                }
+            },
+        function (err) {
+            if (err) {
+                $scope.error = err;
+                alert("Error al Guardar el arbitro: " + $scope.error.Message);
+            }
+        });
 
         } else {
             //iafar: se modifica un jugador
@@ -95,6 +116,46 @@ function DialogArbitroController($scope, $mdDialog, arbitroShow, edit, func, arb
         }
         $scope.closeDialog("ok");
     }
+
+    //#region fpaz: carga una imagen al azure
+    var cargaLogo = function (file, idArbitro) {
+        var res = true;
+        
+        imagenesDataFactory.postImagen(file).then(function (response) {
+            //fpaz: imagen cargada en el azure correctamente      
+            
+            $scope.prmImagen = response[0];
+            var imagen = $scope.prmImagen;
+            imagen.PersonaId = idArbitro;
+            console.log(imagen);
+            //fpaz: guardo los datos de la imagen en la bd y la asocio con el torneo
+            arbitroDataFactory.postImagenArbitro(imagen).then(function (response) {
+                //fpaz: imagen cargada en la bd correctamente                      
+                console.log("logo guardado en bd");
+                alert("Imagen guardada en BD");
+                res = true;
+            },
+            function (err) {
+                if (err) {
+                    $scope.error = err;
+                    console.log("Error al Guardar el logo: " + $scope.error.Message);
+                    res = false;
+                }
+            });
+        },
+        function (err) {
+            if (err) {
+                $scope.error = err;
+                console.log("Error al Guardar el logo: " + $scope.error.Message);
+                res = false;
+            }
+        });
+        
+        return res;
+    }
+    //#endregion
+
+
 
 
 }
