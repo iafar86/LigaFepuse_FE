@@ -13,14 +13,14 @@ equipoDataFactory, arbitroDataFactory, sedeDataFactory, imagenesDataFactory)
         torneoTemp = {
             Id: $scope.torneo.Id,
             Nombre: $scope.torneo.Nombre,
-            AnioInicio: $scope.torneo.AnioInicio,
-            AnioFin: $scope.torneo.AnioFin
+            FechaInicio: $scope.torneo.FechaInicio,
+            FechaFin: $scope.torneo.FechaFin
         }
         $scope.torneoListado.push(torneoTemp);
         $scope.variable = false;
         $scope.torneo.Nombre = '';
-        $scope.torneo.AnioInicio = '';
-        $scope.torneo.AnioFin = ''      
+        $scope.torneo.FechaInicio = '';
+        $scope.torneo.FechaFin = ''      
     }
 
     torneoDel = function (item) {
@@ -137,7 +137,10 @@ equipoDataFactory, arbitroDataFactory, sedeDataFactory, imagenesDataFactory)
                     },
                     listArbitros: function (arbitroDataFactory) {
                         return arbitroDataFactory.getArbitros();
-                    }                    
+                    },
+                    listSedes: function (sedeDataFactory) {
+                        return sedeDataFactory.getSedes();
+                    }
                 }
             })
               .then(function () {
@@ -162,8 +165,8 @@ function DialogControllerTorneo($scope, $mdDialog, torneoDataFactory, imagenesDa
         var torneoAdd = {
             LigaId: 1,
             Nombre: torneo.Nombre,
-            AñoInicio: torneo.AnioInicio,
-            AñoFin: torneo.AnioFin
+            FechaInicio: torneo.FechaInicio,
+            FechaFin: torneo.FechaFin
         }
         
         torneoDataFactory.postTorneo(torneoAdd).then(function (response) {

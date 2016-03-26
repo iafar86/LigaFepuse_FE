@@ -1,5 +1,5 @@
-﻿ligaFepuseApp.factory('arbitroDataFactory', function ($http, $q, authSvc) {
-    var urlApi = "http://localhost:50174/"; //desarrollo
+﻿ligaFepuseApp.factory('arbitroDataFactory', function ($http, $q, authSvc, configSvc) {
+    var urlApi = configSvc.urlApi; // fpaz: toma el url del api de configSvc
     var arbitroDataFactory = {};
 
 

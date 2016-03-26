@@ -1,5 +1,5 @@
-﻿ligaFepuseApp.factory('fechaDataFactory', function ($http, $q) {
-    var urlApi = "http://localhost:50174/"; //desarrollo
+﻿ligaFepuseApp.factory('fechaDataFactory', function ($http, $q, configSvc) {
+    var urlApi = configSvc.urlApi; // fpaz: toma el url del api de configSvc
     var fechaDataFactory = {};
 
     var _getFechasTorneo = function (prmIdTorneo) { //iafar:trae la info de todas las fecha y los partidos de la fecha de un torneo            

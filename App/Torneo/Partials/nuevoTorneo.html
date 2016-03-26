@@ -1,67 +1,72 @@
-﻿<md-dialog layout="column" flex="grow">
-    <md-toolbar>
-        <div class="md-toolbar-tools">
-            <h2>Nuevo Torneo</h2>
-        </div>
-        <span flex></span>
-        <md-button class="md-icon-button" ng-click="cancel()">
-            <md-icon class="fa fa-times"></md-icon>
-        </md-button>
-    </md-toolbar>
+﻿<md-dialog layout="column" flex="70">
+    <md-content>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Nuevo Torneo</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon class="fa fa-times"></md-icon>
+                </md-button>
+            </div>            
+        </md-toolbar>
+    </md-content>
+    
     <md-dialog-content>
-
-        <div class="container">            
-            <md-content>                
-                <div layout="row" flex>                                        
-                    <div flex="30">                        
-                        <br />                        
-                        <!--#region fpaz: Imagen del Torneo-->
-                        <div ngf-drop="" ngf-select="" ng-model="torneo.logo"
-                             class="b-a b-dashed p-lg bg-white text-center m-b"
-                             ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-allow-dir="true" accept="image/*" ngf-pattern="'image/*'" ngf-max-size="5MB">
-                            <img ngf-thumbnail="torneo.logo" class="thumb img-responsive">
-                            <p ng-show="!torneo.logo">LOGO DEL TORNEO</p>
+        <div layout="row" flex>
+          <md-card flex="30">
+                    <div layout="row" flex>
+                        <div flex="100">
+                            <br />
+                            <!--#region fpaz: Imagen del Torneo-->
+                            <div ngf-drop="" ngf-select="" ng-model="torneo.logo"
+                                 class="b-a b-dashed p-lg bg-white text-center m-b"
+                                 ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-allow-dir="true" accept="image/*" ngf-pattern="'image/*'" ngf-max-size="5MB">
+                                <img ngf-thumbnail="torneo.logo" class="thumb img-responsive">
+                                <p ng-show="!torneo.logo">LOGO DEL TORNEO</p>
+                            </div>
+                            <i ng-show="myForm.file.$error.maxSize">
+                                File too large
+                                {{picFile.size / 1000000|number:1}}MB: max 5M
+                            </i>
+                            <!--#endregion-->
                         </div>
-                        <i ng-show="myForm.file.$error.maxSize">
-                            File too large
-                            {{picFile.size / 1000000|number:1}}MB: max 5M
-                        </i>
-                        <!--#endregion-->
                     </div>
+          </md-card>
+          
+          <md-card flex="60" layout="column">
+              <md-content>
+                  <div layout="row" flex>
+                      <div flex="50">
+                          <md-input-container>
+                              <label>Nombre del Torneo</label>
+                              <input type="text" class="form-control" ng-model="torneo.Nombre" required />
+                          </md-input-container>
+                      </div>
+                  </div>
+                  <div layout="row" flex>
+                      <div flex="50">
+                          <md-input-container>
+                                    <label>Fecha de Inicio</label>
+                                    <input type="date" class="form-control" ng-model="torneo.FechaInicio" required />
 
-                    <md-card flex="70">
-                        <div layout="row" flex>
-                            <div flex="50">
-                                <md-input-container style="min-width: 400px">
-                                    <label>Nombre del Torneo</label>
-                                    <input type="text" class="form-control" ng-model="torneo.Nombre" required />
-                                </md-input-container>
-                            </div>
-                        </div>
-                        <div layout="row" flex>
-                            <div flex="50">
-                                <md-input-container style="min-width: 400px">
-                                    <label>Año de Inicio</label>
-                                    <input type="date" class="form-control" ng-model="torneo.AnioInicio" required />
+                          </md-input-container>
+                      </div>
+                      <div flex="50">
+                          <md-input-container >
+                                    <label>Fecha de Fin</label>
+                                    <input type="date" class="form-control" ng-model="torneo.FechaFin" required />
+                          </md-input-container>
+                      </div>
 
-                                </md-input-container>
-                            </div>
-                            <div flex="50">
-                                <md-input-container style="min-width: 400px">
-                                    <label>Año de Fin</label>
-                                    <input type="date" class="form-control" ng-model="torneo.AnioFin" required />
-                                </md-input-container>
-                            </div>
+                  </div>
+              </md-content>
+                    
+          </md-card>
 
-                        </div>
-                    </md-card>
-                </div>
-                <md-actions layout="row" layout-align="end end">
-                    <md-button class="md-raised" style="background-color: #4CAF50" ng-click="addTorneo(torneo)">Crear</md-button>
-                </md-actions>
-            </md-content>
+        </div>            
 
-        </div>
-
+        <md-actions layout="row" layout-align="end end">
+            <md-button class="md-raised" style="background-color: #4CAF50" ng-click="addTorneo(torneo)">Crear</md-button>
+        </md-actions>
     </md-dialog-content>
 </md-dialog>

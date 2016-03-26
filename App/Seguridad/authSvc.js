@@ -1,4 +1,4 @@
-﻿ligaFepuseApp.service('authSvc', function ($http, $q, cuentaDataFactory, tokenDataFactory, localStorageService, jwtHelper) {
+﻿ligaFepuseApp.service('authSvc', function ($http, $q, cuentaDataFactory, tokenDataFactory, localStorageService, jwtHelper, configSvc) {
 
     var authServiceFactory = {};
 
@@ -33,12 +33,10 @@
         var data = "grant_type=password&username=" + loginData.userName + "&password=" + loginData.password; // defino los datos que voy a pasar como parametros
         
         var deferred = $q.defer();
-        $http.post('http://localhost:50174/' + 'oauth/token', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
+        var urlApi = configSvc.urlApi; // fpaz: toma el url del api de configSvc
+        $http.post(urlApi + 'oauth/token', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
 
-        //$http.post('http://vlaboralapi.azurewebsites.net/' + 'oauth/token', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
-
-            var tokenPayload = jwtHelper.decodeToken(response.access_token); //fpaz: decodifico el token para obener los roles y los claims que se hayan definido
-            
+            var tokenPayload = jwtHelper.decodeToken(response.access_token); //fpaz: decodifico el token para obener los roles y los claims que se hayan definido            
 
             //fpaz: si se obtuvo el token de acceso correctamente, guardo el resultado en el localstorage del navegador junto con el nombre de usuario
             localStorageService.set('authorizationData', { token: response.access_token, userName: loginData.userName, roles: tokenPayload.role, LigaId: tokenPayload.LigaId });
