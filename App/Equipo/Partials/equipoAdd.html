@@ -60,7 +60,7 @@
     </md-toolbar>
     <md-list ng-repeat="equipo in listadoEquiposTorneo">
         <md-list-item class="md-3-line" layout="row" style="min-height:150px">
-            <img class="md-avatar" src="http://www.ole.com.ar/bbtfile/5012_20150908naA9Cs.png" style="min-height:100px; min-width:100px" />
+            <img class="md-avatar" ng-src="{{equipo.Equipo.ImagenesEquipo[0].FileUrl}}" style="min-height:100px; min-width:100px" />
             <div class="md-list-item-text">
                 <h3>{{equipo.Equipo.Nombre}}</h3>
                 <h4>al dia: {{equipo.AlDia}}</h4>

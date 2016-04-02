@@ -15,13 +15,13 @@
                             </md-toolbar>
                         </md-content>
                         <md-table-container>
-                            <table md-table>
-                                
+                            <table md-table md-row-select md-progress="promise">
+
                                 <tbody md-body>
                                     <tr md-row ng-repeat="equipo in equiposLiga | filter:search | limitTo: query.limit: (query.page - 1) * query.limit">
                                         <td>
                                             <div class="md-3-line" layout="row">
-                                                <img class="img-circle" src="http://www.ole.com.ar/bbtfile/5012_20150908naA9Cs.png" style="min-width: 100px; min-height: 100px" />
+                                                <img class="img-circle" ng-src="{{equipo.ImagenesEquipo[0].FileUrl}}" style="max-width: 100px; max-height: 100px; padding-top: 10px" />
                                                 <div class="md-list-item-text" style="padding-left: 12px">
                                                     <h2 style="color:#F0677C; font-weight: 900">{{equipo.Nombre}}</h2>
                                                     <h3 ng-show="equipo.AlDia = true">Al dia: Si</h3>
@@ -38,7 +38,7 @@
                                 </tbody>
                             </table>
                         </md-table-container>
-                        <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{equiposCount}}" md-page-select></md-table-pagination>
+                        <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{equiposCount}}" md-on-paginate="onPaginate" md-page-select></md-table-pagination>
 
                     </md-content>
                 </md-tab>
