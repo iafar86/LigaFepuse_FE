@@ -13,23 +13,46 @@
         <div layout="row" class="md-inline-form" layout-fill layout-align="center center">
             <md-card layout="row" flex="30">
                 <md-card-content layout="column" layout-align="center center" layout-fill>
-                    <div class="md-media-xl card-media rounded">
-                        <!--iafar:Aqui se puede poner una imagen-->
-                        <!--#region fpaz: Imagen del Torneo-->
-                        <div ngf-drop="" ngf-select="" ng-model="arbitro.logo"                             
-                             ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-allow-dir="true" accept="image/*" ngf-pattern="'image/*'" ngf-max-size="5MB">
-                            <img ngf-thumbnail="arbitro.logo" class="thumb img-responsive">
-                            <ng-md-icon ng-show="!arbitro.logo" icon=" person_add" style="fill: #abcdef" size="200"></ng-md-icon>                            
+                    <md-button class="inline-block animate-show" flex ng-disabled='edit' ngf-drop="" ngf-select="" ng-model="arbitro.imagen"
+                               ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-allow-dir="true" accept="image/*"
+                               ngf-pattern="'image/*'" ngf-max-size="5MB">
+                        <div class="md-media-xl card-media rounded">
+                            <!--iafar:Aqui se puede poner una imagen-->
+                            <ng-md-icon ng-hide="(arbitro.ImagenesPersona[0] != null) || (arbitro.imagen != null)" icon="person_add" style="fill: #abcdef" size="200"></ng-md-icon>
+                            <img ng-show="(arbitro.ImagenesPersona[0] != null) && (arbitro.imagen == null)" src="{{arbitro.ImagenesPersona[0].FileUrl}}"
+                                 class="md-card-image" alt="Fepuse" style="min-width: 200px; max-height: 200px">
+                            <img ngf-thumbnail="arbitro.imagen" class="thumb img-responsive">
+                            <i ng-show="myForm.file.$error.maxSize">
+                                File too large
+                                {{picFile.size / 1000000|number:1}}MB: max 5M
+                            </i>
                         </div>
-                        <i ng-show="myForm.file.$error.maxSize">
-                            File too large
-                            {{picFile.size / 1000000|number:1}}MB: max 5M
-                        </i>
-                        <!--#endregion-->
-                        <!--<ng-md-icon icon="person_add" style="fill: #abcdef" size="200"></ng-md-icon>-->
-                    </div>
+                    </md-button>
                 </md-card-content>
             </md-card>
+
+            <!--<md-card layout="row" flex="30">
+                <md-card-content layout="column" layout-align="center center" layout-fill>
+                    <md-button class="inline-block animate-show" flex ng-disabled='edit' ngf-drop="" ngf-select="" ng-model="arbitro.imagen"
+                               ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-allow-dir="true" accept="image/*"
+                               ngf-pattern="'image/*'" ngf-max-size="5MB">
+
+                        <div class="md-media-xl card-media rounded">
+
+                            <ng-md-icon ng-hide="arbitro.ImagenesPersona[0] != null" icon="person_add" style="fill: #abcdef" size="200"></ng-md-icon>
+                            <img ng-show="arbitro.ImagenesPersona[0] != null" src="{{arbitro.ImagenesPersona[0].FileUrl}}"
+                                 class="md-card-image" alt="Fepuse" style="min-width: 200px; max-height: 200px">
+
+                            <i ng-show="myForm.file.$error.maxSize">
+                                File too large
+                                {{picFile.size / 1000000|number:1}}MB: max 5M
+                            </i>
+                        </div>
+
+                    </md-button>
+
+                </md-card-content>
+            </md-card>-->
 
             <md-card flex="60">
                 <md-card-content layout="column">
@@ -57,7 +80,7 @@
                             <input ng-model="arbitro.Email" ng-disabled='edit'>
                         </md-input-container>
                     </div>
-                 
+
 
 
                 </md-card-content>

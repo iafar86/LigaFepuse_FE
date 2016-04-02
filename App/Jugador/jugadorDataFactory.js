@@ -31,7 +31,7 @@
                 prmIdEquipo: prmIdEquipo
             }
         }).then(function (response) {
-            //debugger;
+            //
             console.log(response.data);
             return response.data;
         });
