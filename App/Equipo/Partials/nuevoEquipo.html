@@ -3,10 +3,24 @@
             <div layout="row">
                 <md-card flex="30">
                     <md-card-content layout="column" layout-align="center center" layout-fill>
-                        <div class="md-media-xl card-media rounded">
-                            <!--iafar:Aqui se puede poner una imagen-->
-                            <ng-md-icon icon="person_add" style="fill: #abcdef" size="200"></ng-md-icon>
-                        </div>
+                        <!--#region fpaz: Imagen del Torneo-->
+                        <a>
+                            <div ngf-drop="" ngf-select="" ng-model="equipo.logo"
+                                 class="b-a b-dashed p-lg bg-white text-center m-b"
+                                 ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-allow-dir="true" accept="image/*" ngf-pattern="'image/*'" ngf-max-size="5MB">
+                                <img ngf-thumbnail="equipo.logo" class="thumb img-responsive">
+                                <p ng-show="!equipo.logo">LOGO DEL EQUIPO</p>
+                            </div>
+                            <i ng-show="myForm.file.$error.maxSize">
+                                File too large
+                                {{picFile.size / 1000000|number:1}}MB: max 5M
+                            </i>
+                        </a>
+                            
+                        
+                        
+                        
+                        <!--#endregion-->
                     </md-card-content>
                 </md-card>
 

@@ -19,12 +19,18 @@
     $scope.equiposLiga = equiposLiga; // revisar porque trae un arreglo adentro de otro kikexp
 
 
-    $scope.equiposCount = 0;
+    //#region prueba tabla
+
+    $scope.filter = [{
+        show: false
+    }];
+    $scope.equiposCount = equiposLiga.length;
     $scope.query = {
-        //order: 'name',
-        limit: 5,
+        filter: '',
+        limit: '5',
         page: 1
     };
+    //#endregion
 
     //#Region Obtiene los equipos de un torneo
     $scope.obtenerEquipos = function () {
@@ -163,9 +169,7 @@
 
     //#region <-------REGION ARBITRO---------------->
     $scope.arbitroList = arbitroList;
-    //#region Inicializacion de Variables de Scope
-
-    //#endregion
+    
 
     $scope.arbitroAdd = function () {
         $mdDialog.show({
@@ -348,7 +352,8 @@
 
 
 //#region controller Dialog
-function DialogController($scope, $mdDialog, equiposLiga, torneo, torneoDataFactory, listadoEquiposTorneo, equipoDataFactory,imagenesDataFactory) {
+function DialogController($scope, $mdDialog, equiposLiga, torneo,
+    torneoDataFactory, listadoEquiposTorneo, equipoDataFactory, imagenesDataFactory) {
 
     $scope.equiposLiga = equiposLiga;
     $scope.equiposAdd = [];
@@ -423,7 +428,7 @@ function DialogController($scope, $mdDialog, equiposLiga, torneo, torneoDataFact
         equipo.LigaId = 1;
         equipo.AlDia = true;
         equipoDataFactory.postEquipo(equipo).then(function (response) {
-            alert("Equipo agregado correctamente");
+            alert("Equipo agregado correctamente");            
             if (equipo.logo != null) {
                 if (!cargaLogo(equipo.logo, response.Id)) {
                     alert("Nuevo Equipo guardado, Sin Logo");
@@ -459,10 +464,10 @@ function DialogController($scope, $mdDialog, equiposLiga, torneo, torneoDataFact
                 alert("Error: " + $scope.error.Message);
             }
         });
-        $mdDialog.hide($scope.equiposLiga);
-       
-        $scope.equipo = null;
-        $scope.variable = false;
+        $mdDialog.hide();
+        //$scope.equiposLiga
+        //$scope.equipo = null;
+        //$scope.variable = false;
     }
     //#endregion
 
@@ -634,7 +639,7 @@ function DialogSedeController($scope, $mdDialog, sedeDataFactory) {
             }
         }
         );      
-        $scope.hide(response);
+        $mdDialog.hide();
     };
 
     
