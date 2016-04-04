@@ -388,7 +388,7 @@
             controller: 'partidoCtrl',
             resolve: {
                 partidoDataFactory: 'partidoDataFactory',
-                sedeDataFactory: 'SedeDataFactory',
+                sedeDataFactory: 'sedeDataFactory',
                 arbitroDataFactory: 'arbitroDataFactory',
                 //infoPartido: function () {
                 //    return { value: [] };
@@ -405,7 +405,7 @@
                 },
                 infoTorneo: function () {
                     return { value: [] };
-                },
+                },                
                 listArbitros: function (arbitroDataFactory) {
                     return arbitroDataFactory.getArbitros();
                 },

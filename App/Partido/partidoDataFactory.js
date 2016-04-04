@@ -3,6 +3,7 @@
     var partidoDataFactory = {};
 
     var _getPartido = function (prmIdPartido) { //trae la info del partido incluido equipos y sus jugadores, arbitro, info de la fecha, etc
+        console.log("entra info partido");
         //var deferred = $q.defer();
         return $http.get(urlApi + 'api/Partidoes/' + prmIdPartido).then(
             function (response) {
