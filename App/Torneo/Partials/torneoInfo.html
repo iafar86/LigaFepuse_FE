@@ -22,14 +22,23 @@
     </div>
     <!--#endregion-->
     <div class="row row-sm">
-        <md-tabs md-dynamic-height md-border-bottom>            
-            <md-tab label="Tabla de Posiciones" ui-sref="torneo.info.tablaPos">
-                <md-content class="md-padding">
-                    <!--#region Partidos de la Fecha -->
-                    <div ui-view="tabla"></div>
-                    <!--#endregion-->
+        <md-tabs md-dynamic-height md-border-bottom>  
+            <!--#region Zonas del Torneo -->
+            <md-tab label="Zonas del Torneo" ui-sref="torneo.info.zonas">
+                <md-content class="md-padding">                    
+                    <div ui-view="zonas"></div>   
+                    
                 </md-content>
             </md-tab>
+            <!--#endregion-->          
+            <!--#region Tabla de Posiciones -->
+            <md-tab label="Tabla de Posiciones" ui-sref="torneo.info.tablaPos">
+                <md-content class="md-padding">                    
+                    <div ui-view="tabla"></div>                    
+                </md-content>
+            </md-tab>
+            <!--#endregion-->
+            <!--#region Fixture -->
             <md-tab label="Fixture" ng-click="verDetalle(torneo.Id)">
                 <md-content class="md-padding">
                     <div class="row row-sm">
@@ -70,13 +79,14 @@
                     <!--#endregion-->
                 </md-content>
             </md-tab>
+            <!--#endregion-->
+            <!--#region Estadisticas del Torneo -->
             <md-tab label="Estadisticas del Torneo" ui-sref="torneo.info.estadisticas">
                 <md-content class="md-padding">
-                    <!--#region Estadisticas del Torneo -->
-                    <div ui-view="estadisticas"></div>
-                    <!--#endregion-->
+                    <div ui-view="estadisticas"></div>                    
                 </md-content>
             </md-tab>
+            <!--#endregion-->
         </md-tabs>
     </div>
 </div>

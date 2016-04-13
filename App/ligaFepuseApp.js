@@ -225,6 +225,23 @@
                 }
 
             })
+            .state('torneo.info.zonas', {
+                url: '/zonas',
+                views: {
+                    'zonas': {
+                        templateUrl: 'App/Torneo/Partials/torneoZonas.html',
+                        controller: 'zonasCtrl',
+                        resolve: {
+                            zonasDataFactory: 'zonasDataFactory',
+                            zonasTorneo: function (zonasDataFactory, $stateParams) {
+                                var torneoId = $stateParams.torneoId;
+                                return zonasDataFactory.getZonas(torneoId);
+                            }
+                        }
+                    }
+                }
+
+            })
             //#endregion
 
         //#region Fechas
