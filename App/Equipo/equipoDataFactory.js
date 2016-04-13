@@ -35,21 +35,21 @@
 
     };
 
-    var _getEquipos = function () { //trae todos los equipos de un torneo
-        return $http.get(urlApi + '/api/Equipoes', {
+    var _getEquipos = function (prmIdTorneo) { //trae todos los equipos de un torneo
+        console.log("entra por getEquipos del Torneo");
+        var deferred = $q.defer();
+        $http.get(urlApi + 'api/Equipoes', {
             params: {
-                prmIdLiga: 1,// cambiar para liga 1
-                prmIdTorneo: prmTorneo
+                prmIdTorneo: prmIdTorneo
             }
         }).then(
-        function (response) {
-            deferred.resolve(response);
-        },
-        function (response) {
-            deferred.reject(response.data);
-        });
+            function (response) {
+                deferred.resolve(response.data);
+            },
+            function (response) {
+                deferred.reject(response.data);
+            });
         return deferred.promise;
-
     };
 
     var _getEquipo = function (prmEquipo) { //trae un Equipo

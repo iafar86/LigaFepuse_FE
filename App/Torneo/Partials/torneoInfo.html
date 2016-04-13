@@ -9,10 +9,10 @@
         <div layout="row">
             <md-input-container layout="row" layout-align="center end" flex="grow">
                 <div flex>
-                    <md-chips ng-model="torneo.EquipoTorneos" readonly="true">
+                    <md-chips ng-model="equiposTorneo" readonly="true">
                         <md-chip-template>
                             <span>
-                                <strong>{{$chip.Equipo.Nombre}}</strong>
+                                <strong>{{$chip.Nombre}}</strong>
                             </span>
                         </md-chip-template>
                     </md-chips>
