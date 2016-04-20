@@ -1,0 +1,25 @@
+﻿<md-dialog layout="row" flex>
+    <md-dialog-content flex>
+        <div layout="row">
+            <md-card flex="100">
+                <md-toolbar>
+                    <div class="md-toolbar-tools">Nueva categoria</div>
+                </md-toolbar>
+                <md-card-content>
+                    <md-input-container style="min-width: 400px">
+                        <label>Nombre de la categoria</label>
+                        <input type="text" ng-model="categoria.Nombre" class="form-control" required />
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Descripcion de la categoría</label>
+                        <input type="text" ng-model="categoria.Descripcion" class="form-control" required />
+                    </md-input-container>
+                </md-card-content>
+                <md-card-actions layout="row" layout-align="end end">
+                    <md-button ng-click="nuevaCategoria(categoria)">Guardar</md-button>
+                    <md-button ng-click="cancel()">Cancelar</md-button>
+                </md-card-actions>
+            </md-card>
+        </div>
+    </md-dialog-content>
+</md-dialog>

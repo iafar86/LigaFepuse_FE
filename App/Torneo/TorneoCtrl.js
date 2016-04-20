@@ -1,16 +1,17 @@
 ﻿ligaFepuseApp.controller('torneoCtrl', function ($scope, $stateParams, $state, $filter, $mdDialog, $mdMedia, 
 ngTableParams, torneoDataFactory, torneoList, infoTorneo, fechaDataFactory,
-equipoDataFactory, arbitroDataFactory, sedeDataFactory, imagenesDataFactory, equiposTorneo)
+equipoDataFactory, arbitroDataFactory, sedeDataFactory, imagenesDataFactory, equiposTorneo,
+categoriaDataFactory, categoriasList)
 {
+    //$scope.categoriasList = categoriasList;
+    //#Region Inicializacion de variables de scope
     $scope.torneos = torneoList;
-
     $scope.torneo = infoTorneo;
-
     $scope.equiposTorneo = equiposTorneo;
-
-    $scope.imagen = 'img/fepuse.jpg'
-
+    $scope.imagen = 'img/fepuse.jpg'  
     $scope.torneoListado = [];
+    //endregion
+
     $scope.torneoAdd = function () {
         torneoTemp = {
             Id: $scope.torneo.Id,
@@ -49,17 +50,20 @@ equipoDataFactory, arbitroDataFactory, sedeDataFactory, imagenesDataFactory, equ
             targetEvent: ev,
             clickOutsideToClose: true,
             fullscreen: useFullScreen,
-            
+            //torneoModificar: $scope.torneo,
+            categorias: categoriasList,
+            zonasDataFactory: '',
+            zonas: ''
         })
         .then(function (torneos) {
-            $scope.torneos = torneos;            
+            $scope.torneos = torneos;
         });
         $scope.$watch(function () {
             return $mdMedia('xs') || $mdMedia('sm');
         }, function (wantsFullScreen) {
             $scope.customFullscreen = (wantsFullScreen === true);
         });
-    };
+    }
     //endRegion  
 
     //fpaz: funcion para ir al detalle del torneo y mostrar el fixture de la primera fecha si es que tiene alguna fecha cargada, sino muestra la vista para administracion del torneo
@@ -159,19 +163,64 @@ equipoDataFactory, arbitroDataFactory, sedeDataFactory, imagenesDataFactory, equ
 
 
 })
-function DialogControllerTorneo($scope, $mdDialog, torneoDataFactory, imagenesDataFactory) {
 
-    $scope.addTorneo = function (torneo) {
+
+
+function DialogControllerTorneo($scope, $mdDialog, torneoDataFactory, imagenesDataFactory, categorias, zonasDataFactory, zonas) {
+    //Region Inicializacion de variables de scope    
+    $scope.categoriasList = categorias;
+    $scope.ZonasTorneo = [];
+    $scope.zona = {};
+    $scope.zonasCargadas = zonas;
+    //EndRegion
+    //Region Agrega zonas a la lista de zonas del torneo
+    $scope.cargarZona = function (zona) {
+        zona.Descripcion = $scope.zona.Descripcion;
+        $scope.ZonasTorneo.push(zona);
+        $scope.zona = null;
+    }
+
+    $scope.zonaDel = function (item) {
+        var index = $scope.ZonasTorneo.indexOf(item);
+        $scope.ZonasTorneo.splice(index, 1);
+
+    }
+    //End
+
+    //Region Alta de torneo
+    $scope.addTorneo = function (torneo,ZonasTorneo) {
         //$scope.equipoListadoPrueba.push(equipo);
         //torneo.TorneoId = $scope.torneo.Id;
-        var torneoAdd = {
+        a = new Date();
+        a.get;
+        //var diaI = torneo.FechaInicio.getUTCDay().toString();
+        //var mesI = torneo.FechaInicio.getUTCMonth().toString();
+        //var añoI = torneo.FechaInicio.getFullYear().toString();
+
+        torneo.FechaInicio = torneo.FechaInicio.toDateString();
+
+        var diaF = torneo.FechaFin.getUTCDay().toString();
+        var mesF = torneo.FechaFin.getUTCMonth().toString();
+        var añoF = torneo.FechaFin.getUTCFullYear().toString();
+
+        torneo.FechaFin = diaF.concat("/", mesF, "/", añoF);
+
+        torneo.ZonasTorneo = ZonasTorneo;
+        torneo.TorneoCategoria = {
             LigaId: 1,
-            Nombre: torneo.Nombre,
-            FechaInicio: torneo.FechaInicio,
-            FechaFin: torneo.FechaFin
-        }
+            CategoriaId: $scope.torneo.Categoria.Id
+        };
+
+       // torneo.ZonasTorneo = $scope.ZonasTorneo;
+
+        //var torneoAdd = {
+        //    LigaId: 1,
+        //    Nombre: torneo.Nombre,
+        //    FechaInicio: torneo.FechaInicio,
+        //    FechaFin: torneo.FechaFin
+        //}
         
-        torneoDataFactory.postTorneo(torneoAdd).then(function (response) {
+        torneoDataFactory.postTorneo(torneo).then(function (response) {
             console.log("Torneo guardado")
             if (torneo.logo != null) {
                 if (cargaLogo(torneo.logo, response.Id)) {                    
@@ -195,10 +244,10 @@ function DialogControllerTorneo($scope, $mdDialog, torneoDataFactory, imagenesDa
             }
         });
     }
-
+    //endRegion
     
     //#region fpaz: carga una imagen al azure
-    var cargaLogo = function (file, idTorneo) { 
+    var cargaLogo = function (file, idTorneo) {
         console.log("IdTorneo: " + idTorneo);
         console.log("Imagen: " + file);
         var res = true;
@@ -225,7 +274,7 @@ function DialogControllerTorneo($scope, $mdDialog, torneoDataFactory, imagenesDa
                     console.log("Error al Guardar el logo: " + $scope.error.Message);
                     res = false;
                 }
-            });           
+            });
         },
         function (err) {
             if (err) {
@@ -238,21 +287,34 @@ function DialogControllerTorneo($scope, $mdDialog, torneoDataFactory, imagenesDa
     }
     //#endregion
 
+    //#region alta de zonas en un torneo ya creado
+    $scope.saveZona = function (zona) {
+        //$scope.equipoListadoPrueba.push(equipo);
+        var torneoId = $stateParams.torneoId;
 
+        var zonaAdd = {
+            Descripcion: zona.Descripcion,
+            TorneoId: torneoId
+        }
+
+        zonasDataFactory.postZona(zonaAdd).then(function (response) {
+            console.log("Zona Guardada")
+            zonas = zonasDataFactory.getZonas(torneoId);
+            $mdDialog.hide(zonas);
+        },
+        function (err) {
+            if (err) {
+                $scope.error = err;
+                alert("Error al Guardar la Zona: " + $scope.error.Message);
+            }
+        });
+    }
+    //endRegion
     $scope.hide = function () {
         $mdDialog.hide();
     };
     $scope.cancel = function () {
         $mdDialog.cancel();
     };
-
-    //$scope.agregar = function (equipo) {
-    //    $mdDialog.hide(equipo);
-    //};    
-
-
-
-
-
     
 }

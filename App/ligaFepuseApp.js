@@ -116,7 +116,13 @@
                 },
                 equiposTorneo: function () {
                     return { value: [] };
-                }
+                },
+                categoriaDataFactory: 'categoriaDataFactory',
+                categoriasList: function (categoriaDataFactory) {
+                    return categoriaDataFactory.getCategorias();
+                },
+                
+                
             }
         })
              .state('torneo.info', {                 
@@ -143,7 +149,11 @@
                      equiposTorneo: function (equipoDataFactory, $stateParams) {
                          var torneoId = $stateParams.torneoId;                         
                          return equipoDataFactory.getEquipos(torneoId);
-                     }                    
+                     },
+                     categoriaDataFactory: 'categoriaDataFactory',
+                     categoriasList: function (categoriaDataFactory) {
+                         return categoriaDataFactory.getCategorias();
+                     }
 
                  }
              })
@@ -209,6 +219,10 @@
                             },
                             listadoSedes: function (sedeDataFactory) {
                                 return sedeDataFactory.getSedes();
+                            },
+                            categoriaDataFactory: 'categoriaDataFactory',
+                            categoriasList: function () {
+                                return { value: [] };
                             }
                         }
                     }

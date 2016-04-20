@@ -17,6 +17,8 @@ ngTableParams, torneoDataFactory, equipoDataFactory, zonasDataFactory, zonasTorn
             targetEvent: ev,
             clickOutsideToClose: true,
             fullscreen: useFullScreen,
+            zonaDataFatory: 'zonaDataFactory',
+            zonas: zonasTorneo
 
         })
         .then(function (zonas) {
@@ -32,36 +34,3 @@ ngTableParams, torneoDataFactory, equipoDataFactory, zonasDataFactory, zonasTorn
 
 
 })
-function DialogControllerTorneo($scope, $mdDialog, $stateParams, zonasDataFactory) {
-
-    $scope.saveZona = function (zona) {
-        //$scope.equipoListadoPrueba.push(equipo);
-        var torneoId = $stateParams.torneoId;
-
-        var zonaAdd = {           
-            Descripcion:zona.Descripcion,
-            TorneoId: torneoId
-        }
-
-        zonasDataFactory.postZona(zonaAdd).then(function (response) {
-            console.log("Zona Guardada")
-            zonas = zonasDataFactory.getZonas(torneoId);
-            $mdDialog.hide(zonas);
-        },
-        function (err) {
-            if (err) {
-                $scope.error = err;
-                alert("Error al Guardar la Zona: " + $scope.error.Message);
-            }
-        });
-    }   
-
-
-    $scope.hide = function () {
-        $mdDialog.hide();
-    };
-    $scope.cancel = function () {
-        $mdDialog.cancel();
-    };
-
-}
