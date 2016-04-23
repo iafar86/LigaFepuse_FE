@@ -1,10 +1,12 @@
 ﻿ligaFepuseApp.controller('torneoCtrl', function ($scope, $stateParams, $state, $filter, $mdDialog, $mdMedia, 
 ngTableParams, torneoDataFactory, torneoList, infoTorneo, fechaDataFactory,
-equipoDataFactory, arbitroDataFactory, sedeDataFactory, imagenesDataFactory)
+equipoDataFactory, arbitroDataFactory, sedeDataFactory, imagenesDataFactory, equiposTorneo)
 {
     $scope.torneos = torneoList;
 
     $scope.torneo = infoTorneo;
+
+    $scope.equiposTorneo = equiposTorneo;
 
     $scope.imagen = 'img/fepuse.jpg'
 

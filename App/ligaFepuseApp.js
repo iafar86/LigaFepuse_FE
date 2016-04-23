@@ -113,6 +113,9 @@
                 },
                 infoTorneo: function (torneoDataFactory) {
                     return { value: [] };
+                },
+                equiposTorneo: function () {
+                    return { value: [] };
                 }
             }
         })
@@ -134,9 +137,13 @@
                      listadoSedes: function (sedeDataFactory) {
                          return sedeDataFactory.getSedes();
                      },
-                     equiposLiga: function (equipoDataFactory) {
+                     equiposLiga: function (equipoDataFactory) {                         
                          return equipoDataFactory.getEquiposLiga();
-                     }
+                     },
+                     equiposTorneo: function (equipoDataFactory, $stateParams) {
+                         var torneoId = $stateParams.torneoId;                         
+                         return equipoDataFactory.getEquipos(torneoId);
+                     }                    
 
                  }
              })
