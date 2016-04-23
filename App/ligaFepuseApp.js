@@ -1,6 +1,6 @@
 ﻿var ligaFepuseApp = angular.module('ligaFepuseApp', ['ngMaterial', 'ng-mfb', 'ngMdIcons', 'ngResource', 'ui.router', 'ngCookies', 'ngTable', 'ngSanitize', 'ngAnimate',
  'ngAria', 'ct.ui.router.extras', 'angular-loading-bar', 'daypilot', 'LocalStorageModule', 'angular-jwt', 'ui.bootstrap', 'twitter.timeline',
-'ezfb', 'md.data.table', 'uiRouterStyles', 'ngFileUpload'])
+'ezfb', 'md.data.table', 'uiRouterStyles', 'ngFileUpload', 'vAccordion'])
     .config(function ($stateProvider, $urlRouterProvider, $httpProvider, $stickyStateProvider, cfpLoadingBarProvider, ezfbProvider) {
 
 
@@ -254,6 +254,9 @@
                         controller: 'zonasCtrl',
                         resolve: {
                             zonasDataFactory: 'zonasDataFactory',
+                            zona: function () {
+                                return { value: [] };
+                            },
                             zonasTorneo: function (zonasDataFactory, $stateParams) {
                                 var torneoId = $stateParams.torneoId;
                                 return zonasDataFactory.getZonas(torneoId);
@@ -306,24 +309,22 @@
                     }
                 }
             })
+
          .state('equipo.equipos', {
              url: '/Equipos',
              templateUrl: 'App/Equipo/Partials/equipoAdd.html',
              controller: 'equipoCtrl',
              resolve: {
-                 equipoDataFactory: 'equipoDataFactory',
-                 torneoDataFactory: 'torneoDataFactory',
-                 arbitroDataFactory: 'arbitroDataFactory',
-                 sedeDataFactory: 'sedeDataFactory',
-                 profesionDataFactory: 'profesionDataFactory',
-                 torneoList: function (torneoDataFactory) {
-                     return torneoDataFactory.getTorneos();
+                 equipoDataFactory: 'equipoDataFactory',                 
+                 arbitroDataFactory: 'arbitroDataFactory',                 
+                 torneoList: function () {
+                     return { value: [] }
                  },
                  equiposLiga: function (equipoDataFactory) {
                      return equipoDataFactory.getEquiposLiga();
                  },
-                 arbitroList: function (arbitroDataFactory) {
-                     return arbitroDataFactory.getArbitros();
+                 arbitroList: function () {
+                     return { value: [] }
                  },
 
                  sedesList: function () {
@@ -332,14 +333,7 @@
 
                  profesionesList: function () {
                      return {value: []}
-                 }
-                 //equiposLiga: function (equiposDataFactory) {
-                 //    return equiposDataFactory.getEquiposLiga();
-                 //}
-
-                 //torneoInfo: function (torneoDataFactory) {
-                 //    return torneoDataFactory.getTorneo(infoTorneo.Id);
-                 //}                
+                 }                 
              }
          })
          .state('equipo.laLiga', {
@@ -387,7 +381,6 @@
                     //}                
                 }
             })
-
 
             .state('equipo.listadoLiga', {
                 url: '/Liga',
@@ -543,6 +536,36 @@
         })
 
 
+        //#endregion
+
+        //#region Zona Torneo
+        .state('zona', {
+            abstract: true,
+            url: '',
+            views: {
+                '': {
+                    templateUrl: 'App/Template/layout.html'
+                },
+                'content': {
+                    templateUrl: 'App/Dashboard/Dashboard.html'
+                }
+            }
+        })
+            .state('zona.info', {
+                url: '/zona/:zonaId',
+                templateUrl: 'App/Zonas/Partials/zonaInfo.html',
+                controller: 'zonasCtrl',
+                resolve: {
+                    zonasDataFactory: 'zonasDataFactory',
+                    zona: function (zonasDataFactory, $stateParams) {
+                        var zonaId = $stateParams.zonaId;
+                        return zonasDataFactory.getZona(zonaId);
+                    },
+                    zonasTorneo: function () {
+                        return { value: [] };
+                    }
+                }
+            })
         //#endregion
 
 

@@ -25,6 +25,15 @@
                     <div layout="row">
                         <div flex="50">
                             <md-input-container style="margin-right: 10px;">
+                                <md-select placeholder="Seleccionar Zona del Torneo" ng-model="zonaSelected" md-on-close="cargaEquipos(zonaSelected)">
+                                    <md-option ng-value="zona.Id" ng-repeat="zona in torneo.ZonasTorneo">{{zona.Descripcion}}</md-option>
+                                </md-select>
+                            </md-input-container>
+                        </div>                        
+                    </div>
+                    <div layout="row">
+                        <div flex="50">
+                            <md-input-container style="margin-right: 10px;">
                                 <md-select placeholder="Seleccionar Equipo Local" ng-model="partido.EquipoLocal">
                                     <md-option ng-value="equipo.Equipo" ng-repeat="equipo in listEquipos">{{ equipo.Equipo.Nombre }}</md-option>
                                 </md-select>

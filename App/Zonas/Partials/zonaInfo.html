@@ -1,0 +1,47 @@
+﻿<div layout="row" layout-align="center center">
+    <!--#region Zonas del Torneo-->
+    <div flex="80">
+        <div class="card">
+            <div class="card-heading">
+                <div class="clear text-ellipsis hidden-sm">
+                    <div layout="row">
+                        <div flex="grow">
+                            <h2 class="page-head-line">
+                                {{zona.Descripcion}}
+                            </h2>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="card-body">
+                <div layout="row" layout-align="center center">
+                    <table ng-table="tableAmonestados" class="table table-bordered table-hover table-condensed editable-table">
+                        <tr ng-repeat="equipo in zona.EquiposTorneo">
+                            <td data-title="'N°'">
+                                {{$index+1}}
+                            </td>
+                            <td data-title="'Equipo'">
+                                <img class="img-thumbnail img-responsive" ng-src="{{equipo.Equipo.ImagenesEquipo[0].FileUrl}}" width="30" />
+                                <span ui-sref="jugador.jugadorList({idTorneo:equipo.TorneoId, idEquipo:equipo.Equipo.Id})"><a>{{equipo.Equipo.Nombre}}</a> </span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--#endregion-->
+</div>
+<!--#region fpaz: menu flotante-->
+<div layout="row" layout-align="star center">
+    <nav mfb-menu position="br" effect="zoomin" label="Herramientas"
+         active-icon="mdi-content-clear" resting-icon="mdi-content-add"
+         toggling-method="hover">
+        <button mfb-button icon="glyphicon glyphicon-calendar" label="Agregar Equipo" ng-click="addEquipo()"></button>  
+        <button mfb-button icon="mdi-image-edit" label="Editar" ng-click="edit()"></button>
+        <button mfb-button icon="mdi-content-save" label="Guardar Cambios" ng-click="saveUpdate()" ng-show="editValue"></button>
+        <button mfb-button icon="mdi-action-delete" label="Cancelar Cambios" ng-click="cancelEdit()" ng-show="editValue"></button>
+    </nav>
+</div>
+<!--#endregion-->                 

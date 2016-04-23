@@ -88,8 +88,7 @@
 
     };
 
-    $scope.nuevoEquipo = function (ev) {
-        
+    $scope.nuevoEquipo = function (ev) {        
         var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
         $mdDialog.show({
             controller: DialogController,

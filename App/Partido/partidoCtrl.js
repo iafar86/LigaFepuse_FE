@@ -2,7 +2,7 @@
     listPartidos, listEquipos, listArbitros, infoTorneo, infoPartido, equipoTorneoDataFactory, listSedes, sedeDataFactory) {
     //#region fpaz: Inicializacion de Variables de Scope
     $scope.listPartidos = listPartidos; //fpaz: tiene todos los partidos de la fecha
-    $scope.listEquipos = listEquipos; //fpaz: tiene todos los equipos del torneo al que pertenece la fecha
+    $scope.listEquipos = []; //fpaz: tiene todos los equipos de la zona seleccionada del torneo al que pertenece la fecha
     $scope.listArbitros = listArbitros; //fpaz: listado de arbitros de la liga
     $scope.torneo = infoTorneo;
     $scope.sedes = listSedes;
@@ -20,7 +20,15 @@
     //#endregion
     
     //#region fpaz: Alta de Partidos
-
+    $scope.cargaEquipos = function (idZona) {        
+        var x;
+        for (x in $scope.torneo.ZonasTorneo) {
+            if ($scope.torneo.ZonasTorneo[x].Id == idZona) {
+                $scope.listEquipos = $scope.torneo.ZonasTorneo[x].EquiposTorneo;
+                break;
+            }            
+        }
+    }
     //fpaz: funcion para dar de alta una fecha y sus partidos correspondientes en la bd
     $scope.partidoAdd = function (prmPartido) {
         
@@ -277,7 +285,7 @@
     //#endregion
 
 
-    //Region imprimir listado de jugadores
+    //#region imprimir listado de jugadores
     $scope.imprimirListadoEquipoLocal = function (jugadoresEquipoLocal) {
         var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
         $mdDialog.show({
@@ -313,7 +321,7 @@
             $scope.customFullscreen = (wantsFullScreen === true);
         });
     };
-    //#endRegion
+    //#endregion
     
 })
 

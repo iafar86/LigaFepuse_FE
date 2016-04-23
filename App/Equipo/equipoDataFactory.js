@@ -24,7 +24,7 @@
 
     var _getEquiposLiga = function () { //trae todos los Equipos
         //var prmIdLiga = authSvc.authentication.ligaId;
-        return $http.get(urlApi + '/api/Equipoes', {
+        return $http.get(urlApi + 'api/Equipoes', {
             params: {
                 prmIdLiga: 1,// cambiar para liga 1
             }
