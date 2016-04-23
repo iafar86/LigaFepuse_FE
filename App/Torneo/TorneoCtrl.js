@@ -1,7 +1,7 @@
 ﻿ligaFepuseApp.controller('torneoCtrl', function ($scope, $stateParams, $state, $filter, $mdDialog, $mdMedia, 
 ngTableParams, torneoDataFactory, torneoList, infoTorneo, fechaDataFactory,
 equipoDataFactory, arbitroDataFactory, sedeDataFactory, imagenesDataFactory, equiposTorneo,
-categoriaDataFactory, categoriasList)
+categoriasDataFactory, categoriasList)
 {
     //$scope.categoriasList = categoriasList;
     //#Region Inicializacion de variables de scope
@@ -187,7 +187,7 @@ function DialogControllerTorneo($scope, $mdDialog, torneoDataFactory, imagenesDa
     }
     //End
 
-    //Region Alta de torneo
+    //#region Alta de torneo
     $scope.addTorneo = function (torneo,ZonasTorneo) {
         //$scope.equipoListadoPrueba.push(equipo);
         //torneo.TorneoId = $scope.torneo.Id;
@@ -205,20 +205,7 @@ function DialogControllerTorneo($scope, $mdDialog, torneoDataFactory, imagenesDa
 
         torneo.FechaFin = diaF.concat("/", mesF, "/", añoF);
 
-        torneo.ZonasTorneo = ZonasTorneo;
-        torneo.TorneoCategoria = {
-            LigaId: 1,
-            CategoriaId: $scope.torneo.Categoria.Id
-        };
-
-       // torneo.ZonasTorneo = $scope.ZonasTorneo;
-
-        //var torneoAdd = {
-        //    LigaId: 1,
-        //    Nombre: torneo.Nombre,
-        //    FechaInicio: torneo.FechaInicio,
-        //    FechaFin: torneo.FechaFin
-        //}
+        torneo.ZonasTorneo = ZonasTorneo;               
         
         torneoDataFactory.postTorneo(torneo).then(function (response) {
             console.log("Torneo guardado")

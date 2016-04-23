@@ -58,8 +58,8 @@
                   </div>
                   <div layout="row" flex>
                       <md-input-container>
-                          <md-select   placeholder="Seleccione categoria" ng-model="torneo.Categoria">
-                              <md-option ng-value="c" ng-repeat="c in categoriasList">
+                          <md-select   placeholder="Seleccione categoria" ng-model="torneo.CategoriaId">
+                              <md-option ng-value="c.Id" ng-repeat="c in categoriasList">
                                   {{c.Nombre}}
                               </md-option>
 
