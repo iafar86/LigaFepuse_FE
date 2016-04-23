@@ -16,10 +16,6 @@
                                 {{picFile.size / 1000000|number:1}}MB: max 5M
                             </i>
                         </a>
-                            
-                        
-                        
-                        
                         <!--#endregion-->
                     </md-card-content>
                 </md-card>
@@ -32,6 +28,11 @@
                         <md-input-container style="min-width: 400px">
                             <label>Nombre</label>
                             <input type="text" ng-model="equipo.Nombre" class="form-control" required />
+                        </md-input-container>
+                        <md-input-container>
+                            <md-select placeholder="Seleccionar Categoria" ng-model="equipo.CategoriaId">
+                                <md-option ng-value="categoria.Id" ng-repeat="categoria in categorias">{{categoria.Nombre }}</md-option>
+                            </md-select>
                         </md-input-container>
                     </md-card-content>
                     <md-card-actions layout="row" layout-align="end end">

@@ -1,7 +1,7 @@
 ﻿ligaFepuseApp.controller('equipoCtrl', function ($scope, $stateParams, $state, $filter, $mdDialog, $mdMedia,
     ngTableParams, torneoList, equiposLiga, arbitroList,
     equipoDataFactory, torneoDataFactory, arbitroDataFactory,
-    sedeDataFactory, profesionDataFactory, sedesList, profesionesList, imagenesDataFactory) //, equipoDataFactory, torneoDataFactory, arbitroDataFactory, torneoList, equiposLiga, arbitroList
+    sedeDataFactory, profesionDataFactory, sedesList, profesionesList, imagenesDataFactory,categoriasDataFactory)
 {
     $scope.printToCart = function (printSectionId) {
 
@@ -131,20 +131,35 @@
     }
     //#endRegion
 
-    //#Region dialog para alta de equipo en la liga
-    $scope.nuevoEquipoLiga = function (ev) {
+    //#region fpaz: dialog para alta de equipo en la liga desce Seccion Equipos
+    $scope.nuevoEquipoLiga = function () { 
+        //fpaz: 1° traigo las categorias de la liga para pasar como parametro al modal
+        var categorias=[];
+        categoriasDataFactory.getCategorias().then(
+        function (response) {
+            categorias = response;
+            $scope.nuevoEquipoLigaDialog(categorias);
+        },
+        function (err) {
+            $scope.error = err;
+            alert("Error: " + $scope.error.Message);
+        });
+    };
+
+    $scope.nuevoEquipoLigaDialog = function (categorias) {
         {
             var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
             $mdDialog.show({
                 controller: DialogController,
                 templateUrl: 'App/Equipo/Partials/nuevoEquipo.html',
                 parent: angular.element(document.body),
-                targetEvent: ev,
+                //targetEvent: ev,
                 clickOutsideToClose: true,
                 fullscreen: useFullScreen,
                 equiposLiga: $scope.equiposLiga,
                 torneo: $scope.torneoSelect,
                 listadoEquiposTorneo: $scope.listadoEquiposTorneo,
+                listCategorias:categorias
             })
             .then(function () {
                 equipoDataFactory.getEquiposLiga().then(function (response) {
@@ -164,7 +179,7 @@
             });
         };
     }
-    //#endRegion
+    //#endregion
     
 
     //#region <-------REGION ARBITRO---------------->
@@ -352,7 +367,7 @@
 
 
 //#region controller Dialog
-function DialogController($scope, $mdDialog, equiposLiga, torneo,
+function DialogController($scope, $mdDialog, equiposLiga, torneo, listCategorias,
     torneoDataFactory, listadoEquiposTorneo, equipoDataFactory, imagenesDataFactory) {
 
     $scope.equiposLiga = equiposLiga;
@@ -360,6 +375,8 @@ function DialogController($scope, $mdDialog, equiposLiga, torneo,
 
     $scope.listadoTem = [];
     $scope.listadoEquiposTorneo = listadoEquiposTorneo;
+
+    $scope.categorias = listCategorias;
 
     //Region agrega equipos a una lista temporal para agregar al torneo
     $scope.addCheck = function (equipo) {
@@ -423,7 +440,7 @@ function DialogController($scope, $mdDialog, equiposLiga, torneo,
     }
     //#endregion
 
-    //#region alta de equipo en la Liga
+    //#region fpaz: Nueva alta de equipo en la Liga
     $scope.addEquipo = function (equipo) {
         equipo.LigaId = 1;
         equipo.AlDia = true;
