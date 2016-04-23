@@ -118,6 +118,7 @@
                     return { value: [] };
                 },
                 categoriasDataFactory: 'categoriasDataFactory',
+                //categoriaDataFactory: 'categoriaDataFactory',
                 categoriasList: function (categoriasDataFactory) {                    
                     return categoriasDataFactory.getCategorias();
                 }
@@ -343,6 +344,7 @@
                     arbitroDataFactory: 'arbitroDataFactory',
                     sedeDataFactory: 'sedeDataFactory',
                     profesionDataFactory: 'profesionDataFactory',
+                    categoriasDataFactory: 'categoriasDataFactory',
                     torneoList: function (torneoDataFactory) {
                         return torneoDataFactory.getTorneos();
                     },
@@ -370,12 +372,12 @@
 
                     profesionesList: function (profesionDataFactory) {
                         return profesionDataFactory.getProfesiones();
+                    },
+                    
+                    categoriasList: function (categoriasDataFactory) {
+                        return categoriasDataFactory.getCategorias();
                     }
-
-                    //arbitroCtrl:'arbitroCtrl'
-                    //torneoInfo: function (torneoDataFactory) {
-                    //    return torneoDataFactory.getTorneo(infoTorneo.Id);
-                    //}                
+               
                 }
             })
 

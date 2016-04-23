@@ -1,7 +1,7 @@
 ﻿ligaFepuseApp.controller('equipoCtrl', function ($scope, $stateParams, $state, $filter, $mdDialog, $mdMedia,
     ngTableParams, torneoList, equiposLiga, arbitroList,
     equipoDataFactory, torneoDataFactory, arbitroDataFactory,
-    sedeDataFactory, profesionDataFactory, sedesList, profesionesList, imagenesDataFactory,categoriasDataFactory)
+    sedeDataFactory, profesionDataFactory, sedesList, profesionesList, imagenesDataFactory,categoriasDataFactory,categoriasList)
 {
     $scope.printToCart = function (printSectionId) {
 
@@ -373,7 +373,7 @@
             categoriaDataFactory: 'categoriaDataFactory'
 
         }).then(function () {
-            categoriaDataFactory.getCategorias().then(function (response) {
+            categoriasDataFactory.getCategorias().then(function (response) {
                 $scope.categoriasList = response;
             },
                 function (err) {
@@ -725,7 +725,7 @@ function DialogProfesionController($scope, $mdDialog, profesionDataFactory) {
 //#endregion <--------END REGION-------->
 
 //#region <-------REGION DIALOG CATEGORIAS---->
-function DialogCategoriaController($scope, $mdDialog, categoriaDataFactory) {
+function DialogCategoriaController($scope, $mdDialog, categoriasDataFactory) {
     $scope.cancel = function () {
         $scope = $scope.$new(true);
         $mdDialog.cancel();
@@ -739,7 +739,7 @@ function DialogCategoriaController($scope, $mdDialog, categoriaDataFactory) {
 
         categoria.LigaId = 1;
 
-        categoriaDataFactory.postCategoria(categoria).then(function () {
+        categoriasDataFactory.postCategoria(categoria).then(function () {
             alert("Categoria Agregada");
         },
         function (err) {

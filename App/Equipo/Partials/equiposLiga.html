@@ -4,7 +4,7 @@
         <div class="md-whiteframe-z2">
             <md-tabs md-dynamic-height md-border-bottom>
                
-                <md-tab ng-click="var=1" label="Arbitros">
+                <md-tab label="Arbitros">
                     <md-content class="md-padding">
                         <md-content>
                             <md-toolbar>
@@ -78,7 +78,7 @@
                         </md-list>
                     </md-content>
                 </md-tab>
-                <md-tab ng-click="var=2" label="Sedes">
+                <md-tab label="Sedes">
                     <md-content class="md-padding">
                         <md-content>
                             <md-toolbar>
@@ -113,7 +113,7 @@
 
 
                 </md-tab>
-                <md-tab ng-click="var=3" label="Profesiones" >
+                <md-tab label="Profesiones" >
                     <md-content class="md-padding">
                         <md-content>
                             <md-toolbar>
@@ -148,7 +148,7 @@
 
 
                 </md-tab>
-                <md-tab var="4" label="Categorias">
+                <md-tab label="Categorias">
                     <md-content class="md-padding">
                         <md-content>
                             <md-toolbar>
@@ -162,9 +162,9 @@
                         <br />
                         <md-list>
                             <md-list-item class="md-2-line" ng-repeat="categoria in categoriasList | filter:search">
-                                <div class="md-list-item-text" layout="row" ng-hide="variable">
+                                <div class="md-list-item-text" layout="column" ng-hide="variable">
                                     <h2>{{categoria.Nombre}}</h2>
-                                    <h3>{{categoria.Descripcion}}</h3>
+                                    <ul>{{categoria.Descripcion}}</ul>
                                     <span flex></span>
                                     <md-button layout-align="end end" class="md-warn" ng-click="variable = true">Editar</md-button>
                                 </div>
@@ -188,13 +188,6 @@
 
                 </md-tab>
             </md-tabs>
-
-            <!--<md-virtual-repeat-container id="vertical-container">
-                <div md-virtual-repeat="item in items" class="repeated-item" flex>
-                    {{item}}
-                </div>
-            </md-virtual-repeat-container>-->
-
         </div>
     </md-content>
    
@@ -203,30 +196,10 @@
 <nav mfb-menu position="br" effect="zoomin" label="Herramientas"
      active-icon="mdi-content-clear" resting-icon="mdi-content-add"
      toggling-method="hover">
-    <button mfb-button icon="mdi-social-person-add" ng-show="var=1" label="Agregar Arbitro" ng-click="arbitroAdd()"></button>
-    <button mfb-button icon="fa fa-map-marker" ng-show="var==2" label="Agregar Sede" ng-click="sedeAdd()"></button>
-    <button mfb-button icon="fa fa-briefcase" ng-show="var==3" label="Agregar Profesion" ng-click="profesionAdd()"></button>
-    <button mfb-button icon="fa fa-futbol-o" ng-show="var==4" label="Agregar Categoria" ng-click="categoriaAdd()"></button>
+    <button mfb-button icon="mdi-social-person-add" label="Agregar Arbitro" ng-click="arbitroAdd()"></button>
+    <button mfb-button icon="fa fa-map-marker" label="Agregar Sede" ng-click="sedeAdd()"></button>
+    <button mfb-button icon="fa fa-briefcase" label="Agregar Profesion" ng-click="profesionAdd()"></button>
+    <button mfb-button icon="fa fa-futbol-o" label="Agregar Categoria" ng-click="categoriaAdd()"></button>
     
 </nav>
 
-<!--<table ng-table="tableParams" show-filter="true" class="table ng-table-responsive">
-    <tr ng-repeat="dictamen in dictamenes">
-        <td data-title="'Dictamen'" filter="{ 'NroDictamen': 'text' }">
-            {{dictamen.NroDictamen}}
-        </td>
-        <td data-title="'Cod. Plan de Mejora'" filter="{ 'CodPlanMejora': 'text' }">
-            {{dictamen.CodPlanMejora}}
-        </td>
-        <td data-title="'Fecha'" sortable="'Fecha'">
-            {{dictamen.Fecha}}
-        </td>
-        <td data-title="'MontoAprobado'" sortable="'MontoAprobado'">
-            {{dictamen.MontoAprobado}}
-        </td>
-        <td>
-            <a>Ver Detalle</a>
-            <a ui-sref="escuelasDetailBase.detail({escuelaId:escuela.Id})">Ver Detalles</a>
-        </td>
-    </tr>
-</table>-->
