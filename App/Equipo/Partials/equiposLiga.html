@@ -3,45 +3,7 @@
     <md-content style="max-width: 700px">
         <div class="md-whiteframe-z2">
             <md-tabs md-dynamic-height md-border-bottom>
-                <md-tab label="Equipos">
-                    <md-content class="md-padding">
-                        <md-content>
-                            <md-toolbar>
-                                <div class="md-toolbar-tools">
-                                    <input placeholder="Buscar" class="md-input" type="search" ng-model="search" />
-                                    <span flex></span>
-                                    <md-icon><i class="mdi-action-search "></i></md-icon>
-                                </div>
-                            </md-toolbar>
-                        </md-content>
-                        <md-table-container>
-                            <table md-table md-row-select md-progress="promise">
-
-                                <tbody md-body>
-                                    <tr md-row ng-repeat="equipo in equiposLiga | filter:search | limitTo: query.limit: (query.page - 1) * query.limit">
-                                        <td>
-                                            <div class="md-3-line" layout="row">
-                                                <img class="img-circle" ng-src="{{equipo.ImagenesEquipo[0].FileUrl}}" style="max-width: 100px; max-height: 100px; padding-top: 10px" />
-                                                <div class="md-list-item-text" style="padding-left: 12px">
-                                                    <h2 style="color:#F0677C; font-weight: 900">{{equipo.Nombre}}</h2>
-                                                    <h3 ng-show="equipo.AlDia = true">Al dia: Si</h3>
-                                                    <h3 ng-hide="equipo.AlDia = true">Al dia: No</h3>
-                                                </div>
-                                            </div>
-                                            <md-actions layout="row" layout-align="end center" style="max-height:30px">
-                                                <md-button>Ver</md-button>
-                                                <md-button>Eliminar</md-button>
-                                            </md-actions>
-                                            <div ng-if="!$last" class="page-head-line" style="margin-bottom: 0px"></div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </md-table-container>
-                        <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{equiposCount}}" md-on-paginate="onPaginate" md-page-select></md-table-pagination>
-
-                    </md-content>
-                </md-tab>
+               
                 <md-tab label="Arbitros">
                     <md-content class="md-padding">
                         <md-content>
@@ -186,14 +148,46 @@
 
 
                 </md-tab>
+                <md-tab label="Categorias">
+                    <md-content class="md-padding">
+                        <md-content>
+                            <md-toolbar>
+                                <div class="md-toolbar-tools">
+                                    <input placeholder="Buscar" class="md-input" type="search" ng-model="search" />
+                                    <span flex></span>
+                                    <md-icon><i class="mdi-action-search "></i></md-icon>
+                                </div>
+                            </md-toolbar>
+                        </md-content>
+                        <br />
+                        <md-list>
+                            <md-list-item class="md-2-line" ng-repeat="categoria in categoriasList | filter:search">
+                                <div class="md-list-item-text" layout="column" ng-hide="variable">
+                                    <h2>{{categoria.Nombre}}</h2>
+                                    <ul>{{categoria.Descripcion}}</ul>
+                                    <span flex></span>
+                                    <md-button layout-align="end end" class="md-warn" ng-click="variable = true">Editar</md-button>
+                                </div>
+                                <div layout="row" ng-show="variable" flex>
+                                    <md-input-container flex="60">
+                                        <input type="text" ng-model="categoria.Nombre" />
+                                    </md-input-container>
+                                    <md-input-container>
+                                        <input type="text" ng-model="categoria.Descripcion" />
+                                    </md-input-container>
+
+                                    <span flex></span>
+                                    <button mfb-button label="Listo" icon="fa fa-check" ng-click="editarCategoria(categoria); variable= false"></button>
+                                </div>
+                                <md-divider ng-if="!$last"></md-divider>
+                            </md-list-item>
+
+                        </md-list>
+                    </md-content>
+
+
+                </md-tab>
             </md-tabs>
-
-            <!--<md-virtual-repeat-container id="vertical-container">
-                <div md-virtual-repeat="item in items" class="repeated-item" flex>
-                    {{item}}
-                </div>
-            </md-virtual-repeat-container>-->
-
         </div>
     </md-content>
    
@@ -202,30 +196,10 @@
 <nav mfb-menu position="br" effect="zoomin" label="Herramientas"
      active-icon="mdi-content-clear" resting-icon="mdi-content-add"
      toggling-method="hover">
-    <button mfb-button icon="fa fa-futbol-o" label="Agregar Equipo" ng-click="nuevoEquipoLiga(ev)"></button>
     <button mfb-button icon="mdi-social-person-add" label="Agregar Arbitro" ng-click="arbitroAdd()"></button>
     <button mfb-button icon="fa fa-map-marker" label="Agregar Sede" ng-click="sedeAdd()"></button>
     <button mfb-button icon="fa fa-briefcase" label="Agregar Profesion" ng-click="profesionAdd()"></button>
-    <!--style="background-color: #D32F2F"-->
+    <button mfb-button icon="fa fa-futbol-o" label="Agregar Categoria" ng-click="categoriaAdd()"></button>
+    
 </nav>
 
-<!--<table ng-table="tableParams" show-filter="true" class="table ng-table-responsive">
-    <tr ng-repeat="dictamen in dictamenes">
-        <td data-title="'Dictamen'" filter="{ 'NroDictamen': 'text' }">
-            {{dictamen.NroDictamen}}
-        </td>
-        <td data-title="'Cod. Plan de Mejora'" filter="{ 'CodPlanMejora': 'text' }">
-            {{dictamen.CodPlanMejora}}
-        </td>
-        <td data-title="'Fecha'" sortable="'Fecha'">
-            {{dictamen.Fecha}}
-        </td>
-        <td data-title="'MontoAprobado'" sortable="'MontoAprobado'">
-            {{dictamen.MontoAprobado}}
-        </td>
-        <td>
-            <a>Ver Detalle</a>
-            <a ui-sref="escuelasDetailBase.detail({escuelaId:escuela.Id})">Ver Detalles</a>
-        </td>
-    </tr>
-</table>-->

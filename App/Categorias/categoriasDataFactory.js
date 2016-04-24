@@ -32,10 +32,30 @@
 
     };
 
+    var _postCategoria = function (data) { // nueva categoria
+        return $http.post(urlApi + '/api/Categorias', data).then(function (response) {
+            return response;
+        })
+    };
+
+    var _putCategoria = function (prmId, data) {
+        var deferred = $q.defer();
+        $http.put(urlApi + '/api/Categorias' + prmId, data).then(
+            function (response) {
+                deferred.resolve(response);
+            },
+            function (response) {
+                deferred.reject(response.data);
+            });
+        return deferred.promise;
+    }
+
    
 
     categoriasDataFactory.getCategorias = _getCategorias;
     categoriasDataFactory.getCategoria = _getCategoria;
+    categoriasDataFactory.postCategoria = _postCategoria;
+    categoriasDataFactory.putCategoria = _putCategoria;
 
     return categoriasDataFactory;
 

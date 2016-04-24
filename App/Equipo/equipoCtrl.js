@@ -1,7 +1,7 @@
 ﻿ligaFepuseApp.controller('equipoCtrl', function ($scope, $stateParams, $state, $filter, $mdDialog, $mdMedia,
     ngTableParams, torneoList, equiposLiga, arbitroList,
     equipoDataFactory, torneoDataFactory, arbitroDataFactory,
-    sedeDataFactory, profesionDataFactory, sedesList, profesionesList, imagenesDataFactory,categoriasDataFactory)
+    sedeDataFactory, profesionDataFactory, sedesList, profesionesList, imagenesDataFactory,categoriasDataFactory,categoriasList)
 {
     $scope.printToCart = function (printSectionId) {
 
@@ -362,6 +362,32 @@
     }
     //#endregion <-------END REGION------->
 
+    //#region <------REGION CATEGORIAS------->
+    $scope.categoriasList = categoriasList;
+    $scope.categoriaAdd = function () {
+        $mdDialog.show({
+            //scope: $scope,
+            controller: DialogCategoriaController,
+            //targetEvent: $event,
+            templateUrl: 'App/Categoria/Partials/categoriaAdd.html',
+            categoriaDataFactory: 'categoriaDataFactory'
+
+        }).then(function () {
+            categoriasDataFactory.getCategorias().then(function (response) {
+                $scope.categoriasList = response;
+            },
+                function (err) {
+                    if (err) {
+                        $scope.error = err;
+                        alert("Error: " + $scope.error.Message);
+                    }
+                });
+
+        })
+
+    }
+    //#endregion <-------END REGION------->
+
 })
 
 
@@ -697,3 +723,40 @@ function DialogProfesionController($scope, $mdDialog, profesionDataFactory) {
 
 }
 //#endregion <--------END REGION-------->
+
+//#region <-------REGION DIALOG CATEGORIAS---->
+function DialogCategoriaController($scope, $mdDialog, categoriasDataFactory) {
+    $scope.cancel = function () {
+        $scope = $scope.$new(true);
+        $mdDialog.cancel();
+    };
+
+    $scope.hide = function () {
+        $mdDialog.hide();
+    };
+
+    $scope.nuevaCategoria = function (categoria) {
+
+        categoria.LigaId = 1;
+
+        categoriasDataFactory.postCategoria(categoria).then(function () {
+            alert("Categoria Agregada");
+        },
+        function (err) {
+            if (err) {
+                $scope.error = err;
+                alert("Erorr al borrar: " + $scope.error.Message);
+            }
+        },
+        function (err) {
+            if (err) {
+                $scope.error = err;
+                alert("Erorr al borrar: " + $scope.error.Message);
+            }
+        });
+
+        $scope.hide();
+
+    }
+}
+//#endregion <---------END REGION----------->

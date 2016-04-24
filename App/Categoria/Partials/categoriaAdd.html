@@ -6,14 +6,17 @@
                     <div class="md-toolbar-tools">Nueva categoria</div>
                 </md-toolbar>
                 <md-card-content>
-                    <md-input-container style="min-width: 400px">
-                        <label>Nombre de la categoria</label>
-                        <input type="text" ng-model="categoria.Nombre" class="form-control" required />
-                    </md-input-container>
-                    <md-input-container>
-                        <label>Descripcion de la categoría</label>
-                        <input type="text" ng-model="categoria.Descripcion" class="form-control" required />
-                    </md-input-container>
+                    <div layout="column" style="min-width: 400px">
+                        <md-input-container style="max-width: 400px">
+                            <label>Nombre de la categoria</label>
+                            <input type="text" ng-model="categoria.Nombre" class="form-control" required />
+                        </md-input-container>
+                        <md-input-container>
+                            <label>Descripcion de la categoría</label>
+                            <input type="text" ng-model="categoria.Descripcion" class="form-control" required />
+                        </md-input-container>
+                    </div>
+                    
                 </md-card-content>
                 <md-card-actions layout="row" layout-align="end end">
                     <md-button ng-click="nuevaCategoria(categoria)">Guardar</md-button>
