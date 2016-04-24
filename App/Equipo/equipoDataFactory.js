@@ -1,27 +1,7 @@
 ﻿ligaFepuseApp.factory('equipoDataFactory', function ($http, $q, configSvc) {
     var urlApi = configSvc.urlApi; // fpaz: toma el url del api de configSvc
     var equipoDataFactory = {};
-
-    //var _getEquiposLiga = function () { // trae todos los equipos de la liga
-    //    var deferred = $q.defer();
-    //    return $http.get(urlApi + '/api/Equipoes', {
-    //        params: {
-    //            prmIdLiga: 1
-    //        }
-    //    }).then(
-    //    function (response) {
-    //        console.log(response);            
-    //        return response;
-            
-    //    },
-    //    function (response) {
-
-    //        deferred.reject(response.data);
-    //    });
-    //   return deferred.promise;
-        
-    //};
-
+       
     var _getEquiposLiga = function () { //trae todos los Equipos
         //var prmIdLiga = authSvc.authentication.ligaId;
         return $http.get(urlApi + 'api/Equipoes', {

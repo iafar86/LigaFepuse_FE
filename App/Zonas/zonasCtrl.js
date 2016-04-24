@@ -1,5 +1,5 @@
 ﻿ligaFepuseApp.controller('zonasCtrl', function ($scope, $stateParams, $state, $filter, $mdDialog, $mdMedia,
-ngTableParams, torneoDataFactory, equipoDataFactory, zonasDataFactory, zonasTorneo, zona) {
+ngTableParams, torneoDataFactory, equipoDataFactory, zonasDataFactory, categoriasDataFactory, zonasTorneo, zona) {
 
     //#region fpaz: Inicializacion de variables de Scope
     $scope.editValue = false;
@@ -79,13 +79,13 @@ ngTableParams, torneoDataFactory, equipoDataFactory, zonasDataFactory, zonasTorn
     }
     //#endregion  
 
-    //#region fpaz: Dialog para agregar Equipos a la Zona
-    $scope.equiposLiga = [];
-    $scope.addEquipo = function () {        
-        equipoDataFactory.getEquiposLiga().then(
+    //#region fpaz: Dialog para agregar Equipos a la Zona    
+    $scope.addEquipo = function () {
+        var equiposCategoria = []; // variable con todos los equipos de la liga que tengan la misma categoria del torneo al que pertenece la zona
+        categoriasDataFactory.getCategoria($scope.zona.Torneo.CategoriaId).then(
         function (response) {
-            $scope.equiposLiga = response;
-            $scope.seleccionEquipos();
+            equiposCategoria = response.Equipos;
+            $scope.seleccionEquipos(equiposCategoria);
         },
         function (err) {
             $scope.error = err;
@@ -93,18 +93,16 @@ ngTableParams, torneoDataFactory, equipoDataFactory, zonasDataFactory, zonasTorn
         });
     };
 
-    $scope.seleccionEquipos = function (ev) {          
-        var equipos = $scope.equiposLiga;
-
+    $scope.seleccionEquipos = function (equiposCategoria) {
         var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
         $mdDialog.show({
             controller: DialogEquipoZonaController,
             templateUrl: 'App/Equipo/Partials/agregarEquipos.html',
             parent: angular.element(document.body),
-            targetEvent: ev,
+            //targetEvent: ev,
             clickOutsideToClose: false,
             fullscreen: useFullScreen,
-            equiposLiga: equipos ,                        
+            equiposLiga: equiposCategoria,
             listadoEquiposZona: $scope.zona.EquiposTorneo,
             zona: $scope.zona
         })

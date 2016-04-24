@@ -565,8 +565,6 @@
             })
         //#endregion
 
-
-
         ezfbProvider.setInitParams({
             // This is my FB app id for plunker demo app
             appId: '983474251732776',

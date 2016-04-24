@@ -19,9 +19,23 @@
 
     };
 
+    var _getCategoria = function (prmIdCategoria) { //fpaz: trae la info de una Categoria en particular, incluido los equipos de laa categoria
+        var deferred = $q.defer();
+        $http.get(urlApi + 'api/Categorias/' + prmIdCategoria).then(
+            function (response) {
+                deferred.resolve(response.data);
+            },
+            function (response) {
+                deferred.reject(response.data);
+            });
+        return deferred.promise;
+
+    };
+
    
 
     categoriasDataFactory.getCategorias = _getCategorias;
+    categoriasDataFactory.getCategoria = _getCategoria;
 
     return categoriasDataFactory;
 
