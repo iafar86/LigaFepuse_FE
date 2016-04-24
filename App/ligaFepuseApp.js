@@ -331,37 +331,27 @@
 
                  profesionesList: function () {
                      return {value: []}
-                 }                 
+                 },
+                 categoriasList: function () {
+                     return { value: [] }
+                 }
              }
          })
          .state('equipo.laLiga', {
                 url: '/Liga',
                 templateUrl: 'App/Equipo/Partials/equiposLiga.html',
                 controller: 'equipoCtrl',
-                resolve: {
-                    torneoDataFactory: 'torneoDataFactory',
-                    equipoDataFactory: 'equipoDataFactory',
+                resolve: {  
                     arbitroDataFactory: 'arbitroDataFactory',
                     sedeDataFactory: 'sedeDataFactory',
                     profesionDataFactory: 'profesionDataFactory',
                     categoriasDataFactory: 'categoriasDataFactory',
-                    torneoList: function (torneoDataFactory) {
-                        return torneoDataFactory.getTorneos();
+                    torneoList: function () {
+                        return { value: [] }
                     },
-                    equiposLiga: function (equipoDataFactory) {
-                        equipoDataFactory.getEquiposLiga().then(function (response) {
-                            equiposLiga = response;
-                        },
-                        function (err) {
-                            if (err) {
-                                $scope.error = err;
-                                alert("Error: " + $scope.error.Message);
-                            }
-                        });
-                        return equiposLiga
-
+                    equiposLiga: function () {
+                        return { value: [] }
                     },
-
                     arbitroList: function (arbitroDataFactory) {
                         return arbitroDataFactory.getArbitros();
                     },
@@ -379,24 +369,7 @@
                     }
                
                 }
-            })
-
-            .state('equipo.listadoLiga', {
-                url: '/Liga',
-                templateUrl: 'App/Equipo/Partials/prueba.html',
-                controller: 'equipoCtrl',
-                resolve: {
-                    equipoDataFactory: 'equipoDataFactory',
-                    torneoDataFactory: 'torneoDataFactory',
-
-                    torneoList: function () {
-                        return { value: [] }
-                    },
-                    equiposLiga: function () {
-                        return equipoDataFactory.getEquiposLiga();
-                    }
-                }
-            })
+            })            
         //#endregion
 
         //#region Partidos
