@@ -1,6 +1,6 @@
 ﻿ligaFepuseApp.controller('fechaCtrl', function ($scope, $stateParams, $state, $filter, $mdDialog, $mdMedia,
     ngTableParams, fechaDataFactory, listPartidos,
-    listEquipos, listArbitros, infoTorneo, sedeDataFactory, listSedes) {
+    listEquipos, listArbitros,torneoDataFactory, infoTorneo, sedeDataFactory, listSedes) {
     //#region fpaz: Inicializacion de Variables de Scope
     $scope.listPartidos = listPartidos; //fpaz: tiene todos los partidos de la fecha
     $scope.listEquipos = listEquipos; //fpaz: tiene todos los equipos del torneo al que pertenece la fecha
@@ -50,8 +50,19 @@
         }
 
         fechaDataFactory.postFecha(fecha).then(function (response) {
-            alert("Nueva Fecha Guardada");
-            $mdDialog.hide();
+            var torneoActualizado = [];
+            // una ves que agrego una fecha al torneo vuelvo a traer la info del torneo con las fechas actualizadas
+            torneoDataFactory.getTorneo($stateParams.torneoId).then(function (response) {
+                torneoActualizado = response;
+                alert("Nueva Fecha Guardada");
+                $mdDialog.hide(torneoActualizado);
+            },
+            function (err) {
+                if (err) {
+                    $scope.error = err;
+                    alert("Error al recuperar las fechas del Torneo: " + $scope.error.Message);
+                }
+            })           
         },
          function (err) {
              if (err) {

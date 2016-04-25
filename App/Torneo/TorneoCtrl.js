@@ -1,14 +1,13 @@
-﻿ligaFepuseApp.controller('torneoCtrl', function ($scope, $stateParams, $state, $filter, $mdDialog, $mdMedia, 
+﻿ligaFepuseApp.controller('torneoCtrl', function ($scope, $stateParams, $state, $filter, $mdDialog, $mdMedia,
 ngTableParams, torneoDataFactory, torneoList, infoTorneo, fechaDataFactory,
 equipoDataFactory, arbitroDataFactory, sedeDataFactory, imagenesDataFactory, equiposTorneo,
-categoriasDataFactory, categoriasList)
-{
+categoriasDataFactory, categoriasList) {
     //$scope.categoriasList = categoriasList;
     //#Region Inicializacion de variables de scope
     $scope.torneos = torneoList;
     $scope.torneo = infoTorneo;
     $scope.equiposTorneo = equiposTorneo;
-    $scope.imagen = 'img/fepuse.jpg'  
+    $scope.imagen = 'img/fepuse.jpg'
     $scope.torneoListado = [];
     //endregion
 
@@ -23,7 +22,7 @@ categoriasDataFactory, categoriasList)
         $scope.variable = false;
         $scope.torneo.Nombre = '';
         $scope.torneo.FechaInicio = '';
-        $scope.torneo.FechaFin = ''      
+        $scope.torneo.FechaFin = ''
     }
 
     torneoDel = function (item) {
@@ -67,13 +66,13 @@ categoriasDataFactory, categoriasList)
     //endRegion  
 
     //fpaz: funcion para ir al detalle del torneo y mostrar el fixture de la primera fecha si es que tiene alguna fecha cargada, sino muestra la vista para administracion del torneo
-    $scope.verDetalle = function (torneoId) {        
-        fechaDataFactory.getPrimeraFecha(torneoId).then(function (response) {            
+    $scope.verDetalle = function (torneoId) {
+        fechaDataFactory.getPrimeraFecha(torneoId).then(function (response) {
             $state.go('torneo.info.fecha', { torneoId: torneoId, fechaId: response });
         },
          function (err) {
              console.log(err)
-             if (err) {                 
+             if (err) {
                  alert("Error: " + err.Message);
                  $state.go('torneo.info', { torneoId: torneoId });
              }
@@ -81,7 +80,7 @@ categoriasDataFactory, categoriasList)
     }
     //#region fpaz: Altas de Fechas y Partidos
     //#region fpaz: funcion para dar de alta una fecha
-    $scope.addFecha = function (ev) {        
+    $scope.addFecha = function (ev) {
         $mdDialog.show({
             controller: 'fechaCtrl',
             templateUrl: 'App/Fecha/Partials/fechaAdd.html',
@@ -95,10 +94,10 @@ categoriasDataFactory, categoriasList)
                 },
                 listEquipos: function () {
                     return $scope.torneo.EquipoTorneos;
-                },                
+                },
                 infoTorneo: function () {
                     return $scope.torneo;
-                },                
+                },
                 listArbitros: function (arbitroDataFactory) {
                     return arbitroDataFactory.getArbitros();
                 },
@@ -107,17 +106,14 @@ categoriasDataFactory, categoriasList)
                 }
             }
         })
-            .then(function () {
-                //$scope.listTiposHab[$scope.selectedIndex].Habitaciones.push(habitacion);
-            }, function () {
-                //alert('Error Al Guardar La Nueva Habitacion');
-
+            .then(function (torneoActualizado) {
+                $scope.torneo = torneoActualizado;
             });
     };
     //#endregion
 
     //#region fpaz: funcion para dar de alta un partido para la fecha seleccionada
-    $scope.addPartido = function (ev) {        
+    $scope.addPartido = function (ev) {
         if ($scope.torneo.Fechas.length < 1) {
             alert("Primero Debe Agregar una Fecha");
         } else {
@@ -149,14 +145,12 @@ categoriasDataFactory, categoriasList)
                     }
                 }
             })
-              .then(function () {
-                  //$scope.listTiposHab[$scope.selectedIndex].Habitaciones.push(habitacion);
-              }, function () {
-                  //alert('Error Al Guardar La Nueva Habitacion');
-
+              .then(function (fechaId) {
+                  $scope.listPartidos = fechaDataFactory.getFecha(fechaId);
+                  //$state.go('torneo.info.fecha', { torneoId: $stateParams.torneoId, fechaId: fechaId });
               });
         }
-        
+
     };
     //#endregion
 
@@ -188,7 +182,7 @@ function DialogControllerTorneo($scope, $mdDialog, torneoDataFactory, imagenesDa
     //End
 
     //#region Alta de torneo
-    $scope.addTorneo = function (torneo,ZonasTorneo) {
+    $scope.addTorneo = function (torneo, ZonasTorneo) {
         //$scope.equipoListadoPrueba.push(equipo);
         //torneo.TorneoId = $scope.torneo.Id;
         a = new Date();
@@ -205,24 +199,24 @@ function DialogControllerTorneo($scope, $mdDialog, torneoDataFactory, imagenesDa
 
         torneo.FechaFin = diaF.concat("/", mesF, "/", añoF);
 
-        torneo.ZonasTorneo = ZonasTorneo;               
-        
+        torneo.ZonasTorneo = ZonasTorneo;
+
         torneoDataFactory.postTorneo(torneo).then(function (response) {
             console.log("Torneo guardado")
             if (torneo.logo != null) {
-                if (cargaLogo(torneo.logo, response.Id)) {                    
+                if (cargaLogo(torneo.logo, response.Id)) {
                     //torneos = torneoDataFactory.getTorneos();
                     //$mdDialog.hide(torneos);                    
                 } else {
                     alert("Nuevo torneo guardado, Sin Logo");
                     torneos = torneoDataFactory.getTorneos();
-                    $mdDialog.hide(torneos);                    
+                    $mdDialog.hide(torneos);
                 }
             } else {
                 alert("Nuevo torneo guardado, Sin Logo");
                 torneos = torneoDataFactory.getTorneos();
-                $mdDialog.hide(torneos);                
-            }            
+                $mdDialog.hide(torneos);
+            }
         },
         function (err) {
             if (err) {
@@ -231,8 +225,8 @@ function DialogControllerTorneo($scope, $mdDialog, torneoDataFactory, imagenesDa
             }
         });
     }
-    //endRegion
-    
+    //#endregion
+
     //#region fpaz: carga una imagen al azure
     var cargaLogo = function (file, idTorneo) {
         console.log("IdTorneo: " + idTorneo);
@@ -296,12 +290,12 @@ function DialogControllerTorneo($scope, $mdDialog, torneoDataFactory, imagenesDa
             }
         });
     }
-    //endRegion
+    //#endregion
     $scope.hide = function () {
         $mdDialog.hide();
     };
     $scope.cancel = function () {
         $mdDialog.cancel();
     };
-    
+
 }

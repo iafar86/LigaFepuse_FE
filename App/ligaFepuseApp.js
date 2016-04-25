@@ -117,8 +117,7 @@
                 equiposTorneo: function () {
                     return { value: [] };
                 },
-                categoriasDataFactory: 'categoriasDataFactory',
-                //categoriaDataFactory: 'categoriaDataFactory',
+                categoriasDataFactory: 'categoriasDataFactory',                
                 categoriasList: function (categoriasDataFactory) {                    
                     return categoriasDataFactory.getCategorias();
                 }
@@ -166,8 +165,7 @@
                             sedeDataFactory: 'sedeDataFactory',
                             listPartidos: function (fechaDataFactory, $stateParams) {
                                 var fechaId = $stateParams.fechaId;
-                                return fechaDataFactory.getFecha(fechaId);
-                                //return fechaDataFactory.get({ id: fechaId });
+                                return fechaDataFactory.getFecha(fechaId);                                
                             },
                             listEquipos: function () {
                                 return { value: [] };
@@ -195,33 +193,14 @@
                         templateUrl: 'App/Torneo/Partials/torneoTablaPosiciones.html',
                         controller: 'equipoTorneoCtrl',
                         resolve: {
-                            equipoTorneoDataFactory: 'equipoTorneoDataFactory',
-                            //kike
-                            torneoDataFactory: 'torneoDataFactory',
-                            equipoDataFactory: 'equipoDataFactory',
-                            torneoInfo: function(torneoDataFactory, $stateParams){
-                                var torneoId= $stateParams.torneoId;
-                                return torneoDataFactory.getTorneo(torneoId);
-                            },
+                            equipoTorneoDataFactory: 'equipoTorneoDataFactory',                            
                             equiposLiga: function (equipoDataFactory) {
                                 return equipoDataFactory.getEquiposLiga();
-                            },
-                            //equiposLiga: function(equipoDataFactory){
-                            //    return equipoDataFactory.getEquiposLiga;
-                            //},
-                            //kike
-                            sedeDataFactory: 'sedeDataFactory',
+                            },                                                        
                             tablaPosiciones: function (equipoTorneoDataFactory, $stateParams) {
                                 var torneoId = $stateParams.torneoId;
                                 return equipoTorneoDataFactory.getTablaPosiciones(torneoId);
-                            },
-                            listadoSedes: function (sedeDataFactory) {
-                                return sedeDataFactory.getSedes();
-                            },
-                            categoriaDataFactory: 'categoriaDataFactory',
-                            categoriasList: function () {
-                                return { value: [] };
-                            }
+                            }                                                        
                         }
                     }
                 }

@@ -1,5 +1,5 @@
 ﻿ligaFepuseApp.controller('equipoTorneoCtrl', function ($scope, $stateParams, $state, $filter, $mdDialog, $mdMedia, ngTableParams,
-    equipoTorneoDataFactory, tablaPosiciones, torneoDataFactory, infoTorneo, equipoDataFactory, equiposLiga) {
+    equipoTorneoDataFactory, tablaPosiciones) {
     //#region fpaz: Inicializacion de Variables de Scope    
     $scope.tablaPosiciones = tablaPosiciones;
     $scope.editValue = false;
@@ -68,57 +68,5 @@
         }
     });
     //#endregion
-
-    //<------Alta de equipos en torneo----->
-    $scope.listadoEquiposTorneo = [];
-    $scope.listadoEquiposTorneo = infoTorneo.EquipoTorneos;
-    
-    $scope.equiposLiga = equiposLiga;
-    $scope.obtenerEquiposLiga = function () {
-        equipoDataFactory.getEquiposLiga().then(
-        function (response) {
-            $scope.equiposLiga = response;
-            $scope.nuevoEquipo();
-        },
-        function (err) {
-            $scope.error = err;
-            alert("Error: " + $scope.error.Message);
-        }
-        )
-
-    };
-
-    $scope.nuevoEquipo = function (ev) {        
-        var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
-        $mdDialog.show({
-            controller: DialogController,
-            templateUrl: 'App/Equipo/Partials/agregarEquipos.html',
-            parent: angular.element(document.body),
-            targetEvent: ev,
-            clickOutsideToClose: false,
-            fullscreen: useFullScreen,
-            equiposLiga: $scope.equiposLiga,
-            //torneo: $scope.torneoSelect,
-            listadoEquiposTorneo: $scope.listadoEquiposTorneo,
-            torneo: infoTorneo
-        })
-        .then(function (listadoEquiposTorneo) {
-            //$scope.obtenerEquipos();
-            equipoTorneoDataFactory.getTablaPosiciones($stateParams.torneoId).then(function (response) {
-                $scope.tablaPosiciones = response;
-            });
-            //if (bandera == null) {
-            //    $scope.torneoSelect = bandera;
-            //    $scope.variable = bandera;
-            //}
-        });
-        $scope.$watch(function () {
-            return $mdMedia('xs') || $mdMedia('sm');
-        }, function (wantsFullScreen) {
-            $scope.customFullscreen = (wantsFullScreen === true);
-        });
-    };
-    //#endregion
-
 })
 
