@@ -2,6 +2,23 @@
     var urlApi = configSvc.urlApi; // fpaz: toma el url del api de configSvc
     var jugadorDataFactory = {};
 
+    var _getJugadoresPorCategoria = function () {// Trae todos los jugadores filtrados por categoria
+        var deferred = $q.defer();
+        return $http.get(urlApi + '/api/Jugadors/jugadoresliga', {
+            params: {
+                prmLigaId: 1
+            }
+        }).then(
+        function (response) {
+            console.log(response);
+            return response.data;
+        },
+        function (response) {
+            deferred.reject(response.data);
+        });
+        return deferred.promise;
+    };
+
     var _getJugadoresLiga = function () { // trae todos los Jugadores de la liga
         var deferred = $q.defer();
         return $http.get(urlApi + '/api/Jugadors', {
@@ -111,6 +128,7 @@
     jugadorDataFactory.putJugador = _putJugador;
     jugadorDataFactory.putEquipoJugadorTorneo = _putEquipoJugadorTorneo;
     jugadorDataFactory.postImagenJugador = _postImagenJugador;
+    jugadorDataFactory.getJugadoresPorCategoria = _getJugadoresPorCategoria;
 
     return jugadorDataFactory;
 

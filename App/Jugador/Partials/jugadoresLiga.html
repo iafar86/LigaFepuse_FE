@@ -1,0 +1,39 @@
+﻿<div layout="column" class="container" flex="100">
+    <h4 class="page-head-line">Jugadores</h4>
+    <div flex="80" ng-show="true">
+        <md-card class="md-whiteframe-11dp" style="max-width: 700px">
+            <md-card-content>
+                <v-accordion class="vAccordion--default" multiple control="accordion">
+                    <v-pane id="accordionCategorias" ng-repeat="categoria in jugadoresPorCategoriaList" expanded="true">
+                        <v-pane-header>
+                            Categoria: {{categoria.Nombre}}
+                        </v-pane-header>
+                        <v-pane-content>
+                            <md-list ng-repeat="jugador in categoria.Jugadores">
+                                <md-list-item class="md-3-line" layout="row">
+                                    <img class="md-avatar" ng-src="{{jugador.ImagenesJugador[0].FileUrl}}" style="min-height:100px; min-width:100px" />
+                                    <div class="md-list-item-text">
+                                        <h3>{{jugador.NombreApellido}}</h3>
+                                        <h4>Federado: {{jugador.Federado}}</h4>
+                                    </div>
+                                </md-list-item>
+                                <!--<md-list-actions layout="row" layout-align="end center">
+                                    <md-button ui-sref="jugador.jugadorList({idTorneo:equipo.TorneoId, idEquipo:equipo.Equipo.Id})">Ver</md-button>
+                                    <md-button ng-click="delEquipoTorneo(equipo)">Eliminar</md-button>
+                                </md-list-actions>-->
+                                <md-divider></md-divider>
+                            </md-list>
+                        </v-pane-content>
+                    </v-pane>
+                </v-accordion>
+            </md-card-content>
+        </md-card>
+    </div>
+</div>
+
+<div flex="50" layout="row" layout-align="end end" ng-hide="variable">
+    <nav mfb-menu position="br" effect="zoomin" active-icon="mdi-social-person-add" class="md-fab" label="Nuevo Torneo" resting-icon="mdi-social-person-add" toggling-method="hover" ng-click="jugadorAdd()">
+        <!--style="background-color: #D32F2F"-->
+    </nav>
+</div>
+    <!--style="background-color: #D32F2F"-->
