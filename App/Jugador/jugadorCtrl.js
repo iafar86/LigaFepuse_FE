@@ -1,5 +1,5 @@
 ﻿ligaFepuseApp.controller('jugadorCtrl', function ($scope, $stateParams, $state, $filter, $mdDialog, $mdMedia,
-    torneoInfo, equipoInfo, jugadoresList, profesionesList, torneoDataFactory, profesionDataFactory, equipoDataFactory, jugadorDataFactory) {
+    torneoInfo, equipoInfo, jugadoresList, profesionesList, torneoDataFactory, profesionDataFactory, equipoDataFactory, jugadorDataFactory, equiposLiga, jugadoresPorCategoriaList,categoriasList) {
 
 
     //#region control ng-table
@@ -19,7 +19,8 @@
     $scope.equipoInfo = equipoInfo;
     $scope.jugadoresList = jugadoresList;
     $scope.profesionesList = profesionesList;
-
+    $scope.categoriasList = categoriasList;
+    $scope.jugadoresPorCategoriaList = jugadoresPorCategoriaList;
     $scope.jugador = [];
 
     $scope.busProf = function (idProf) {
@@ -109,6 +110,7 @@
             //targetEvent: $event,
             templateUrl: 'App/Jugador/Partials/jugadorInfo.html',
             onComplete: afterShowAnimation,
+            equiposLiga: equiposLiga,
             locals: {
                 jugadorShow: new Object(),
                 edit: false,
@@ -147,7 +149,7 @@
 
 function DialogJugadorController($scope, $mdDialog, jugadorShow, edit, func, equipoId,
     torneoId, equiposList, profesionesList, equipoDataFactory, jugadorDataFactory, equipoTorneoDataFactory,
-    profesionDataFactory, imagenesDataFactory) {
+    profesionDataFactory, imagenesDataFactory, equiposLiga) {
 
     //#region inicializacion de scope
     
@@ -157,6 +159,7 @@ function DialogJugadorController($scope, $mdDialog, jugadorShow, edit, func, equ
     $scope.func = func;//iafar: cadena que expresa que tipo de operacion hara el modal
     $scope.equipoId = equipoId;
     $scope.profesionList = profesionesList;
+    $scope.equiposLiga = equiposLiga;
     //#endregion
 
 

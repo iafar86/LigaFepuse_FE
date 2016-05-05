@@ -447,6 +447,45 @@
                 }
             })
 
+            .state('equipo.jugadoresLiga', {
+                url: '/Jugadores',
+                templateUrl: 'App/Jugador/Partials/jugadoresLiga.html',
+                controller: 'jugadorCtrl',
+                resolve: {
+                    torneoDataFactory: 'torneoDataFactory',
+                    equipoDataFactory: 'equipoDataFactory',
+                    jugadorDataFactory: 'jugadorDataFactory',
+                    profesionDataFactory: 'profesionDataFactory',
+                    profesionesList: function (profesionDataFactory) {
+                        return profesionDataFactory.getProfesiones();
+                    },
+                    
+                    equiposLiga: function (equipoDataFactory) {
+                        return { value: [] };
+                    },
+
+                    jugadoresPorCategoriaList: function (jugadorDataFactory) {
+                        prmLigaId = 1;
+                        return jugadorDataFactory.getJugadoresPorCategoria();
+                    },
+                    
+                    torneoInfo: function () {                       
+                        return { value: [] }
+                    },
+                    equipoInfo: function () {                        
+                        return { value: [] }
+                    },
+                    jugadoresList: function () {                        
+                        return { value: [] }
+                    },
+                    
+                    categoriasList: function () {
+                        return { value: [] };
+                    }
+
+                }
+            })
+
         //#endregion
 
         //#region Arbitros
