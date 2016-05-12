@@ -1,13 +1,14 @@
 ﻿ligaFepuseApp.controller('jugadorCtrl', function ($scope, $stateParams, $state, $filter, $mdDialog, $mdMedia,
-    torneoInfo, equipoInfo, jugadoresList, profesionesList, torneoDataFactory, profesionDataFactory, equipoDataFactory, jugadorDataFactory, equiposLiga, jugadoresPorCategoriaList,categoriasList) {
-
+    torneoDataFactory, equipoDataFactory, jugadorDataFactory, profesionDataFactory,
+    equipoInfo, torneosList, profesionesList) { //equiposLiga,jugadoresPorCategoriaList,, categoriasList
+    // equipoInfo,  
 
     //#region control ng-table
    
     $scope.filter = [{
         show: false
     }];
-    $scope.jugadoresCount = jugadoresList.length;
+    $scope.jugadoresCount = 0; //jugadoresList.length;
     $scope.query = {
         filter: '',
         limit: '5',
@@ -15,23 +16,23 @@
     };
     //#endregion
 
-    $scope.torneoInfo = torneoInfo;
+    $scope.torneosList = torneosList;
     $scope.equipoInfo = equipoInfo;
-    $scope.jugadoresList = jugadoresList;
+    //$scope.jugadoresList = jugadoresList; //iafar: traer todos los jugadores del ultimo torneo
     $scope.profesionesList = profesionesList;
-    $scope.categoriasList = categoriasList;
-    $scope.jugadoresPorCategoriaList = jugadoresPorCategoriaList;
+    //$scope.categoriasList = categoriasList;
+    //$scope.jugadoresPorCategoriaList = jugadoresPorCategoriaList;
     $scope.jugador = [];
 
-    $scope.busProf = function (idProf) {
-        for (i in profesionesList) {
-            if (profesionesList[i].Id == idProf) {
-                return profesionesList[i].Nombre;
-                break;
-            }
+    //$scope.busProf = function (idProf) {
+    //    for (i in profesionesList) {
+    //        if (profesionesList[i].Id == idProf) {
+    //            return profesionesList[i].Nombre;
+    //            break;
+    //        }
 
-        }
-    }
+    //    }
+    //}
     $scope.jugadoresLiga = function () {
         $mdDialog.show({
             //scope: $scope,

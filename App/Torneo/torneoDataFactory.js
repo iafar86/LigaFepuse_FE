@@ -4,7 +4,7 @@
 
     var _getTorneos = function () { //trae todos los Torneos
         //var prmIdLiga = authSvc.authentication.ligaId;
-        return $http.get(urlApi + 'api/Torneos',  {
+        return $http.get(urlApi + 'api/Torneos', {
             params: {
                 prmIdLiga: 1, //cambiar por 1
             }
@@ -33,10 +33,29 @@
 
     };
 
+    var _getCategoriaTorneos = function (prmCategoria) { //trae lista de torneos segun categoria (sin imagen)
+        //var prmIdLiga = authSvc.authentication.ligaId;
+        var deferred = $q.defer();
+        $http.get(urlApi + 'api/Torneos/Categoria/', {
+            params: {
+                prmIdLiga: 1, //cambiar por 1
+                prmIdCategoria: prmCategoria
+            }
+        }).then(
+            function (response) {
+                deferred.resolve(response.data);
+            },
+            function (response) {
+                deferred.reject(response.data);
+            });
+        return deferred.promise;
+
+    };
+
     var _postTorneo = function (data) { // post de un Torneo        
         return $http.post(urlApi + 'api/Torneos', data).then(function (response) {
             return response.data;
-        })        
+        })
     };
 
     var _postImagenTorneo = function (data) { //fpaz: alta de una Imagen en el Torneo
@@ -66,6 +85,7 @@
     };
 
     torneoDataFactory.getTorneos = _getTorneos;
+    torneoDataFactory.getCategoriaTorneos = _getCategoriaTorneos;
     torneoDataFactory.getTorneo = _getTorneo;
     torneoDataFactory.postTorneo = _postTorneo;
     torneoDataFactory.postImagenTorneo = _postImagenTorneo;

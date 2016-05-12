@@ -420,25 +420,21 @@
             })
 
             .state('jugador.jugadorList', {
-                url: '/ListaJugadores/:idTorneo?idEquipo', 
+                url: '/ListaJugadores/:idEquipo?idCategoria', 
                 templateUrl: 'App/Jugador/Partials/jugadorEquipo.html',
                 controller: 'jugadorCtrl',
                 resolve: {
                     torneoDataFactory: 'torneoDataFactory',
                     equipoDataFactory: 'equipoDataFactory',
                     jugadorDataFactory: 'jugadorDataFactory',
-                    torneoInfo: function (torneoDataFactory, $stateParams) {
-                        var torneoId = $stateParams.idTorneo;
-                        return torneoDataFactory.getTorneo(torneoId)
-                    },
+                    profesionDataFactory:'profesionDataFactory',
                     equipoInfo: function (equipoDataFactory, $stateParams) {
                         var equipoId = $stateParams.idEquipo;
                         return equipoDataFactory.getEquipo(equipoId)
                     },
-                    jugadoresList: function (jugadorDataFactory, $stateParams) {
-                        var torneoId = $stateParams.idTorneo;
-                        var equipoId = $stateParams.idEquipo;
-                        return jugadorDataFactory.getJugadoresEquipoTorneo(torneoId, equipoId)
+                    torneosList: function (torneoDataFactory, $stateParams) {
+                        var idCategoria = $stateParams.idCategoria;
+                        return torneoDataFactory.getCategoriaTorneos(idCategoria)
                     },
                     profesionesList: function (profesionDataFactory) {
                         return profesionDataFactory.getProfesiones();
