@@ -558,6 +558,36 @@
             })
         //#endregion
 
+        //#region Noticias
+        .state('noticia', {
+            abstract: true,
+            url: '',
+            views: {
+                '': {
+                    templateUrl: 'App/Template/layout.html'
+                },
+                'content': {
+                    templateUrl: 'App/Dashboard/Dashboard.html'
+                }
+            }
+        })
+            .state('noticia.list', {
+                url: '/Noticias',
+                templateUrl: 'App/Noticias/Partials/noticiasList.html',
+                controller: 'noticiasCtrl',
+                resolve: {
+                    noticiasDataFactory: 'noticiasDataFactory',
+                    //listNoticias: function (noticiasDataFactory) {                        
+                    //    return noticiasDataFactory.getNoticias();
+                    //},
+                    listNoticias: function () {
+                        return { value: [] };
+                    }
+                }
+            })
+        //#endregion
+
+
         ezfbProvider.setInitParams({
             // This is my FB app id for plunker demo app
             appId: '983474251732776',
