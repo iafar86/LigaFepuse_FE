@@ -1,5 +1,7 @@
-﻿<div layout="column" class="container" flex="100">
-    <h4 class="page-head-line">Equipos</h4>        
+﻿<div layout="column" class="container" flex>
+
+
+    <h4 class="page-head-line">Equipos</h4>
     <div flex="80" ng-show="true">
         <md-card class="md-whiteframe-11dp" style="max-width: 700px">
             <md-card-content>
@@ -19,14 +21,14 @@
                                 </md-list-item>
                                 <md-list-actions layout="row" layout-align="end center">
                                     <md-button ui-sref="jugador.jugadorList({idEquipo:equipo.Id, idCategoria:categoria.Id})">Ver</md-button>
-                                    
+
                                 </md-list-actions>
                                 <md-divider></md-divider>
                             </md-list>
                         </v-pane-content>
                     </v-pane>
                 </v-accordion>
-            </md-card-content>            
+            </md-card-content>
         </md-card>
     </div>
 </div>
@@ -34,7 +36,7 @@
 <nav mfb-menu position="br" effect="zoomin" label="Herramientas"
      active-icon="mdi-content-clear" resting-icon="mdi-content-add"
      toggling-method="hover">
-    <button mfb-button icon="fa fa-futbol-o" label="Agregar Equipo" ng-click="nuevoEquipoLiga()"></button>    
+    <button mfb-button icon="fa fa-futbol-o" label="Agregar Equipo" ng-click="nuevoEquipoLiga()"></button>
     <!--style="background-color: #D32F2F"-->
 </nav>
 <div id="printear" ng-hide="true">

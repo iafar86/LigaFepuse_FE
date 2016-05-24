@@ -1,6 +1,6 @@
 ﻿ligaFepuseApp.controller('jugadorCtrl', function ($scope, $stateParams, $state, $filter, $mdDialog, $mdMedia,
     torneoDataFactory, equipoDataFactory, jugadorDataFactory, profesionDataFactory,
-    equipoInfo, torneosList, profesionesList) { //equiposLiga,jugadoresPorCategoriaList,, categoriasList
+    equipoInfo, profesionesList, jugadoresPorCategoriaList) { //torneosList, equiposLiga,, categoriasList
     // equipoInfo,  
 
     //#region control ng-table
@@ -16,12 +16,12 @@
     };
     //#endregion
 
-    $scope.torneosList = torneosList;
+    //$scope.torneosList = torneosList; // iafar: no es necesaria la lista de torneos segun la categoria 
     $scope.equipoInfo = equipoInfo;
     //$scope.jugadoresList = jugadoresList; //iafar: traer todos los jugadores del ultimo torneo
     $scope.profesionesList = profesionesList;
     //$scope.categoriasList = categoriasList;
-    //$scope.jugadoresPorCategoriaList = jugadoresPorCategoriaList;
+    $scope.jugadoresPorCategoriaList = jugadoresPorCategoriaList;
     $scope.jugador = [];
 
     //$scope.busProf = function (idProf) {
@@ -81,8 +81,8 @@
                 edit: true,
                 func: "Informacion de ",
                 equipoId: $scope.equipoInfo.Id,
-                torneoId: $scope.torneoInfo.Id,
-                equiposList: $scope.torneoInfo.EquipoTorneos,
+                //torneoId: $scope.torneoInfo.Id, //iafar: ya no necesito saber el torneo
+                //equiposList: $scope.torneoInfo.EquipoTorneos, //iafar: esto hacerlo desde el controller de la vista
                 profesionesList: $scope.profesionesList
             } //paso de scope
         }).then(function (response) {
@@ -111,14 +111,14 @@
             //targetEvent: $event,
             templateUrl: 'App/Jugador/Partials/jugadorInfo.html',
             onComplete: afterShowAnimation,
-            equiposLiga: equiposLiga,
+            //equiposLiga: equiposLiga,
             locals: {
                 jugadorShow: new Object(),
                 edit: false,
                 func: "Nuevo",
                 equipoId: $scope.equipoInfo.Id,
-                torneoId: $scope.torneoInfo.Id,
-                equiposList: $scope.torneoInfo.EquipoTorneos,
+                //torneoId: $scope.torneoInfo.Id,
+                //equiposList: $scope.torneoInfo.EquipoTorneos,
                 profesionesList: $scope.profesionesList
             } //paso de scope
         }).then(function (response) {
@@ -149,18 +149,18 @@
 
 
 function DialogJugadorController($scope, $mdDialog, jugadorShow, edit, func, equipoId,
-    torneoId, equiposList, profesionesList, equipoDataFactory, jugadorDataFactory, equipoTorneoDataFactory,
-    profesionDataFactory, imagenesDataFactory, equiposLiga) {
-
+      profesionesList, equipoDataFactory, jugadorDataFactory, equipoTorneoDataFactory,
+    profesionDataFactory, imagenesDataFactory) {
+    //no uso: torneoId, equiposList,, equiposLiga
     //#region inicializacion de scope
     
     $scope.jugador = jugadorShow;
-    $scope.equiposList = equiposList;
+    //$scope.equiposList = equiposList; //iafar: el jugador no cambia de equipo desde aqui
     $scope.edit = edit; //iafar: indica si los campos estan habilitados para edicion o no
-    $scope.func = func;//iafar: cadena que expresa que tipo de operacion hara el modal
+    $scope.func = func; //iafar: cadena que expresa que tipo de operacion hara el modal
     $scope.equipoId = equipoId;
     $scope.profesionList = profesionesList;
-    $scope.equiposLiga = equiposLiga;
+    //$scope.equiposLiga = equiposLiga;
     //#endregion
 
 

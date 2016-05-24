@@ -34,7 +34,7 @@
 
     var _getEquipo = function (prmEquipo) { //trae un Equipo
         var deferred = $q.defer();
-        $http.get(urlApi + '/api/Equipoes/' + prmEquipo).then(
+        $http.get(urlApi + 'api/Equipoes/' + prmEquipo).then(
             function (response) {
                 console.log(response.data)
                 deferred.resolve(response.data);
@@ -49,7 +49,7 @@
 
 
     var _postEquipo = function (data) { // post de un equipo
-        return $http.post(urlApi + '/api/Equipoes', data).then(function (response) {
+        return $http.post(urlApi + 'api/Equipoes', data).then(function (response) {
             return response.data;
         })
     };
@@ -57,7 +57,7 @@
     var _putEquipo = function (prmId, data) { // modifica un torneo
         var deferred = $q.defer();
 
-        $http.put(urlApi + '/api/Equipoes' + prmId, data).then(
+        $http.put(urlApi + 'api/Equipoes' + prmId, data).then(
             function (response) {
                 deferred.resolve(response);
             },

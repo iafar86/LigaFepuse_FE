@@ -432,13 +432,12 @@
                         var equipoId = $stateParams.idEquipo;
                         return equipoDataFactory.getEquipo(equipoId)
                     },
-                    torneosList: function (torneoDataFactory, $stateParams) {
-                        var idCategoria = $stateParams.idCategoria;
-                        return torneoDataFactory.getCategoriaTorneos(idCategoria)
-                    },
                     profesionesList: function (profesionDataFactory) {
                         return profesionDataFactory.getProfesiones();
-                    }
+                    },
+                    jugadoresPorCategoriaList: function () {
+                        return { value: [] }
+                    },
 
                 }
             })

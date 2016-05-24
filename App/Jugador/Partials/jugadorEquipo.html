@@ -1,9 +1,37 @@
-﻿
-<div layout="column" layout-fill>
-
+﻿<div layout="row" layout-fill flex>
     <!--#region Panel de resultados-->
-    <md-content style="background-color:#eee" flex>
-        <md-card>
+    <md-content layout="row" style="background-color:#eee" layout-fill>
+        <!-- #region panel izquierdo -->
+        <md-card flex="25" style="max-height:350px">           
+            <md-card-content>
+                <md-button class="center-block inline-block animate-show" flex ng-disabled='edit' ngf-drop="" ngf-select="" ng-model="equipo.imagen"
+                           ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-allow-dir="true" accept="image/*"
+                           ngf-pattern="'image/*'" ngf-max-size="5MB">
+                    <div class="md-media-xl card-media rounded" layout-align="center center">
+                        <!--iafar:Aqui se puede poner una imagen-->
+                        <ng-md-icon ng-hide="(equipoInfo.ImagenesEquipo[0] != null) || (equipo.imagen != null)" icon="camera_alt" style="fill: #abcdef" size="200"></ng-md-icon>
+                        <img ng-show="equipoInfo.ImagenesEquipo[0] != null && equipo.imagen == null " src="{{equipoInfo.ImagenesEquipo[0].FileUrl}}"
+                             class="md-card-image" alt="Fepuse" style="min-width: 200px; max-height: 200px">
+                        <img ngf-thumbnail="equipo.imagen" class="thumb img-responsive">
+                        <i ng-show="myForm.file.$error.maxSize">
+                            File too large
+                            {{picFile.size / 1000000|number:1}}MB: max 5M
+                        </i>
+                    </div>
+                </md-button>
+
+                <!--<md-divider></md-divider>-->
+
+                <md-input-container layout-fill flex>
+                    <label>Nombre de Equipo</label>
+                    <input ng-model="equipoInfo.Nombre">
+                </md-input-container>
+            </md-card-content>
+        </md-card>
+        <!-- #endregion -->
+
+        <!-- #region panel derecho -->
+        <md-card flex>
             <md-card-title>
                 <md-toolbar class="md-table-toolbar md-default" ng-hide="selected.length || filter.show">
                     <div class="md-toolbar-tools">
@@ -18,8 +46,8 @@
                 <md-toolbar class="md-table-toolbar md-default" ng-show="filter.show">
                     <div class="md-toolbar-tools">
                         <br />
-                        
-                        <md-input-container flex name="filter.form" >
+
+                        <md-input-container flex name="filter.form">
 
                             <input type="text" ng-model="search" placeholder="Buscar" layout-align="end end">
                         </md-input-container>
@@ -43,22 +71,23 @@
                             </tr>
                         </thead>
                         <tbody md-body>
-                            <tr md-row md-select="jugador" md-auto-select ng-repeat="j in jugadoresList | filter:search | orderBy:myOrder | limitTo: query.limit: (query.page - 1) * query.limit ">
+                            <tr md-row md-select="jugador" md-auto-select ng-repeat="j in equipoInfo.PlantillaActual | filter:search | orderBy:myOrder | limitTo: query.limit: (query.page - 1) * query.limit ">
                                 <td md-cell>{{j.Dni}}</td>
                                 <td md-cell>{{j.Matricula}}</td>
                                 <td md-cell>{{j.NombreApellido}}</td>
-                                <td md-cell>{{j.Federado == true ? "Si" : "No"}}</td>     <!--elem.WithCertification == true ? "Yes" : "No"-->   
+                                <td md-cell>{{j.Federado == true ? "Si" : "No"}}</td>     <!--elem.WithCertification == true ? "Yes" : "No"-->
                                 <td md-cell>{{j.FichaMedica == true ? "Si" : "No"}}</td>
-                                <td md-cell>{{busProf(j.ProfesionId)}}</td>
+                                <td md-cell>{{j.Profesion.Nombre}}</td>
                                 <td md-cell><md-button class="md-raised" ng-click="jugadorInfo(j)">Detalle</md-button></td>
                             </tr>
                         </tbody>
                     </table>
                 </md-table-container>
 
-                <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{jugadoresCount}}" md-on-paginate="onPaginate" md-page-select></md-table-pagination>
+                <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{equipoInfo.PlantillaActual.length}}" md-on-paginate="onPaginate" md-page-select></md-table-pagination>
             </md-card-content>
         </md-card>
+        <!-- #endregion -->
         <!--#region iafar: menu flotante-->
         <div layout="row" layout-align="star center">
             <nav mfb-menu position="br" effect="zoomin" label="Herramientas"
@@ -72,5 +101,9 @@
     </md-content>
     <!--#endregion-->
 </div>
+
+
+</div>
+
 
 
