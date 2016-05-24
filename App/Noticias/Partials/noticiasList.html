@@ -1,0 +1,35 @@
+﻿<div layout="column" class="container">
+    <h4 class="page-head-line">Ultimas Noticias</h4>
+
+    <md-content class="md-padding" layout-xs="column" layout="row" layout-wrap>
+        <div flex-xs flex="100" ng-repeat="noticia in noticias" layout-padding layout-margin>
+            <md-card style="min-width: 300px; max-height: 400px">
+                <!--<img ng-src="{{torneo.ImagenesTorneo[0] != null ? torneo.ImagenesTorneo[0].FileUrl : imagen }}"
+                     class="md-card-image" alt="Fepuse" style="min-width: 200px; max-height: 200px">-->
+                <md-card-content>
+                    <!--<h3>{{torneo.Nombre}}</h3>-->
+                    <h3>{{noticia.Titulo}}</h3>
+                    <h5>{{noticia.Contenido}}</h5>
+                    <!--<h5>Fecha de Inicio: {{torneo.FechaInicio | date:'dd/MM/yyyy'}} </h5>
+                    <h5>Fecha de Fin: {{torneo.FechaFin | date:'dd/MM/yyyy'}}</h5>-->
+                    <h5>Fecha de Fin: {{noticia.FechaPublicacion | date:'dd/MM/yyyy'}}</h5>
+                </md-card-content>
+                <md-card-actions layout="row" layout-align="end center">
+                    <md-button md-no-ink class="md-primary">Ver</md-button>
+                    <!--<md-button md-no-ink class="md-primary" ui-sref="torneo.info.zonas({torneoId:torneo.Id})">Ver</md-button>-->
+                    <!--<md-button class="md-warn" ng-click="confirmar(torneo)">Eliminar</md-button>-->
+                </md-card-actions>
+            </md-card>
+        </div>
+    </md-content>
+</div>
+
+<!--#region fpaz: Menu Flotante-->
+<nav mfb-menu position="br" effect="zoomin" label="Agregar Noticias"
+     active-icon="mdi-content-clear" resting-icon="mdi-content-add"
+     toggling-method="hover">
+    <button mfb-button icon="mdi-social-person-add" label="Noticias de la Liga" ng-click="notiLigaAdd()"></button>
+    <button mfb-button icon="fa fa-map-marker" label="Noticias de las Categorias" ng-click="notiCategoriaAdd()"></button>
+    <button mfb-button icon="fa fa-briefcase" label="Noticias de Torneos" ng-click="notiTorneoAdd()"></button>    
+</nav>
+<!--#endregion-->
